@@ -1,0 +1,7 @@
+.list_direction{
+ direction:rtl;
+ overflow: auto;
+}
+.item_direction{
+  direction: ltr;
+}
