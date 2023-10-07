@@ -5,152 +5,130 @@ import { Modal } from 'react-responsive-modal';
 import { toast } from 'react-toastify'
 import './AdminComponents.css';
 import BarLoader from 'react-spinners/BarLoader'
+import { Link } from 'react-router-dom'
+import { Select } from 'antd'
+import { Option } from 'antd/es/mentions';
 function ManageTimeTable() {
-    const [timeTableList, setTimeTableList] = useState([]);
     const [open, setOpen] = useState(false);
-    const [selectedTimeTable, setSelectedTimeTable] = useState(null);
-    const [selectedTimeTableId, setSelectedTimeTableId] = useState(null);//for delete record
-    const [name, setName] = useState('');
-    const [subject, setSubject] = useState('');
-    const [link,setLink ] = useState('');
-    
+    const [tTList, setTTList] = useState('')
     const [loader, setLoader] = useState(true)
+    const [selectedTT, setSelectedTT] = useState(null)
 
+    const [semesterList, setSemesterList] = useState([]);
+    const [shiftList, setShiftList] = useState([]);
+    const [selectedSem, setSelectedSem] = useState('');
+    const [selectedShift, setSelectedShift] = useState('')
+    const [tTName, setTTName] = useState('')
+    const [photo, setPhoto] = useState(null);
+    const [shiftPlaceholder, setShiftPlaceholder] = useState('')
+    const [semesterPlaceholder, setSemesterPlaceholder] = useState('')
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         setPhoto(file);
     };
+    const handleChangeSemester = (value) => {
+        setSelectedSem(value);
+        setSelectedShift('');
+        allShifts(value);
+    };
+    const handleChangeShift = (value) => {
+        setSelectedShift(value);
+        console.log(value);
+    }
+    const allShifts = (selectedSemesterId) => {
+        axios.get(`http://localhost:3000/api/v1/get-shifts/${selectedSemesterId}`).then((response) => {
+            if (response.data.success) {
+                setShiftList(response.data.shifts);
+            } else {
+                console.error('Failed to Fetch Subjects');
+            }
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+    }
 
+    const allSem = () => {
+        axios.get('http://localhost:3000/api/v1/get-semesters').then((response) => {
+            if (response.data.success) {
+                setSemesterList(response.data.semesters);
+            } else {
+                console.error('Failed to Fetch Semesters');
+            }
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+    };
     useEffect(() => {
-        // Fetch faculty details
-        axios.get('http://localhost:3000/api/v1/get-timetables')
-            .then((response) => {
-                if (response.data.success) {
-                    setTimeTableList(response.data.timeTable);
-                } else {
-                    console.error('Failed to fetch faculty details');
-                }
-                setLoader(false)
-            })
+        getTTs()
+    }, [])
+
+    const getTTs = () => {
+        axios.get('http://localhost:3000/api/v1/get-timetables').then((response) => {
+            if (response.data.success) {
+                setTTList(response.data.timeTable);
+                console.log(response.data.timeTable)
+
+            } else {
+                console.error('Failed to fetch Time Table details');
+            }
+            setLoader(false)
+        })
             .catch((error) => {
                 console.error('Error:', error);
             });
-    }, []);
+    }
 
-    const onOpenModal = (timeTable) => {
+    const onOpenModal = (TT) => {
         setOpen(true);
-        setSelectedTimeTable(timeTable);
-        // Set initial values for form fields based on the selected faculty
-        setName(timeTable.name);
-        setSubject(timeTable.subject);
-        setLink(timeTable.link)
-        
-        // Clear the photo field
-        
+        setSelectedTT(TT)
+        console.log(TT._id)
+        setTTName(TT.name)
+        setPhoto(TT.photo)
+        allSem()
+        setSemesterPlaceholder(TT.semester.name)
+        setShiftPlaceholder(TT.shift.name)
+        setSelectedSem(TT.semester._id)
+        setSelectedShift(TT.shift._id)
 
-    };
+    }
     const onCloseModal = () => {
         setOpen(false);
-        setSelectedTimeTable(null);
-        // Clear form fields
-        setName('');
-        setSubject('');
-        setLink('')
-    };
-    // const [updateOrNot, setUpdateOrNot] = useState(1)
-    const updateFaculty = (e) => {
-        e.preventDefault();
-        let updateOrNot = 1;
-        const arr = [name, subject,link];
-        let countLoop = 0;
-        arr.map((item, key) => {
-
-            if (item.replace(/\s+/g, '') === '') {
-                countLoop += 1
-                // setUpdateOrNot(0)
-                updateOrNot = 0
-                if (countLoop <= 1)
-                    toast.error('Every Field must filled', {
-                        autoClose: 2000,
-                        position: 'top-center'
-                    })
-
-            }
-        })
-        if (updateOrNot === 1) {
-            const formData = new FormData();
-            formData.append('name', name);
-            formData.append('email', email.replace(/\s+/g, ''));
-            formData.append('qualification', qualification);
-            formData.append('post', post);
-            formData.append('experience', experience);
-            if (photo) {
-                formData.append('photo', photo);
-            }
-
-            axios.put(`http://localhost:3000/api/v1/update-faculty/${selectedTimeTable._id}`, formData)
-                .then((response) => {
-
-                    if (response.data.success) {
-
-                        // Update timeTableList with the updated faculty data
-                        toast.success('Faculty Details Updated Successfully', {
-                            autoClose: 2000,
-                            closeButton: true,
-                            position: "top-center"
-                        })
-                        setTimeTableList((prevTimeTableList) =>
-                            prevTimeTableList.map((timeTable) =>
-                                timeTable._id === selectedTimeTable._id ? response.data.updatedTimeTable : timeTable
-                            )
-                        );
-                        onCloseModal();
-                    } else {
-                        toast.error('Email Already Exist',
-                            {
-                                autoClose: 2000,
-                                position: 'top-center'
-                            }
-                        );
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-        }
-
-    };
-
+        setSelectedTT(null)
+        setTTName('')
+        setPhoto(null)
+        setSemesterPlaceholder('')
+        setShiftPlaceholder('')
+        setSelectedSem('')
+        setSelectedShift('')
+    }
     const [openDelete, setOpenDelete] = useState(false)
-    const onOpenDeleteModal = (facultyId) => {
+    const onOpenDeleteModal = (TT) => {
         setOpenDelete(true);
-        setSelectedTimeTableId(facultyId)
+        setSelectedTT(TT)
     }
     const onCloseDeleteModal = () => {
         setOpenDelete(false)
-        setSelectedTimeTableId(null)
+        setSelectedTT(null)
     }
-
     const handleDelete = (e) => {
         e.preventDefault();
-        if (selectedTimeTableId._id) {
-            axios.delete(`http://localhost:3000/api/v1/delete-faculty/${selectedTimeTableId._id}`)
+        if (selectedTT._id) {
+            axios.delete(`http://localhost:3000/api/v1/delete-TT/${selectedTT._id}`)
                 .then((response) => {
                     if (response.data.success) {
-                        setTimeTableList((prevtimeTableList) =>
-                            prevtimeTableList.filter(
-                                (faculty) => faculty._id !== selectedTimeTableId._id
+                        getTTs()
+                        setTTList((prevTTList) =>
+                            prevTTList.filter(
+                                (TT) => TT._id !== selectedTT._id
                             )
                         );
-                        toast.success('Faculty deleted successfully !',
+                        toast.success('Time Table  deleted successfully !',
                             {
                                 autoClose: 2000,
                                 position: 'top-center'
                             })
-                        // Remove the deleted faculty from the timeTableList
-
                     } else {
-                        toast.error('Failed to delete faculty', {
+                        toast.error('Failed to delete Time Table', {
                             autoClose: 2000,
                             position: 'top-center'
                         });
@@ -167,98 +145,188 @@ function ManageTimeTable() {
 
     };
 
+    const handleOnSubmit = async (e) => {
+        e.preventDefault();
+        let updateOrNot = 1;
+        const arr = [tTName,selectedShift, selectedSem];
+        let countLoop = 0;
+        arr.map((item, key) => {
+            item.replace(/\s+/g, '')
+            if (item.trim() === '') {
+                countLoop += 1
+                // setUpdateOrNot(0)
+                updateOrNot = 0
+                if (countLoop <= 1)
+                    toast.error('Every Field must filled', {
+                        autoClose: 2000,
+                        position: 'top-center'
+                    })
+            }
+        })
+
+        if (updateOrNot === 1) {
+            const formData = new FormData();
+            formData.append('name', tTName);
+            formData.append('semester', selectedSem);
+            formData.append('shift', selectedShift);
+            if (photo) {
+                formData.append('photo', photo);
+            }
+
+            axios.put(`http://localhost:3000/api/v1/update-TT/${selectedTT._id}`, formData)
+                .then((response) => {
+
+                    if (response.data.success) {
+                        getTTs()
+                        // Update facultyList with the updated faculty data
+                        setTTList((prevTTList) =>
+                            prevTTList.map((TT) =>
+                                TT._id === selectedTT ? response.data.updatedTT : TT
+                            )
+                        );
+                        toast.success('Time Table Updated Successfully', {
+                            autoClose: 2000,
+                            closeButton: true,
+                            position: "top-center"
+                        })
+
+                        onCloseModal();
+                    } else {
+                        toast.error('TT or Name is already exist',
+                            {
+                                autoClose: 2000,
+                                position: 'top-center'
+                            }
+                        );
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+    };
+
     return (
         <div className='h-screen bg-blue-50'>
             <div className="w-100  mt-10 max-md:mt-2 md:flex justify-center max-xl:px-2 items-center">
-                {loader ? <div className='flex flex-col justify-center  items-center'>
+                {loader ? <div className='flex justify-center items-center mt-32'>
                     <BarLoader color="blue"
-
                     />
                 </div>
                     :
                     <div className='text-center overflow-y-auto max-h-[600px]  rounded-md '>
-                        <table className='w-max border-collapse rounded-md '>
+                        <table className='w-max border-2 border-collapse  rounded-md '>
                             <thead className='sticky top-0 '>
-                                <tr className='bg-slate-950 text-white border-slate-950'>
-                                    <th className='border border-gray-400  py-2 px-2'>SR.No</th>
-                                    <th className='border border-gray-400 py-2 px-2'>Name</th>
-                                    <th className='border border-gray-400 py-2 px-2'>Subject</th>
-                                    <th className='border border-gray-400 py-2 px-2'>Notes</th>
-                                    <th className='border border-gray-400 py-2 px-2'>Edit</th>
+                                <tr className='bg-slate-950 text-white border-2 border-slate-950 text-xl font-semibold'>
+                                    <th className='  p-2'>SR.No</th>
+                                    <th className='  p-2 '>Name</th>
+                                    <th className='  p-2 ' >Semester</th>
+                                    <th className='  p-2 '>Shift</th>
+                                    <th className='  p-2'>Photo</th>
+                                    <th className='  p-2 px-5'>Edit</th>
                                 </tr>
                             </thead>
-                            <tbody className='bg-slate-800 text-white '>
-                                {timeTableList.map((timeTable, index) => (
-                                    <tr key={timeTable._id}>
-                                        <td className='border border-gray-400 py-2 px-2'>{index + 1}</td>
-                                        <td className='border border-gray-400 py-2 px-2'>{timeTable.name}</td>
-                                        <td className='border border-gray-400 py-2 px-2'>{timeTable.subject}</td>
-                                        <td className='border border-gray-400 py-2 px-2'>{timeTable.link}</td>
-                                                                               
-                                        <td className='border border-gray-400 py-2 px-2'>
-                                            <div className='flex flex-row gap-2 justify-center'>
-                                                <button className='text-white font-semibold  bg-green-700 py-1 px-2 rounded-md' onClick={() => onOpenModal(timeTable)}>Update</button>
-                                                <button className='text-white font-semibold bg-red-700  py-1 px-2 rounded-md' onClick={() => onOpenDeleteModal(timeTable)}>Delete</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
+                            {tTList.length === 0 ?
+                                <tr className=''>
+                                    <td className='p-2 w-24'></td>
+                                    <td className='p-2 w-24'></td>
+                                    <td className='p-2 w-44'>No Data Found</td>
+                                    <td className='p-2 w-20'></td>
+                                    <td className='p-2 w-20'></td>
+                                    <td className='p-2 w-20'></td>
+                                </tr>
+                                :
+                                <tbody className='bg-slate-800 text-white '>
+
+                                    {tTList.map((TT, index) => (
+                                        <tr key={TT._id} className='border-2 border-gray-700'>
+                                            <td className='  p-3'>{index + 1}</td>
+                                            <td className='  p-3'>{TT.name}</td>
+                                            <td className='  p-3'>{TT.semester.name}</td>
+                                            <td className='  p-3'>{TT.shift.name}</td>
+                                            <td className='  p-3' >
+                                                <Link to={TT.photo}><img className='w-[100px] h-[100px]' src={TT.photo} alt="" />
+                                                </Link>
+                                            </td>
+
+                                            <td className='  py-2 px-4'>
+                                                <div className='flex flex-row gap-2 justify-center'>
+                                                    <button className='text-white font-semibold  bg-green-700 py-1 px-2 rounded-md' onClick={() => onOpenModal(TT)}  >Update</button>
+                                                    <button className='text-white font-semibold bg-red-700  py-1 px-2 rounded-md' onClick={() => onOpenDeleteModal(TT)} >Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                    }
+                                </tbody>
+                            }
                         </table>
                     </div>
                 }
             </div>
 
             <Modal open={open} onClose={onCloseModal} center classNames={{ modal: 'updateModal' }}>
-                <div className='w-[100%] text-center mt-5  bg-white md:p-10'>
-                    <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Update Faculty</h1>
-                    <form className='mt-10 text-black' onSubmit={updateFaculty}>
+
+                <div className='w-[100%] md:w-[600px] text-center  bg-white pb-10 mt-10 '>
+                    <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Update Time Table</h1>
+
+                    <div className='mt-6 flex max-md:flex-col justify-between  items-center md:flex-row px-12 '>
+                        <label htmlFor='semesters' className='font-semibold text-xl'>
+                            Select Semester:
+                        </label>
+                        <Select
+                            id='semesters'
+                            className='max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none'
+                            placeholder='Select Semester'
+                            defaultValue={semesterPlaceholder}
+                            onChange={handleChangeSemester}
+                        >
+                            {semesterList.map((semester) => (
+                                <Option key={semester._id} value={semester._id}>
+                                    {semester.name}
+                                </Option>
+                            ))}
+                        </Select>
+                    </div>
+                    <div className='mt-4 flex max-md:flex-col justify-between  items-center md:flex-row px-12 '>
+                        <label htmlFor='shifts' className='font-semibold text-xl'>
+                            Select Shift:
+                        </label>
+                        <Select
+                            id='shifts'
+                            className='max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none'
+                            placeholder='Select Shift'
+                            defaultValue={shiftPlaceholder}
+                            onChange={handleChangeShift}
+                        >
+                            {shiftList.map((shift) => (
+                                <Option key={shift._id} value={shift._id}>
+                                    {shift.name}
+                                </Option>
+                            ))}
+                        </Select>
+                    </div>
+                    <form className='mt-2 text-black' onSubmit={handleOnSubmit}>
                         <input
-                            type="text"
-                            className='text-xl max-md:text-sm font-semibold placeholder:text-slate-500 border-b-2 border-blue-300 hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2'
-                            placeholder='Name'
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            type='text'
+                            className='mt-5 text-xl font-semibold placeholder:text-slate-400 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[85%] '
+                            placeholder='Name e.g.(FYFS)'
+                            value={tTName}
+                            onChange={(e) => setTTName(e.target.value)}
+                            required
                         />
-                        <input
-                            type="text"
-                            className='text-xl max-md:text-sm font-semibold placeholder:text-slate-500 border-b-2 border-blue-300 hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2'
-                            placeholder='Email'
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <input
-                            type="text"
-                            className='text-xl max-md:text-sm font-semibold placeholder:text-slate-500 border-b-2 border-blue-300 hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2'
-                            placeholder='Qualification'
-                            value={qualification}
-                            onChange={(e) => setQualification(e.target.value)}
-                        />
-                        <input
-                            type="text"
-                            className='text-xl max-md:text-sm font-semibold placeholder:text-slate-500 border-b-2 border-blue-300 hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2'
-                            placeholder='Post'
-                            value={post}
-                            onChange={(e) => setPost(e.target.value)}
-                        />
-                        <input
-                            type="text"
-                            className='text-xl max-md:text-sm font-semibold placeholder:text-slate-500 border-b-2 border-blue-300 hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2'
-                            placeholder='Teaching Experience'
-                            value={experience}
-                            onChange={(e) => setExperience(e.target.value)}
-                        />
-                        <br />
                         <label className='border-blue-900 text-blue-900 font-semibold bg-blue-300 hover:bg-blue-600 hover:text-white py-[6px] px-[12px] inline-block cursor-pointer mt-5'>
-                            <input type="file" name="photo" className='hidden' onChange={handleFileChange} />
-                            Upload Photo
+                            <input type='file' style={{ display: 'none' }} onChange={handleFileChange} />
+                            Upload Time Table
                         </label>
                         <br />
-                        <button className='mt-10 w-[80%] bg-blue-800 rounded-lg py-2 text-xl max-md:text-sm text-white cursor-pointer hover:bg-blue-500' >
-                            Update Faculty
+                        <button className='mt-16 max-md:mt-5 w-[80%] bg-blue-800 rounded-lg py-2 text-xl text-white cursor-pointer hover:bg-blue-500'>
+                            Update Time Table
                         </button>
                     </form>
                 </div>
+               
             </Modal>
 
             <Modal open={openDelete} onClose={onCloseDeleteModal} center classNames={{ modal: 'deleteModal' }}>
@@ -267,9 +335,9 @@ function ManageTimeTable() {
                     <button className='py-1 px-4 text-blue-600 border-2 border-blue-600 rounded-md' onClick={onCloseDeleteModal}>Cancel</button>
                     <button className='py-1 px-4 text-red-600 border-2 border-red-600 rounded-md'>Delete</button>
                 </form>
-            </Modal>
+            </Modal> 
         </div>
-    );
+    )
 }
 
-export default ManageTimeTable;
+export default ManageTimeTable

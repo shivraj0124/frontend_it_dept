@@ -18,6 +18,9 @@ import AddNotice from "./Components/Admin/AddNotice"
 import ManageFaculty from "./Components/Admin/ManageFaculty"
 import 'react-toastify/dist/ReactToastify.css';
 import ManageNotes from "./Components/Admin/ManageNotes"
+import ManageQP from "./Components/Admin/ManageQP"
+import ManageNotice from "./Components/Admin/ManageNotice"
+import ManageTimeTable from "./Components/Admin/ManageTimeTable"
 function App() {
   
   return (
@@ -42,11 +45,11 @@ function App() {
             <Route exact path='/Admin/AddNotes' element={<AddNotes />}></Route>
             <Route exact path='/Admin/ManageNotes' element={<ManageNotes />}></Route>
             <Route exact path='/Admin/AddQP' element={<AddQP/>}></Route>
-            <Route exact path='/Admin/ManageQP' element={<AddFaculty />}></Route>
+            <Route exact path='/Admin/ManageQP' element={<ManageQP />}></Route>
             <Route exact path='/Admin/AddTimeTable' element={<AddTT/>}></Route>
-            <Route exact path='/Admin/ManageTimeTable' element={<AddFaculty />}></Route>
+            <Route exact path='/Admin/ManageTimeTable' element={<ManageTimeTable />}></Route>
             <Route exact path='/Admin/AddNotice' element={<AddNotice />}></Route>
-            <Route exact path='/Admin/ManageNotice' element={<AddFaculty />}></Route>
+            <Route exact path='/Admin/ManageNotice' element={<ManageNotice />}></Route>
           </Route>
         </Routes>
 

@@ -63,6 +63,7 @@ function AddTT() {
         const formData = new FormData();
         formData.append('name', tName);
         formData.append('photo', photo);
+        formData.append('semester', selectedSem);
         formData.append('shift', selectedShift);
 
         try {
@@ -140,8 +141,8 @@ function AddTT() {
                         <form className='mt-2 text-black' onSubmit={handleOnSubmit}>
                             <input
                                 type='text'
-                                className='mt-5 text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] '
-                                placeholder='Name'
+                                className='mt-5 text-xl font-semibold placeholder:text-slate-400 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] '
+                                placeholder='Name e.g.(FYFS)'
                                 onChange={(e) => setTName(e.target.value)}
                                 required
                             />

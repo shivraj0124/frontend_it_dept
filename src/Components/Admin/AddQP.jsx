@@ -52,6 +52,7 @@ function AddQP() {
         formData.append('name', nName);
         formData.append('link', link);
         formData.append('subject', selectedSubject);
+        formData.append('semester', selectedSem);
 
         try {
             const response = await axios.post('http://localhost:3000/api/v1/add-qp', formData, {

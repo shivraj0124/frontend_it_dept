@@ -154,8 +154,6 @@ function ManageFaculty() {
                                 autoClose: 2000,
                                 position: 'top-center'
                             })
-                        // Remove the deleted faculty from the facultyList
-                        
                     } else {
                         toast.error('Failed to delete faculty', {
                             autoClose: 2000,
@@ -185,8 +183,8 @@ function ManageFaculty() {
                     :
                     <div className='text-center overflow-y-auto max-xl:max-h-[500px] max-h-[600px] rounded-md '>
                         <table className='w-max border-collapse rounded-md '>
-                        <thead className='sticky top-0 '>
-                                <tr className='bg-slate-950 text-white border-slate-950'>
+                            <thead className='sticky top-0  '>
+                                <tr className='bg-slate-950 text-white border-slate-950 rounded-md'>
                                 <th className='   py-2 px-2'>SR.No</th>
                                 <th className='  py-2 px-2'>Name</th>
                                 <th className='  py-2 px-2'>Email</th>
@@ -197,6 +195,18 @@ function ManageFaculty() {
                                 <th className='  py-2 px-2'>Edit</th>
                             </tr>
                         </thead>
+                            {facultyList.length === 0 ?
+                                <tr className='rounded-md border-2'>
+                                    <td className='p-2 w-20'></td>
+                                    <td className='p-2 w-20'></td>
+                                    <td className='p-2 w-10'></td>
+                                    <td className='p-6 md:w-44 font-semibold'>No Data Found</td>
+                                    <td className='p-2 '></td>
+                                    <td className='p-2 w-'></td>
+                                    <td className='p-2 '></td>
+                                    <td className='p-2 '></td>
+                                </tr>
+                                :
                             <tbody className='bg-slate-800 text-white '>
                             {facultyList.map((faculty, index) => (
                                 <tr key={faculty._id} className='border-2 border-gray-700'>
@@ -218,6 +228,7 @@ function ManageFaculty() {
                                 </tr>
                             ))}
                         </tbody>
+}
                     </table>
                     </div>
                 }

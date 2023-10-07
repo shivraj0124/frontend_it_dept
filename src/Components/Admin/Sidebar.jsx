@@ -237,7 +237,7 @@ const Sidebar = () => {
                                     }
                                 </h1>
                             </div>
-                            <div onClick={handleNav} className='md:hidden'>
+                            <div onClick={handleNav} className='md:hidden cursor-pointer'>
                                 {!nav ?
                                     <BiMenuAltRight size={28} />
                                     :
