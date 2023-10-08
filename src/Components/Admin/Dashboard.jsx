@@ -1,12 +1,36 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { FaUserGraduate, FaUserTie } from 'react-icons/fa'
 // import { GrNotes } from 'react-icons/gr'
 import { GiNotebook } from 'react-icons/gi'
 import { PiNotePencil } from 'react-icons/pi'
 import { BsTable } from 'react-icons/bs'
-import { FcQuestions } from 'react-icons/fc'
+import { LuFileQuestion } from 'react-icons/lu'
 import CountUp from 'react-countup'
+import axios from 'axios'
 function Dashboard() {
+    const [notes,setTotalNotes]=useState(0)
+    const [faculties,setTotalFaculties]=useState(0)
+    const [qPS,setTotalQPS]=useState(0)
+    const [tTS,setTotalTTS]=useState(0)
+    const [notices,setTotalNotices]=useState(0)
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/v1/faculties-count').then((response) => {
+            setTotalFaculties(response.data.totalFaculties);
+        });
+        axios.get('http://localhost:3000/api/v1/notes-count').then((response) => {
+            setTotalNotes(response.data.totalNotes);
+        });
+        axios.get('http://localhost:3000/api/v1/qp-count').then((response) => {
+            setTotalQPS(response.data.totalQP);
+        });
+        axios.get('http://localhost:3000/api/v1/timeTable-count').then((response) => {
+            setTotalTTS(response.data.totalTimetables);
+        });
+        axios.get('http://localhost:3000/api/v1/notice-count').then((response) => {
+            setTotalNotices(response.data.totalNotices);
+        });
+    }, []);
+
     return (
         // <div className='font-bold text-black md:left-64 flex flex-col  p-5  w-[100%] z-0'>
         <div className='h-screen px-3   overflow-y-scroll pb-10 bg-blue-50'>
@@ -47,7 +71,7 @@ function Dashboard() {
                         <FaUserTie />
                     </div>
                     <div>
-                        <h1 className='text-green-500 font-normal'><CountUp delay={2} end={10} /></h1>
+                        <h1 className='text-green-500 font-normal'><CountUp delay={2} end={faculties} /></h1>
                         <h1 className='text-blue-800'>Faculties Registered</h1>
                     </div>
                 </div>
@@ -57,20 +81,30 @@ function Dashboard() {
                         <GiNotebook />
                     </div>
                     <div>
-                        <h1 className='text-green-500 font-normal'><CountUp delay={2} end={100} /></h1>
+                        <h1 className='text-green-500 font-normal'><CountUp delay={2} end={notes} /></h1>
                         <h1 className='text-blue-800' >Notes Uploaded</h1>
                     </div>
                 </div>
-                <div className='shadow-box w-[100%] h-[200px]  text-center font-bold flex flex-col justify-center  items-center bg-white rounded-md  text-[#4f78fe] gap-y-2  shadow-xl'>
-                    <div className='flex max-md:flex-row flex-col gap-y-2 max-md:gap-x-20 justify-between'>
-                        <div className='p-5 rounded-[50%] bg-blue-50 text-[#405fc4]'>
-                            {/* <GrNotes /> */}
-                            <FcQuestions />
+                {/* <div className='shadow-box max-md:w-[100%] md:h-[160px]  text-center font-bold flex flex-col   bg-white rounded-md  text-[#4f78fe] gap-y-2 text-3xl  shadow-xl max-md:pb-2 '>
+                    <div className='w-[80%] flex flex-row  min-w-[300px]:gap-x-32 justify-between items-center '>
+                        <div className='p-7  rounded-br-[50%] hover:bg-blue-100 hover:text-[#405fc4] bg-blue-700 text-white'>
+                            {/* <GrNotes /> 
+                            <GiNotebook size={44} />
                         </div>
-                        <h1 className='text-green-500 font-bold text-3xl'><CountUp delay={2} end={100} /></h1>
+                        <h1 className='text-green-500 font-semibold text-5xl'><CountUp delay={2} end={100} /></h1>
                     </div>
                     <div>
-                        <h1 className='text-blue-800'>Question Papers Uploaded</h1>
+                        <h1 className='text-blue-800 text-2xl'>Question Papers Uploaded</h1>
+                    </div>
+                </div> */}
+                <div className='shadow-box w-[100%] h-[200px]  text-center font-bold flex flex-col justify-center items-center bg-white rounded-md  text-[#4f78fe] gap-y-2 shadow-xl'>
+                    <div className='p-5 rounded-[50%] bg-blue-50 text-[#405fc4]'>
+                        {/* <GrNotes /> */}
+                        <LuFileQuestion />
+                    </div>
+                    <div>
+                        <h1 className='text-green-500 font-normal'><CountUp delay={2} end={qPS} /></h1>
+                        <h1 className='text-blue-800' >Question Papers Uploaded</h1>
                     </div>
                 </div>
                 <div className='shadow-box w-[100%] h-[200px]  text-center font-bold flex flex-col justify-center items-center bg-white rounded-md  text-[#4f78fe] gap-y-2 shadow-xl'>
@@ -79,7 +113,7 @@ function Dashboard() {
                         <BsTable />
                     </div>
                     <div>
-                        <h1 className='text-green-500 font-normal'><CountUp delay={2} end={100} /></h1>
+                        <h1 className='text-green-500 font-normal'><CountUp delay={2} end={tTS} /></h1>
                         <h1 className='text-blue-800' >Time Tables Uploaded</h1>
                     </div>
                 </div>
@@ -89,10 +123,13 @@ function Dashboard() {
                         <PiNotePencil />
                     </div>
                     <div>
-                        <h1 className='text-green-500 font-normal'><CountUp delay={2} end={100} /></h1>
+                        <h1 className='text-green-500 font-normal'><CountUp delay={2} end={notices} /></h1>
                         <h1 className='text-blue-800' >Notices Uploaded</h1>
                     </div>
                 </div>
+                
+                
+                
 
             </div>
         </div>

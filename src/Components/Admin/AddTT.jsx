@@ -43,8 +43,7 @@ function AddTT() {
     };
 
     const allShifts = (selectedSemesterId) => {
-        axios
-            .get(`http://localhost:3000/api/v1/shifts/${selectedSemesterId}`)
+        axios.get(`http://localhost:3000/api/v1/get-shifts/${selectedSemesterId}`)
             .then((response) => {
                 if (response.data.success) {
                     setShiftList(response.data.shifts);
