@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast';
 import './AdminComponents.css';
 import BarLoader from 'react-spinners/BarLoader'
 import { Link } from 'react-router-dom'
@@ -10,7 +10,7 @@ import { Select } from 'antd'
 import { Option } from 'antd/es/mentions';
 function ManageTimeTable() {
     const [open, setOpen] = useState(false);
-    const [tTList, setTTList] = useState('')
+    const [tTList, setTTList] = useState([])
     const [loader, setLoader] = useState(true)
     const [selectedTT, setSelectedTT] = useState(null)
 
@@ -75,6 +75,7 @@ function ManageTimeTable() {
         })
             .catch((error) => {
                 console.error('Error:', error);
+                setLoader(false)
             });
     }
 
@@ -125,12 +126,12 @@ function ManageTimeTable() {
                         toast.success('Time Table  deleted successfully !',
                             {
                                 autoClose: 2000,
-                                position: 'top-center'
+                                position: 'bottom-center'
                             })
                     } else {
                         toast.error('Failed to delete Time Table', {
                             autoClose: 2000,
-                            position: 'top-center'
+                            position: 'bottom-center'
                         });
                     }
                     onCloseDeleteModal();
@@ -138,7 +139,7 @@ function ManageTimeTable() {
                 .catch((error) => {
                     toast.error(error, {
                         autoClose: 2000,
-                        position: 'top-center'
+                        position: 'bottom-center'
                     });
                 });
         }
@@ -159,7 +160,7 @@ function ManageTimeTable() {
                 if (countLoop <= 1)
                     toast.error('Every Field must filled', {
                         autoClose: 2000,
-                        position: 'top-center'
+                        position: 'bottom-center'
                     })
             }
         })
@@ -187,7 +188,7 @@ function ManageTimeTable() {
                         toast.success('Time Table Updated Successfully', {
                             autoClose: 2000,
                             closeButton: true,
-                            position: "top-center"
+                            position: "bottom-center"
                         })
 
                         onCloseModal();
@@ -195,7 +196,7 @@ function ManageTimeTable() {
                         toast.error('TT or Name is already exist',
                             {
                                 autoClose: 2000,
-                                position: 'top-center'
+                                position: 'bottom-center'
                             }
                         );
                     }
@@ -209,49 +210,49 @@ function ManageTimeTable() {
 
     return (
         <div className='h-screen bg-blue-50'>
-            <div className="w-100  mt-10 max-md:mt-2 md:flex justify-center max-xl:px-2 items-center">
+            <div className="w-[100%]  mt-10 max-md:mt-2 md:flex justify-center max-xl:px-2 items-center">
                 {loader ? <div className='flex justify-center items-center mt-32'>
                     <BarLoader color="blue"
                     />
                 </div>
                     :
-                    <div className='text-center overflow-y-auto max-h-[600px]  rounded-md '>
-                        <table className='w-max border-2 border-collapse  rounded-md '>
+                    <div className='text-left overflow-y-auto max-h-[500px]  rounded-md md:w-[80%]'>
+                        <table className='w-[100%] border-2 border-collapse  rounded-md '>
                             <thead className='sticky top-0 '>
                                 <tr className='bg-slate-950 text-white border-2 border-slate-950 text-xl font-semibold'>
-                                    <th className='  p-2'>SR.No</th>
-                                    <th className='  p-2 '>Name</th>
-                                    <th className='  p-2 ' >Semester</th>
-                                    <th className='  p-2 '>Shift</th>
-                                    <th className='  p-2'>Photo</th>
-                                    <th className='  p-2 px-5'>Edit</th>
+                                    <th className='py-2 px-4'>SR.No</th>
+                                    <th className='py-2 px-4 '>Name</th>
+                                    <th className='py-2 px-4 ' >Semester</th>
+                                    <th className='py-2 px-4 '>Shift</th>
+                                    <th className='py-2 px-4'>Photo</th>
+                                    <th className='py-2 px-4'>Edit</th>
                                 </tr>
                             </thead>
-                            {tTList.length === 0 ?
+                            {tTList?.length === 0 ?
                                 <tr className=''>
-                                    <td className='p-2 w-24'></td>
-                                    <td className='p-2 w-24'></td>
-                                    <td className='p-2 w-44'>No Data Found</td>
-                                    <td className='p-2 w-20'></td>
-                                    <td className='p-2 w-20'></td>
-                                    <td className='p-2 w-20'></td>
+                                    <td className='py-2 px-4 w-24'></td>
+                                    <td className='py-2 px-4 w-24'></td>
+                                    <td className='py-2 px-4 w-44'>No Data Found</td>
+                                    <td className='py-2 px-4 w-20'></td>
+                                    <td className='py-2 px-4 w-20'></td>
+                                    <td className='py-2 px-4 w-20'></td>
                                 </tr>
                                 :
                                 <tbody className='bg-slate-800 text-white '>
 
-                                    {tTList.map((TT, index) => (
+                                    {tTList?.map((TT, index) => (
                                         <tr key={TT._id} className='border-2 border-gray-700'>
-                                            <td className='  p-3'>{index + 1}</td>
-                                            <td className='  p-3'>{TT.name}</td>
-                                            <td className='  p-3'>{TT.semester.name}</td>
-                                            <td className='  p-3'>{TT.shift.name}</td>
-                                            <td className='  p-3' >
+                                            <td className='py-2 px-4'>{index + 1}</td>
+                                            <td className='py-2 px-4'>{TT.name}</td>
+                                            <td className='py-2 px-4'>{TT.semester.name}</td>
+                                            <td className='py-2 px-4'>{TT.shift.name}</td>
+                                            <td className='py-2 px-4' >
                                                 <Link to={TT.photo}><img className='w-[100px] h-[100px]' src={TT.photo} alt="" />
                                                 </Link>
                                             </td>
 
                                             <td className='  py-2 px-4'>
-                                                <div className='flex flex-row gap-2 justify-center'>
+                                                <div className='flex flex-row gap-2 justify-left'>
                                                     <button className='text-white font-semibold  bg-green-700 py-1 px-2 rounded-md' onClick={() => onOpenModal(TT)}  >Update</button>
                                                     <button className='text-white font-semibold bg-red-700  py-1 px-2 rounded-md' onClick={() => onOpenDeleteModal(TT)} >Delete</button>
                                                 </div>

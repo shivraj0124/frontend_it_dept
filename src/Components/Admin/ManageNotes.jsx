@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
-import {toast} from 'react-toastify'
+import toast from 'react-hot-toast';
 import './AdminComponents.css';
 import BarLoader from 'react-spinners/BarLoader'
 import {Link} from 'react-router-dom'
@@ -119,12 +119,12 @@ function ManageNotes() {
                         toast.success('Note deleted successfully !',
                             {
                                 autoClose: 2000,
-                                position: 'top-center'
+                                position: 'bottom-center'
                             })
                     } else {
                         toast.error('Failed to delete note', {
                             autoClose: 2000,
-                            position: 'top-center'
+                            position: 'bottom-center'
                         });
                     }
                     onCloseDeleteModal();
@@ -132,7 +132,7 @@ function ManageNotes() {
                 .catch((error) => {
                     toast.error(error, {
                         autoClose: 2000,
-                        position: 'top-center'
+                        position: 'bottom-center'
                     });
                 });
         }
@@ -153,7 +153,7 @@ function ManageNotes() {
                 if (countLoop <= 1)
                     toast.error('Every Field must filled', {
                         autoClose: 2000,
-                        position: 'top-center'
+                        position: 'bottom-center'
                     })
             }
         })
@@ -180,7 +180,7 @@ function ManageNotes() {
                         toast.success('Note Updated Successfully', {
                             autoClose: 2000,
                             closeButton: true,
-                            position: "top-center"
+                            position: "bottom-center"
                         })
                         
                         onCloseModal();
@@ -188,7 +188,7 @@ function ManageNotes() {
                         toast.error('Note or Name is already exist',
                             {
                                 autoClose: 2000,
-                                position: 'top-center'
+                                position: 'bottom-center'
                             }
                         );
                     }
@@ -201,27 +201,27 @@ function ManageNotes() {
     };
     return (
         <div className='h-screen bg-blue-50'>
-            <div className="w-100  mt-10 max-md:mt-2 md:flex justify-center max-xl:px-2 items-center">
+            <div className="w-[100%]  mt-10 max-md:mt-2 flex justify-center items-center">
                 {loader ? <div className='flex justify-center items-center mt-32'>
                     <BarLoader color="blue"
 
                     />
                 </div>
                     :
-                    <div className='text-center overflow-y-auto max-h-[600px]  rounded-md '>
-                        <table className='w-max border-2 rounded-md '>
+                    <div className='text-left overflow-y-auto max-h-[500px]  rounded-md w-[80%]'>
+                        <table className='w-[100%] border-2 rounded-md '>
                             <thead className='sticky top-0 '>
-                                <tr className='bg-slate-950 text-white border-2 border-slate-950'>
-                                    <th className='   py-2 px-2'>SR.No</th>
-                                    <th className='  py-2 px-2'>Name</th>
-                                    <th className='  py-2 px-2'>Semester</th>
-                                    <th className='  py-2 px-2'>Subject</th>
-                                    <th className='  py-2 px-2'>Notes</th>
-                                    <th className='  py-2 px-2'>Edit</th>
+                                <tr className='bg-slate-950 text-lg text-white border-2 border-slate-950'>
+                                    <th className='   py-2 px-4'>SR.No</th>
+                                    <th className='  py-2 px-4'>Name</th>
+                                    <th className='  py-2 px-4'>Semester</th>
+                                    <th className='  py-2 px-4'>Subject</th>
+                                    <th className='  py-2 px-4'>Notes</th>
+                                    <th className='  py-2 px-4'>Edit</th>
                                 </tr>
                             </thead>
                             
-                            {notesList.length === 0 ?
+                            {notesList?.length === 0 ?
                                 <tr className=''>
                                     <td className='p-2 w-24'></td>
                                     <td className='p-2 w-24'></td>
@@ -233,16 +233,16 @@ function ManageNotes() {
                                 :
                             
                             <tbody className='bg-slate-800 text-white '>
-                                {notesList.map((note, index) => (
+                                {notesList?.map((note, index) => (
                                     <tr key={note._id} className='border-2 border-gray-700'>
-                                        <td className='  py-2 px-2'>{index + 1}</td>
-                                        <td className='  py-2 px-2'>{note.name}</td>
-                                        <td className='  py-2 px-2'>{note.semester.name}</td>
-                                        <td className='  py-2 px-2'>{note.subject.name}</td>
-                                        <td className='  py-2 px-2' ><Link target="_blank" to={note.link}>view</Link></td>
+                                        <td className='  py-2 px-4'>{index + 1}</td>
+                                        <td className='  py-2 px-4'>{note.name}</td>
+                                        <td className='  py-2 px-4'>{note.semester.name}</td>
+                                        <td className='  py-2 px-4'>{note.subject.name}</td>
+                                        <td className='  py-2 px-4' ><Link target="_blank" to={note.link}>view</Link></td>
 
-                                        <td className='  py-2 px-2'>
-                                            <div className='flex flex-row gap-2 justify-center'>
+                                        <td className='  py-2 px-4'>
+                                            <div className='flex flex-row gap-4 justify-left'>
                                                 <button className='text-white font-semibold  bg-green-700 py-1 px-2 rounded-md' onClick={() => onOpenModal(note)} >Update</button>
                                                 <button className='text-white font-semibold bg-red-700  py-1 px-2 rounded-md' onClick={() => onOpenDeleteModal(note)}>Delete</button>
                                             </div>
@@ -271,7 +271,7 @@ function ManageNotes() {
                             defaultValue={semesterPlaceholder}
                             onChange={handleChangeSemester}
                         >
-                            {semesterList.map((semester) => (
+                            {semesterList?.map((semester) => (
                                 <Option key={semester._id} value={semester._id}>
                                     {semester.name}
                                 </Option>
@@ -290,7 +290,7 @@ function ManageNotes() {
                             onChange={handleChangeSubject}
                         >
                             {
-                                subjectList.map((subject) => {
+                                subjectList?.map((subject) => {
                                     return <Option key={subject._id} value={subject._id} >{subject.name}</Option>
                                 })
                             }
@@ -299,7 +299,7 @@ function ManageNotes() {
                     <form className='mt-5 text-black' onSubmit={handleSubmit} >
                         <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Name'
                             onChange={(e) => setNName(e.target.value)} value={nName} />
-                        <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Link' onChange={(e) => setLink(e.target.value)} value={link} />
+                        <input type="url" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Link' onChange={(e) => setLink(e.target.value)} value={link} />
 
                         <br />
                         <button className='mt-8 w-[80%] bg-blue-800 rounded-lg py-2 text-xl text-white cursor-pointer hover:bg-blue-500'>

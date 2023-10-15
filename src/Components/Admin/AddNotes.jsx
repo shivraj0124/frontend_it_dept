@@ -3,7 +3,7 @@ import { Select } from 'antd'
 import img1 from '../../Images/AddNotes.png'
 import { Option } from 'antd/es/mentions';
 import axios from 'axios'
-import {toast} from 'react-toastify'
+import toast from 'react-hot-toast';
 function AddNotes() {
     const [semesterList, setSemesterList] = useState([]);
     const [subjectList, setSubjectList] = useState([]);
@@ -65,19 +65,19 @@ function AddNotes() {
             if (response.data.success) {
                 toast.success('Notes Added Successfully!', {
                     autoClose: 2000,
-                    position: 'top-center',
+                    position: 'bottom-center',
                 });
             } else {
                 toast.error('Note already Exist with this name', {
                     autoClose: 2000,
-                    position: 'top-center',
+                    position: 'bottom-center',
                 });
             }
         } catch (error) {
             console.error('Error:', error);
             toast.error('Failed to Add Notes ', {
                 autoClose: 2000,
-                position: 'top-center',
+                position: 'bottom-center',
             });
         }
     };
@@ -101,7 +101,7 @@ function AddNotes() {
                                 placeholder='Select Semester'
                                 onChange={handleChangeSemester}
                             >
-                                {semesterList.map((semester) => (
+                                {semesterList?.map((semester) => (
                                     <Option key={semester._id} value={semester._id}>
                                         {semester.name}
                                     </Option>
@@ -120,7 +120,7 @@ function AddNotes() {
                                   onChange={handleChangeSubject}
                             >
                                 {
-                                    subjectList.map((subject) => {
+                                    subjectList?.map((subject) => {
                                     
                                         return <Option key={subject._id} value={subject._id} >{subject.name}</Option>
                                     })
@@ -131,7 +131,7 @@ function AddNotes() {
                         <form className='mt-5 text-black' onSubmit={handleOnSubmit}>
                             <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Name' 
                                 onChange={(e)=>setNName(e.target.value )}/>
-                            <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Link' onChange={(e)=>setLink(e.target.value)} />
+                            <input type="url" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Link' onChange={(e)=>setLink(e.target.value)} />
 
                             <br />
                             <button className='mt-8 w-[80%] bg-blue-800 rounded-lg py-2 text-xl text-white cursor-pointer hover:bg-blue-500'>

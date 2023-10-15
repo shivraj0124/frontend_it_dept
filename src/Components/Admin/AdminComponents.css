@@ -8,7 +8,9 @@
     
 }
 .desModal{
-    border: 5px solid #fff;
-        border-radius: 5px;
-    
+    border-radius: 10px;    
+}
+p{
+    padding: 0;
+    margin: 0;
 }

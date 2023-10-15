@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Select } from 'antd';
 import { Option } from 'antd/es/mentions';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import img1 from '../../Images/add_time_table.png'
 function AddTT() {
     const [semesterList, setSemesterList] = useState([]);
@@ -75,19 +75,19 @@ function AddTT() {
             if (response.data.success) {
                 toast.success('Time Table Uploaded Successfully!', {
                     autoClose: 2000,
-                    position: 'top-center',
+                    position: 'bottom-center',
                 });
             } else {
                 toast.error('Failed to Upload Time Table', {
                     autoClose: 2000,
-                    position: 'top-center',
+                    position: 'bottom-center',
                 });
             }
         } catch (error) {
             console.error('Error:', error);
             toast.error('Failed to Upload Time Table', {
                 autoClose: 2000,
-                position: 'top-center',
+                position: 'bottom-center',
             });
         }
     };
@@ -113,7 +113,7 @@ function AddTT() {
                                 placeholder='Select Semester'
                                 onChange={handleChangeSemester}
                             >
-                                {semesterList.map((semester) => (
+                                {semesterList?.map((semester) => (
                                     <Option key={semester._id} value={semester._id}>
                                         {semester.name}
                                     </Option>
@@ -130,7 +130,7 @@ function AddTT() {
                                 placeholder='Select Shift'
                                 onChange={handleChangeShift}
                             >
-                                {shiftList.map((shift) => (
+                                {shiftList?.map((shift) => (
                                     <Option key={shift._id} value={shift._id}>
                                         {shift.name}
                                     </Option>

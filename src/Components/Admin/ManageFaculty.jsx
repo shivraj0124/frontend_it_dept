@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast';
 import './AdminComponents.css';
 import BarLoader from 'react-spinners/BarLoader'
 function ManageFaculty() {
@@ -78,7 +78,7 @@ function ManageFaculty() {
                 if(countLoop <= 1)
                 toast.error('Every Field must filled',{
                     autoClose:2000,
-                    position:'top-center'
+                    position:'bottom-center'
                 })
                 
             }
@@ -108,7 +108,7 @@ function ManageFaculty() {
                         toast.success('Faculty Details Updated Successfully', {
                             autoClose: 2000,
                             closeButton: true,
-                            position: "top-center"
+                            position: "bottom-center"
                         })
                         
                         onCloseModal();
@@ -116,7 +116,7 @@ function ManageFaculty() {
                         toast.error('Email Already Exist',
                             {
                                 autoClose: 2000,
-                                position: 'top-center'
+                                position: 'bottom-center'
                             }
                         );
                     }
@@ -152,12 +152,12 @@ function ManageFaculty() {
                         toast.success('Faculty deleted successfully !',
                             {
                                 autoClose: 2000,
-                                position: 'top-center'
+                                position: 'bottom-center'
                             })
                     } else {
                         toast.error('Failed to delete faculty', {
                             autoClose: 2000,
-                            position: 'top-center'
+                            position: 'bottom-center'
                         });
                     }
                     onCloseDeleteModal();
@@ -165,7 +165,7 @@ function ManageFaculty() {
                 .catch((error) => {
                     toast.error(error, {
                         autoClose: 2000,
-                        position: 'top-center'
+                        position: 'bottom-center'
                     });
                 });
         }
@@ -175,48 +175,48 @@ function ManageFaculty() {
     return (
         <div className='h-screen bg-blue-50'>
             <div className="w-100  mt-10 max-md:mt-2 md:flex justify-center max-xl:px-2 items-center pb-20">
-                {loader ? <div className='flex flex-col justify-center  items-center'>
+                {loader ? <div className='flex flex-col justify-center  items-center mt-20'>
                     <BarLoader color="blue"
 
                     />
                 </div>
                     :
-                    <div className='text-center overflow-y-auto max-xl:max-h-[500px] max-h-[600px] rounded-md '>
-                        <table className='w-max border-collapse rounded-md '>
+                    <div className='text-left overflow-y-auto max-xl:max-h-[400px] max-h-[500px] rounded-md bg-red-900 md:w-[80%]'>
+                        <table className='w-[100%] border-collapse rounded-md'>
                             <thead className='sticky top-0  '>
                                 <tr className='bg-slate-950 text-white border-slate-950 rounded-md'>
-                                <th className='   py-2 px-2'>SR.No</th>
-                                <th className='  py-2 px-2'>Name</th>
-                                <th className='  py-2 px-2'>Email</th>
-                                <th className='  py-2 px-2'>Post</th>
-                                <th className='  py-2 px-2'>Qualification</th>
-                                <th className='  py-2 px-2'>Experience</th>
-                                <th className='  py-2 px-2'>Photo</th>
-                                <th className='  py-2 px-2'>Edit</th>
+                                    <th className='   py-2 px-3 max-md:text-sm'>SR.No</th>
+                                    <th className='  py-2 px-3 max-md:text-sm'>Name</th>
+                                    <th className='  py-2 px-3 max-md:text-sm'>Email</th>
+                                    <th className='  py-2 px-3 max-md:text-sm'>Post</th>
+                                    <th className='  py-2 px-3 max-md:text-sm'>Qualification</th>
+                                    <th className='  py-2 px-3 max-md:text-sm'>Experience</th>
+                                    <th className='  py-2 px-3 max-md:text-sm'>Photo</th>
+                                    <th className='  py-2 px-3 max-md:text-sm'>Edit</th>
                             </tr>
                         </thead>
-                            {facultyList.length === 0 ?
+                            {facultyList?.length === 0 ?
                                 <tr className='rounded-md border-2'>
-                                    <td className='p-2 w-20'></td>
-                                    <td className='p-2 w-20'></td>
-                                    <td className='p-2 w-10'></td>
-                                    <td className='p-6 md:w-44 font-semibold'>No Data Found</td>
-                                    <td className='p-2 '></td>
+                                    <td className='p-2 px-3 w-20'></td>
+                                    <td className='p-2 px-3 w-20'></td>
+                                    <td className='p-2 px-3 w-10'></td>
+                                    <td className='p-6 px-3 md:w-44 font-semibold'>No Data Found</td>
+                                    <td className='p-2 px-3 '></td>
                                     <td className='p-2 w-'></td>
-                                    <td className='p-2 '></td>
-                                    <td className='p-2 '></td>
+                                    <td className='p-2 px-3 '></td>
+                                    <td className='p-2 px-3'></td>
                                 </tr>
                                 :
-                            <tbody className='bg-slate-800 text-white '>
-                            {facultyList.map((faculty, index) => (
-                                <tr key={faculty._id} className='border-2 border-gray-700'>
-                                    <td className='  py-2 px-2'>{index + 1}</td>
-                                    <td className='  py-2 px-2'>{faculty.name}</td>
-                                    <td className='  py-2 px-2'>{faculty.email}</td>
-                                    <td className='  py-2 px-2'>{faculty.post}</td>
-                                    <td className='  py-2 px-2'>{faculty.qualification}</td>
-                                    <td className='  py-2 px-2'>{faculty.experience}</td>
-                                    <td className='  py-2 px-2'>
+                            <tbody className='bg-slate-800 text-white rounded-md '>
+                            {facultyList?.map((faculty, index) => (
+                                <tr key={faculty._id} className='border-b-2 border-gray-500 rounded-md'>
+                                    <td className='  py-2 px-3'>{index + 1}</td>
+                                    <td className='  py-2 px-3'>{faculty.name}</td>
+                                    <td className='  py-2 px-3'>{faculty.email}</td>
+                                    <td className='  py-2 px-3'>{faculty.post}</td>
+                                    <td className='  py-2 px-3'>{faculty.qualification}</td>
+                                    <td className='  py-2 px-3'>{faculty.experience}</td>
+                                    <td className='  py-2 px-3'>
                                         <img className='w-[100px] h-[100px]' src={faculty.photo} alt="" />
                                     </td>
                                     <td className='  py-2 px-2'>

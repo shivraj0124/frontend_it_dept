@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import BarLoader from 'react-spinners/BarLoader';
-import { toast } from 'react-toastify'; // Add this import
+import toast from 'react-hot-toast';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 
@@ -38,8 +38,7 @@ export default function ManageNotice() {
     const handleDelete = (e) => {
         e.preventDefault();
         if (selectedNotice && selectedNotice._id) {
-            axios
-                .delete(`http://localhost:3000/api/v1/delete-notice/${selectedNotice._id}`)
+            axios.delete(`http://localhost:3000/api/v1/delete-notice/${selectedNotice._id}`)
                 .then((response) => {
                     if (response.data.success) {
                         getNotices();
@@ -48,12 +47,12 @@ export default function ManageNotice() {
                         );
                         toast.success('Notice deleted successfully !', {
                             autoClose: 2000,
-                            position: 'top-center',
+                            position: 'bottom-center',
                         });
                     } else {
                         toast.error('Failed to delete Notice', {
                             autoClose: 2000,
-                            position: 'top-center',
+                            position: 'bottom-center',
                         });
                     }
                     onCloseDeleteModal();
@@ -61,7 +60,7 @@ export default function ManageNotice() {
                 .catch((error) => {
                     toast.error(error, {
                         autoClose: 2000,
-                        position: 'top-center',
+                        position: 'bottom-center',
                     });
                 });
         }
@@ -97,10 +96,10 @@ export default function ManageNotice() {
                 if (countLoop <= 1)
                     index === 0 ? toast.error(`Title Field must be filled`, {
                         autoClose: 2000,
-                        position: 'top-center',
+                        position: 'bottom-center',
                     }) : toast.error(`Description Field must be filled`, {
                         autoClose: 2000,
-                        position: 'top-center',
+                        position: 'bottom-center',
                     }); 
                     
             }
@@ -111,8 +110,7 @@ export default function ManageNotice() {
             formData.append('title', title);
             formData.append('link', link);
             formData.append('description', description);
-            axios
-                .put(`http://localhost:3000/api/v1/update-notice/${selectedNotice._id}`, formData)
+            axios.put(`http://localhost:3000/api/v1/update-notice/${selectedNotice._id}`, formData)
                 .then((response) => {
                     if (response.data.success) {
                         getNotices();
@@ -124,13 +122,13 @@ export default function ManageNotice() {
                         toast.success('Notice Updated Successfully', {
                             autoClose: 2000,
                             closeButton: true,
-                            position: 'top-center',
+                            position: 'bottom-center',
                         });
                         onCloseModal();
                     } else {
                         toast.error('Notice with this Title already exists', {
                             autoClose: 2000,
-                            position: 'top-center',
+                            position: 'bottom-center',
                         });
                     }
                 })
@@ -162,47 +160,47 @@ export default function ManageNotice() {
 
     return (
         <div className="h-screen bg-blue-50">
-            <div className="w-100 mt-10 max-md:mt-2 md:flex justify-center max-xl:px-2 items-center">
+            <div className="w-[100%] mt-10 max-md:mt-2 flex justify-center items-center">
                 {loader ? (
                     <div className="flex justify-center items-center mt-32">
                         <BarLoader color="blue" />
                     </div>
                 ) : (
-                    <div className="text-center overflow-y-auto max-h-[600px] rounded-md">
-                        <table className="w-[100%] md:max-w-[800px] border-2 border-collapse rounded-md overflow-hidden">
+                    <div className="text-left overflow-y-auto max-h-[500px] rounded-md md:w-[80%]">
+                        <table className="w-[100%]  border-2 border-collapse rounded-md">
                             <thead className="sticky top-0">
                                 <tr className="bg-slate-950 text-white border-2 border-slate-950">
-                                    <th className="p-2 max-md:p-1 max-md:text-sm">SR.No</th>
-                                    <th className="p-2 max-md:p-1 max-md:text-sm">Title</th>
-                                    <th className="p-2 max-md:p-1 max-md:text-sm">Description</th>
-                                    <th className="p-2 max-md:p-1 max-md:text-sm">Link</th>
-                                    <th className="p-2 max-md:p-1 max-md:text-sm px-5">Edit</th>
+                                    <th className="p-3 px-4   max-md:text-sm">SR.No</th>
+                                    <th className="p-3 px-4  max-md:text-sm">Title</th>
+                                    <th className="p-3 px-4  max-md:text-sm">Description</th>
+                                    <th className="p-3  px-4 max-md:text-sm">Link</th>
+                                    <th className="p-3 max-md:text-sm ">Edit</th>
                                 </tr>
                             </thead>
-                            {noticeList.length === 0 ? (
+                            {noticeList?.length === 0 ? (
                                 <tr>
-                                    <td className="p-2 max-md:p-1 max-md:text-sm w-24"></td>
-                                    <td className="p-2 max-md:p-1 max-md:text-sm w-24"></td>
-                                    <td className="p-2 max-md:p-1 max-md:text-sm w-44">No Data Found</td>
-                                    <td className="p-2 w-20"></td>
-                                    <td className="p-2 w-20"></td>
+                                    <td className="p-3 px-4 max-md:text-sm w-24"></td>
+                                    <td className="p-3 px-4 max-md:text-sm w-24"></td>
+                                    <td className="p-3 px-4 max-md:text-sm w-44">No Data Found</td>
+                                    <td className="p-3 px-4 w-20"></td>
+                                    <td className="p-3 px-4 w-20"></td>
                                 </tr>
                             ) : (
                                 <tbody className="bg-slate-800 text-white">
-                                    {noticeList.map((notice, index) => (
-                                        <tr key={notice._id} className="border-2 border-gray-700">
-                                            <td className="p-3 max-md:p-1 max-md:text-sm">{index + 1}</td>
-                                            <td className="p-3 max-md:p-1 max-md:text-sm">{notice.title}</td>
-                                            <td onClick={() => handleDescriptionModal(notice)}className='cursor-pointer'>View</td>
-                                            <td className="p-3 max-md:p-1 max-md:text-sm">
+                                    {noticeList?.map((notice, index) => (
+                                        <tr key={notice._id} className="border-2 border-gray-700 ">
+                                            <td className="p-3 px-5   max-md:text-sm">{index + 1}</td>
+                                            <td className="p-3 px-5    max-md:text-sm">{notice.title}</td>
+                                            <td onClick={() => handleDescriptionModal(notice)} className='cursor-pointer p-3 px-4  max-md:text-sm '>View</td>
+                                            <td className="p-3 px-5 max-md:text-sm">
                                                 <Link target="_blank" to={notice.link}>
                                                     View
                                                 </Link>
                                             </td>
-                                            <td className="py-2 max-md:p-1 max-md:text-sm px-4">
-                                                <div className="flex flex-row gap-2 justify-center">
+                                            <td className="p-3  max-md:text-sm ">
+                                                <div className="flex flex-row gap-2 justify-start min-[1150px]:w-[80px]">
                                                     <button className="text-white font-semibold bg-green-700 py-1 px-2 rounded-md" onClick={() => onOpenModal(notice)}>Update</button>
-                                                    <button className="text-white font-semibold bg-red-700 py-1 px-2 rounded-md" onClick={() => openDeleteModal(notice)}>Delete</button>
+                                                    <button className="text-white font-semibold bg-red-700 py-1 px-2 rounded-md " onClick={() => openDeleteModal(notice)}>Delete</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -213,7 +211,7 @@ export default function ManageNotice() {
                     </div>
                 )}
             </div>
-            <Modal open={openDes} onClose={onCloseDes} center className={{ modal: 'desModal' }}>
+            <Modal open={openDes} onClose={onCloseDes} center classNames={{ modal: 'desModal' }}>
                 <div className="w-[100%] mt-6">
                     <h1 className="text-blue-800 text-xl font-semibold">Description</h1>
                     <p className="mt-4">{descriptionView}</p>
@@ -227,7 +225,7 @@ export default function ManageNotice() {
                             <form className="mt-2 text-black" onSubmit={handleOnSubmit}>
                                 <input type="text" className="text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300 hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
                                 <br />
-                                <input type="text" className="text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300 hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2" placeholder="Link (Optional)" value={link} onChange={(e) => setLink(e.target.value)} />
+                                <input type="url" className="text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300 hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2" placeholder="Link (Optional)" value={link} onChange={(e) => setLink(e.target.value)} />
                                 <br />
                                 <textarea className="placeholder:text-slate-400 border-2 border-blue-300 hover:border-blue-900 focus:border-blue-900 focus:outline-none rounded-md p-5 text-xl font-semibold mt-10 w-[80%]" rows={5} placeholder="Description.." value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
                                 <br />
