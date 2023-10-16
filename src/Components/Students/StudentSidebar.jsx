@@ -148,7 +148,7 @@ const StudentSidebar = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className={showTop ? 'h-[400px] px-3  overflow-y-auto  bg-blue-50 pb-2 md:h-[400px] lg:h-[600px]' :'h-screen md:h-[500px] lg:h-[600px]  px-3  overflow-y-auto  bg-blue-50 pb-2 max-md:pb-16'}>
+                            <div className={showTop ? 'h-[400px]  overflow-y-auto  bg-blue-50 pb-2 md:h-[400px] lg:h-[600px]' :'h-screen md:h-[500px] lg:h-[600px]    overflow-y-auto  bg-blue-50 pb-2 max-md:pb-16'}>
                             <Outlet />
                             </div>
                         </div>

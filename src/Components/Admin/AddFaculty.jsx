@@ -95,8 +95,6 @@ export default function AddFaculty() {
             autoClose: 1000,
             position: "bottom-center"
           });
-
-
         }
       } catch (error) {
         if (error.response && error.response.data && error.response.data.message) {
