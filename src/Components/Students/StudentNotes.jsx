@@ -113,7 +113,7 @@ function StudentNotes() {
   }, [semesterId])
   return (
 
-    <div className=''>
+   
       <div className='flex flex-col'>
         <div className="py-2 px-2 flex max-lg:flex-col-reverse  w-[100%] lg:flex-row sticky top-0 " style={{backgroundColor:'rgb(0,0,0,0.1)'}}>
           <div className='flex flex-row w-[100%] lg:w-[40%] justify-between items-center gap-2 max-lg:mt-5'>         
@@ -162,7 +162,7 @@ function StudentNotes() {
         </div>
         )}
       </div>
-    </div>
+ 
 
   )
 }

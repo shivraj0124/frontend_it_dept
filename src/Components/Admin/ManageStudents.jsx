@@ -259,7 +259,7 @@ function ManageStudents() {
                     />
                 </div>
                     :
-                    <div className='text-left overflow-y-auto max-h-[500px]  rounded-md md:w-[98%] p-0 '>
+                    <div className='text-left overflow-y-auto max-h-[500px]  rounded-md w-[100%] px-2 '>
                         <table className='w-[100%] border-2 border-slate-950  border-collapse  rounded-md m-0'>
                             <thead className='sticky top-0 '>
                                 <tr className='bg-slate-950 text-white text-lg font-semibold'>

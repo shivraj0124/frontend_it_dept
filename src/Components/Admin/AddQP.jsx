@@ -47,7 +47,49 @@ function AddQP() {
 
     const handleOnSubmit = async (e) => {
         e.preventDefault();
+        let updateOrNot = 1;
+        const arr = [selectedSem,selectedSubject,nName, link];
+        let countLoop = 0;
+        arr.map((item, index) => {
+            if (typeof item === 'string') {
+                item = item.replace(/\s+/g, ''); // Assign the result back to item
+            }
+            if (typeof item === 'string') {
+                item = item.trim(); // Assign the result back to item
+            }
+            if (item === '') {
+                countLoop += 1
+                // setUpdateOrNot(0)
+                updateOrNot = 0
+                if (countLoop <= 1) {
 
+                    if (index === 0) {
+                        toast.error('Please Select semester', {
+                            autoClose: 2000,
+                            position: 'bottom-center'
+                        })
+                    } else if (index === 1) {
+                        toast.error('Please Select Subject', {
+                            autoClose: 2000,
+                            position: 'bottom-center'
+                        })
+                    }
+                     else if (index === 2) {
+                        toast.error('Name Field must filled', {
+                            autoClose: 2000,
+                            position: 'bottom-center'
+                        })
+                    }
+                     else if (index === 3) {
+                        toast.error('Please provide the link', {
+                            autoClose: 2000,
+                            position: 'bottom-center'
+                        })
+                    }
+                }
+            }
+        })
+        if (updateOrNot === 1) {
         const formData = new FormData();
         formData.append('name', nName);
         formData.append('link', link);
@@ -67,7 +109,7 @@ function AddQP() {
                     position: 'bottom-center',
                 });
             } else {
-                toast.error('Failed to Add Question paper', {
+                toast.error('Question paper with name Already Exist', {
                     autoClose: 2000,
                     position: 'bottom-center',
                 });
@@ -79,6 +121,7 @@ function AddQP() {
                 position: 'bottom-center',
             });
         }
+    }
     };
     useEffect(() => {
         allSem()

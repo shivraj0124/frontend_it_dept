@@ -209,7 +209,7 @@ function ManageQP() {
                     />
                 </div>
                     :
-                    <div className='text-left overflow-y-auto max-h-[500px]  rounded-md md:w-[80%] w-[98%]'>
+                    <div className='text-left overflow-y-auto max-h-[500px]  rounded-md w-[100%] px-2'>
                         <table className='w-[100%] border-2  rounded-md '>
                             <thead className='sticky top-0 '>
                                 <tr className='bg-slate-950 text-white border-2 border-slate-950'>

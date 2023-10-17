@@ -31,6 +31,8 @@ import ManageStudents from "./Components/Admin/ManageStudents";
 import AdminLogin from "./Components/LoginSignUp/AdminLogin";
 import FacultyLogin from "./Components/LoginSignUp/FacultyLogin";
 import LoginForm from "./Components/LoginSignUp/LoginForm";
+import StudentQuesPaper from "./Components/Students/StudentQuesPaper";
+import TimeTable from "./Components/Students/TimeTable";
 function App() {
   
   return (
@@ -69,6 +71,8 @@ function App() {
           </Route>
           <Route path='/Student' element={<StudentSidebar/>}>
               <Route exact path="/Student/Notes" element={<StudentNotes/>}></Route>
+              <Route exact path="/Student/QuestionP" element={<StudentQuesPaper/>}></Route>
+              <Route exact path="/Student/TimeTable" element={<TimeTable/>}></Route>
           </Route>
         </Routes>
 

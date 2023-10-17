@@ -167,8 +167,8 @@ export default function AddStudent() {
 
   return (
     <div className='h-screen overflow-y-auto pb-10 bg-blue-50'>
-      <div className="w-100 mt-5 max-md:mt-2 justify-center max-xl:px-2 xl:px-36 ">
-        <div className="w-[100%] flex md:flex-row- max-md:flex-col-reverse p-3 bg-white shadow-xl rounded-md">
+      <div className="w-100 mt-5 max-md:mt-2  flex justify-center w-[100%]">
+        <div className="w-[100%] lg:w-[90%] flex md:flex-row max-md:flex-col-reverse p-3 bg-white shadow-xl rounded-md  ">
           <div className='w-[100%] text-center mt-5  bg-white pb-2'>
             <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Add Student</h1>
             <form className='mt-2 text-black' onSubmit={handleSubmit}>
@@ -177,7 +177,7 @@ export default function AddStudent() {
               <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Enrollment No' onChange={(e) => setEnrNo(e.target.value)} value={enrNo} required />
               <input type="password" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Password' onChange={(e) => setPassword(e.target.value)} value={password} required />
               <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='phone' onChange={(e) => setPhone(e.target.value)} value={phone} required />
-              <div className='mt-6 flex max-md:flex-col justify-between  items-center md:flex-row px-12 '>
+              <div className='mt-6 flex max-md:flex-col justify-between  items-center md:flex-row lg:px-12 '>
                 <label htmlFor='semesters' className='font-semibold text-xl'>
                   Select Semester:
                 </label>
@@ -194,7 +194,7 @@ export default function AddStudent() {
                   ))}
                 </Select>
               </div>
-              <div className='mt-4 flex max-md:flex-col justify-between  items-center md:flex-row px-12 '>
+              <div className='mt-4 flex max-md:flex-col justify-between  items-center md:flex-row lg:px-12 '>
                 <label htmlFor='shifts' className='font-semibold text-xl'>
                   Select Shift:
                 </label>

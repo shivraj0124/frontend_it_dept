@@ -6,7 +6,7 @@ import { Link, useNavigate, Outlet, useLocation } from "react-router-dom";
 // import { TailSpin } from 'react-loader-spinner'
 import { ClipLoader } from 'react-spinners'
 import { BiSolidDashboard, BiMenuAltRight, BiUpArrow, BiDownArrow } from 'react-icons/bi'
-import { FaUserTie, FaUserGraduate } from 'react-icons/fa'
+import { LuFileQuestion } from 'react-icons/lu'
 import { FiLogOut } from 'react-icons/fi'
 import { CgNotes, CgCloseR } from 'react-icons/cg'
 import { BsTable } from 'react-icons/bs'
@@ -86,11 +86,25 @@ const StudentSidebar = () => {
 
                                 className=" w-full pt-5 flex flex-row cursor-pointer gap-x-2 pl-2 items-center justify-between pr-5"
                             >
-                                <div className='flex flex-row items-center gap-x-2' onClick={() => { handleNav(); navigate('/Student/Notes') }}><FaUserGraduate size={21} />
+                                <div className='flex flex-row items-center gap-x-2' onClick={() => { handleNav(); navigate('/Student/Notes') }}><PiNotePencil size={21} />
                                     Notes
                                 </div>
 
 
+                            </div>
+                            <div
+                                className=" w-full pt-5 flex flex-row cursor-pointer gap-x-2 pl-2 items-center justify-between pr-5"
+                            >
+                                <div className='flex flex-row items-center gap-x-2' onClick={() => { handleNav(); navigate('/Student/QuestionP') }}><LuFileQuestion size={21} />
+                                    Question Papers
+                                </div>
+                            </div>
+                            <div
+                                className=" w-full pt-5 flex flex-row cursor-pointer gap-x-2 pl-2 items-center justify-between pr-5"
+                            >
+                                <div className='flex flex-row items-center gap-x-2' onClick={() => { handleNav(); navigate('/Student/TimeTable') }}><BsTable size={21} />
+                                    Time Table
+                                </div>
                             </div>
 
 

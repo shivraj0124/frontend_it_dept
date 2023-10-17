@@ -48,7 +48,49 @@ function AddNotes() {
 
     const handleOnSubmit = async (e) => {
         e.preventDefault();
+        let updateOrNot = 1;
+        const arr = [selectedSem, selectedSubject, nName, link];
+        let countLoop = 0;
+        arr.map((item, index) => {
+            if (typeof item === 'string') {
+                item = item.replace(/\s+/g, ''); // Assign the result back to item
+            }
+            if (typeof item === 'string') {
+                item = item.trim(); // Assign the result back to item
+            }
+            if (item === '') {
+                countLoop += 1
+                // setUpdateOrNot(0)
+                updateOrNot = 0
+                if (countLoop <= 1) {
 
+                    if (index === 0) {
+                        toast.error('Please Select semester', {
+                            autoClose: 2000,
+                            position: 'bottom-center'
+                        })
+                    } else if (index === 1) {
+                        toast.error('Please Select Subject', {
+                            autoClose: 2000,
+                            position: 'bottom-center'
+                        })
+                    }
+                    else if (index === 2) {
+                        toast.error('Name Field must filled', {
+                            autoClose: 2000,
+                            position: 'bottom-center'
+                        })
+                    }
+                    else if (index === 3) {
+                        toast.error('Please provide the link', {
+                            autoClose: 2000,
+                            position: 'bottom-center'
+                        })
+                    }
+                }
+            }
+        })
+        if (updateOrNot === 1) {
         const formData = new FormData();
         formData.append('name', nName);
         formData.append('link', link);
@@ -80,6 +122,7 @@ function AddNotes() {
                 position: 'bottom-center',
             });
         }
+    }
     };
     useEffect(() => {
         allSem()
@@ -130,8 +173,8 @@ function AddNotes() {
                         </div>
                         <form className='mt-5 text-black' onSubmit={handleOnSubmit}>
                             <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Name' 
-                                onChange={(e)=>setNName(e.target.value )}/>
-                            <input type="url" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Link' onChange={(e)=>setLink(e.target.value)} />
+                                onChange={(e)=>setNName(e.target.value )} required/>
+                            <input type="url" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Link' onChange={(e)=>setLink(e.target.value)} required/>
 
                             <br />
                             <button className='mt-8 w-[80%] bg-blue-800 rounded-lg py-2 text-xl text-white cursor-pointer hover:bg-blue-500'>
