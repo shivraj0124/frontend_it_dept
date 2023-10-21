@@ -1,4 +1,5 @@
 import React from "react"
+import './stylesheet.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 // import { ToastContainer } from 'react-toastify'
 import { Toaster } from 'react-hot-toast';
@@ -33,6 +34,14 @@ import FacultyLogin from "./Components/LoginSignUp/FacultyLogin";
 import LoginForm from "./Components/LoginSignUp/LoginForm";
 import StudentQuesPaper from "./Components/Students/StudentQuesPaper";
 import TimeTable from "./Components/Students/TimeTable";
+import FacultySidebar from "./Components/Faculty/FacultySidebar";
+import FAddNotes from "./Components/Faculty/FAddNotes";
+import FAddQP from "./Components/Faculty/FAddQP";
+import FManageNotes from "./Components/Faculty/FManageNotes";
+import FManageQP from "./Components/Faculty/FManageQP";
+import FAddNotice from "./Components/Faculty/FAddNotice";
+import FManageNotices from "./Components/Faculty/FManageNotices";
+import StudentNotices from "./Components/Students/StudentNotices";
 function App() {
   
   return (
@@ -73,6 +82,15 @@ function App() {
               <Route exact path="/Student/Notes" element={<StudentNotes/>}></Route>
               <Route exact path="/Student/QuestionP" element={<StudentQuesPaper/>}></Route>
               <Route exact path="/Student/TimeTable" element={<TimeTable/>}></Route>
+              <Route exact path="/Student/Notices" element={<StudentNotices/>}></Route>
+          </Route>
+          <Route path='/Faculty' element={<FacultySidebar/>}>
+              <Route exact path='/Faculty/AddNote' element={<FAddNotes/>} ></Route>  
+              <Route exact path='/Faculty/ManageNotes' element={<FManageNotes/>} ></Route>  
+              <Route exact path='/Faculty/AddQuestionPaper' element={<FAddQP/>} ></Route>  
+              <Route exact path='/Faculty/ManageQuestionPapers' element={<FManageQP/>} ></Route>  
+              <Route exact path='/Faculty/AddNotice' element={<FAddNotice/>} ></Route>  
+              <Route exact path='/Faculty/ManageNotices' element={<FManageNotices/>} ></Route>  
           </Route>
         </Routes>
 

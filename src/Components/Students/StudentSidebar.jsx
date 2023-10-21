@@ -3,7 +3,7 @@ import logo from '../../Images/GPM-LOGO.png'
 import img1 from '../../Images/logo_try.jpg'
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, Outlet, useLocation } from "react-router-dom";
-// import { TailSpin } from 'react-loader-spinner'
+import themeHook from '../Admin/ContextP'
 import { ClipLoader } from 'react-spinners'
 import { BiSolidDashboard, BiMenuAltRight, BiUpArrow, BiDownArrow } from 'react-icons/bi'
 import { LuFileQuestion } from 'react-icons/lu'
@@ -11,8 +11,9 @@ import { FiLogOut } from 'react-icons/fi'
 import { CgNotes, CgCloseR } from 'react-icons/cg'
 import { BsTable } from 'react-icons/bs'
 import { PiNotePencil } from 'react-icons/pi'
+import {toast} from 'react-hot-toast'
 const StudentSidebar = () => {
-
+    const {auth,setFindForm}=themeHook()
     const navigate = useNavigate()
     const [isOpen, setIsOpen] = useState(false);
     const [nav, setNav] = useState(false)
@@ -34,8 +35,15 @@ const StudentSidebar = () => {
         const replacedString = newLocation.replace(/\//g, ' > ')
         return replacedString + ' >';
     }
-    const [position, setPosition] = useState(false)
+  
     useEffect(() => {
+        if (auth?.user?.role !== 1) {
+            setFindForm('S')
+            toast.error('Please Login as Student', {
+                autoClose: 1000
+            })
+            navigate('/Login')
+        }
         setInterval(() => {
             setLoader(false)
         }, 2000);
@@ -106,6 +114,24 @@ const StudentSidebar = () => {
                                     Time Table
                                 </div>
                             </div>
+                            <div
+                                className=" w-full pt-5 flex flex-row cursor-pointer gap-x-2 pl-2 items-center justify-between pr-5"
+                            >
+                                <div className='flex flex-row items-center gap-x-2' onClick={() => { handleNav(); navigate('/Student/Notices') }}><PiNotePencil size={21} />
+                                    Time Table
+                                </div>
+                            </div>
+
+
+                            <div
+                                className=" w-full mt-10 flex flex-row cursor-pointer gap-x-2 pl-2 items-center justify-between "
+                            >
+                                <div className='flex flex-row items-center gap-x-2' >
+                                    <Link to='https://forumgpm.netlify.app' target='_blank' className='bg-blue-800 hover:bg-slate-900 border hover:border-blue-600 font-semibold py-1 px-8 rounded-md'>
+                                    Discuss
+                                    </Link>
+                                </div>
+                            </div>
 
 
 
@@ -162,7 +188,7 @@ const StudentSidebar = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className={showTop ? 'h-[400px]  overflow-y-auto  bg-blue-50 pb-2 md:h-[400px] lg:h-[600px]' :'h-screen md:h-[500px] lg:h-[600px]    overflow-y-auto  bg-blue-50 pb-2 max-md:pb-16'}>
+                            <div className={showTop ? 'h-[400px]  overflow-y-auto  bg-blue-50 pb-2 md:h-[500px] lg:h-[600px]' :'h-screen md:h-[500px] lg:h-[600px]    overflow-y-auto  bg-blue-50 pb-2 max-md:pb-16'}>
                             <Outlet />
                             </div>
                         </div>

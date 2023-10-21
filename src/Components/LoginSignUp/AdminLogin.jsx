@@ -7,6 +7,7 @@ export default function AdminLogin() {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const { setUsername, setLoggedIn ,setAuth,auth} = themeHook();
+    const urlBackend = import.meta.env.VITE_BACKEND_API
     const navigate=useNavigate()
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,7 +15,7 @@ export default function AdminLogin() {
         formData.append('name', name);
         formData.append('password', password);
         
-        axios.post('http://localhost:3000/api/v3/admin-login',formData).then((response) => {
+        axios.post(`${urlBackend}/api/v3/admin-login`,formData).then((response) => {
                 if (response.data.success) {
                     setLoggedIn(true);                    
                     setAuth({

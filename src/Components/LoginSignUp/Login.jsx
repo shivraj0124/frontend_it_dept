@@ -8,6 +8,7 @@ export default function Login() {
     const [EnrNo, setEnrNo] = useState("")
     const [password, setPassword] = useState("")
     const {username,setUsername,setLoggedIn,auth,setAuth}=themeHook()
+    const urlBackend = import.meta.env.VITE_BACKEND_API
     const navigate = useNavigate();
     const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +18,7 @@ export default function Login() {
     formData.append('password', password);
 
     axios
-      .post('http://localhost:3000/api/v3/student-login', formData)
+      .post(`${urlBackend}/api/v3/student-login`, formData)
       .then((response) => {
         if (response.data.success) {
           setLoggedIn(true);

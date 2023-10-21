@@ -11,7 +11,7 @@ function AddTT() {
     const [selectedShift, setSelectedShift] = useState('');
     const [tName, setTName] = useState('');
     const [photo, setPhoto] = useState(null); // Use null to represent no selected file
-
+    const urlBackend = import.meta.env.VITE_BACKEND_API
     const handleChangeSemester = (value) => {
         setSelectedSem(value);
         setSelectedShift('');
@@ -29,7 +29,7 @@ function AddTT() {
 
     const allSem = () => {
         axios
-            .get('http://localhost:3000/api/v1/get-semesters')
+            .get(`${urlBackend}/api/v1/get-semesters`)
             .then((response) => {
                 if (response.data.success) {
                     setSemesterList(response.data.semesters);
@@ -43,7 +43,7 @@ function AddTT() {
     };
 
     const allShifts = (selectedSemesterId) => {
-        axios.get(`http://localhost:3000/api/v1/get-shifts/${selectedSemesterId}`)
+        axios.get(`${urlBackend}/api/v1/get-shifts/${selectedSemesterId}`)
             .then((response) => {
                 if (response.data.success) {
                     setShiftList(response.data.shifts);
@@ -66,7 +66,7 @@ function AddTT() {
         formData.append('shift', selectedShift);
 
         try {
-            const response = await axios.post('http://localhost:3000/api/v1/addTT', formData, {
+            const response = await axios.post(`${urlBackend}/api/v1/addTT`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

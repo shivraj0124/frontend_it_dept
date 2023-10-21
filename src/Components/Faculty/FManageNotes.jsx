@@ -3,16 +3,17 @@ import axios from 'axios';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 import toast from 'react-hot-toast';
-import './AdminComponents.css';
+import '../Admin/AdminComponents.css';
 import BarLoader from 'react-spinners/BarLoader'
 import { Link } from 'react-router-dom'
 import { Select } from 'antd'
 import { Option } from 'antd/es/mentions';
-function ManageQP() {
+import themeHook from '../Admin/ContextP'
+function FManageNotes() {
     const [open, setOpen] = useState(false);
-    const [QPList, setQPList] = useState('')
+    const [notesList, setNotesList] = useState('')
     const [loader, setLoader] = useState(true)
-    const [selectedQP, setSelectedQP] = useState(null)
+    const [selectedNote, setSelectedNote] = useState(null)
 
     const [semesterList, setSemesterList] = useState([]);
     const [subjectList, setSubjectList] = useState([]);
@@ -23,6 +24,7 @@ function ManageQP() {
     const [subjectPlaceholder, setSubjectPlaceholder] = useState('')
     const [semesterPlaceholder, setSemesterPlaceholder] = useState('')
     const urlBackend = import.meta.env.VITE_BACKEND_API
+    const {auth}=themeHook()
     const handleChangeSemester = (value) => {
         setSelectedSem(value);
         setSelectedSubject('');
@@ -56,17 +58,16 @@ function ManageQP() {
         });
     };
     useEffect(() => {
-        getQPs()
+        getNotes()
     }, [])
-
-    const getQPs = () => {
-        axios.get(`${urlBackend}/api/v1/get-qp`).then((response) => {
+    const getNotes = () => {
+        axios.get(`${urlBackend}/api/v4/get-notes/${auth?.user?.phone}`).then((response) => {
             if (response.data.success) {
-                setQPList(response.data.qP);
-                console.log(response.data.qP)
+                setNotesList(response.data.notes);
+                console.log(response.data.notes)
 
             } else {
-                console.error('Failed to fetch Question paper details');
+                console.error('Failed to fetch Time Table details');
             }
             setLoader(false)
         })
@@ -75,22 +76,21 @@ function ManageQP() {
             });
     }
 
-    const onOpenModal = (QP) => {
+    const onOpenModal = (note) => {
         setOpen(true);
-        setSelectedQP(QP)
-        console.log(QP._id)
-        setNName(QP.name)
-        setLink(QP.link)
+        setSelectedNote(note)
+        setNName(note.name)
+        setLink(note.link)
         allSem()
-        setSemesterPlaceholder(QP.semester.name)
-        setSubjectPlaceholder(QP.subject.name)
-        setSelectedSem(QP.semester._id)
-        setSelectedSubject(QP.subject._id)
+        setSemesterPlaceholder(note.semester.name)
+        setSubjectPlaceholder(note.subject.name)
+        setSelectedSem(note.semester._id)
+        setSelectedSubject(note.subject._id)
 
     }
-    const onCloseModal = (QP) => {
+    const onCloseModal = (note) => {
         setOpen(false);
-        setSelectedQP(null)
+        setSelectedNote(null)
         setNName('')
         setLink('')
         setSemesterPlaceholder('')
@@ -99,33 +99,33 @@ function ManageQP() {
         setSelectedSubject('')
     }
     const [openDelete, setOpenDelete] = useState(false)
-    const onOpenDeleteModal = (QP) => {
+    const onOpenDeleteModal = (note) => {
         setOpenDelete(true);
-        setSelectedQP(QP)
+        setSelectedNote(note)
     }
     const onCloseDeleteModal = () => {
         setOpenDelete(false)
-        setSelectedQP(null)
+        setSelectedNote(null)
     }
     const handleDelete = (e) => {
         e.preventDefault();
-        if (selectedQP._id) {
-            axios.delete(`${urlBackend}/api/v1/delete-qp/${selectedQP._id}`)
+        if (selectedNote._id) {
+            axios.delete(`${urlBackend}/api/v4/delete-note/${selectedNote._id}`)
                 .then((response) => {
                     if (response.data.success) {
-                        getQPs()
-                        setQPList((prevQPList) =>
-                            prevQPList.filter(
-                                (QP) => QP._id !== selectedQP._id
+                        getNotes()
+                        setNotesList((prevNoteList) =>
+                            prevNoteList.filter(
+                                (note) => note._id !== selectedNote._id
                             )
                         );
-                        toast.success('QP deleted successfully !',
+                        toast.success('Note deleted successfully !',
                             {
                                 autoClose: 2000,
                                 position: 'bottom-center'
                             })
                     } else {
-                        toast.error('Failed to delete QP', {
+                        toast.error('Failed to delete note', {
                             autoClose: 2000,
                             position: 'bottom-center'
                         });
@@ -169,18 +169,18 @@ function ManageQP() {
             formData.append('subject', selectedSubject);
 
 
-            axios.put(`${urlBackend}/api/v1/update-qp/${selectedQP._id}`, formData)
+            axios.put(`${urlBackend}/api/v4/update-note/${selectedNote._id}`, formData)
                 .then((response) => {
 
                     if (response.data.success) {
-                        getQPs()
+                        getNotes()
                         // Update facultyList with the updated faculty data
-                        setQPList((prevQPList) =>
-                            prevQPList.map((QP) =>
-                                QP._id === selectedQP ? response.data.updatedQP : QP
+                        setNotesList((prevNoteList) =>
+                            prevNoteList.map((note) =>
+                                note._id === selectedNote._id ? response.data.updatedNote : note
                             )
                         );
-                        toast.success('QP Updated Successfully', {
+                        toast.success('Note Updated Successfully', {
                             autoClose: 2000,
                             closeButton: true,
                             position: "bottom-center"
@@ -188,7 +188,7 @@ function ManageQP() {
 
                         onCloseModal();
                     } else {
-                        toast.error('QP or Name is already exist',
+                        toast.error('Note or Name is already exist',
                             {
                                 autoClose: 2000,
                                 position: 'bottom-center'
@@ -204,53 +204,54 @@ function ManageQP() {
     };
     return (
         <div className='h-screen bg-blue-50'>
-            <div className="w-[100%]  mt-10 max-md:mt-2 flex justify-center  items-center">
+            <div className="w-[100%]  mt-10 max-md:mt-2 flex justify-center items-center">
                 {loader ? <div className='flex justify-center items-center mt-32'>
                     <BarLoader color="blue"
+
                     />
                 </div>
                     :
                     <div className='text-left overflow-y-auto max-h-[500px]  rounded-md w-[100%] px-2'>
-                        <table className='w-[100%] border-2  rounded-md '>
+                        <table className='w-[100%] border-2 rounded-md '>
                             <thead className='sticky top-0 '>
-                                <tr className='bg-slate-950 text-white border-2 border-slate-950'>
-                                    <th className='  p-2 px-4'>SR.No</th>
-                                    <th className='  p-2 px-4 '>Name</th>
-                                    <th className='  p-2 px-4 ' >Semester</th>
-                                    <th className='  p-2 px-4 '>Subject</th>
-                                    <th className='  p-2 px-4'>QPs</th>
-                                    <th className='  p-2 px-4'>Edit</th>
+                                <tr className='bg-slate-950 text-lg text-white border-2 border-slate-950'>
+                                    <th className='   py-2 px-4'>SR.No</th>
+                                    <th className='  py-2 px-4'>Name</th>
+                                    <th className='  py-2 px-4'>Semester</th>
+                                    <th className='  py-2 px-4'>Subject</th>
+                                    <th className='  py-2 px-4'>Notes</th>
+                                    <th className='  py-2 px-4'>Edit</th>
                                 </tr>
                             </thead>
-                            {QPList?.length === 0 ? 
+
+                            {notesList?.length === 0 ?
                                 <tr className=''>
-                                   <td className='p-2 px-4 w-24'></td>
-                                   <td className='p-2 px-4 w-24'></td>
-                                    <td className='p-2 px-4 w-44'>No Data Found</td>
-                                   <td className='p-2 px-4 w-20'></td>
-                                   <td className='p-2 px-4 w-20'></td>
-                                   <td className='p-2 px-4 w-20'></td>
-                                   </tr>
-                                 :
+                                    <td className='p-2 w-24'></td>
+                                    <td className='p-2 w-24'></td>
+                                    <td className='p-6 w-44 font-semibold'>No Data Found</td>
+                                    <td className='p-2 w-20'></td>
+                                    <td className='p-2 w-20'></td>
+                                    <td className='p-2 w-20'></td>
+                                </tr>
+                                :
+
                                 <tbody className='bg-slate-800 text-white '>
+                                    {notesList?.map((note, index) => (
+                                        <tr key={note._id} className='border-2 border-gray-700'>
+                                            <td className='  py-2 px-4'>{index + 1}</td>
+                                            <td className='  py-2 px-4'>{note.name}</td>
+                                            <td className='  py-2 px-4'>{note.semester.name}</td>
+                                            <td className='  py-2 px-4'>{note.subject.name}</td>
+                                            <td className='  py-2 px-4' ><Link target="_blank" to={note.link}>view</Link></td>
 
-                                {QPList?.map((QP, index) => (
-                                    <tr key={QP._id} className='border-2 border-gray-700'>
-                                        <td className='  p-2 px-4'>{index + 1}</td>
-                                        <td className='  p-2 px-4'>{QP.name}</td>
-                                        <td className='  p-2 px-4'>{QP.semester.name}</td>
-                                        <td className='  p-2 px-4'>{QP.subject.name}</td>
-                                        <td className='  p-2 px-4' ><Link target="_blank" to={QP.link}>view</Link></td>
-
-                                        <td className='  py-2 px-4'>
-                                            <div className='flex flex-row gap-4 justify-left'>
-                                                <button className='text-white font-semibold  bg-green-700 py-1 px-2 rounded-md' onClick={() => onOpenModal(QP)} >Update</button>
-                                                <button className='text-white font-semibold bg-red-700  py-1 px-2 rounded-md' onClick={() => onOpenDeleteModal(QP)}>Delete</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    ))
-                                }
+                                            <td className='  py-2 px-4'>
+                                                <div className='flex flex-row gap-4 justify-left'>
+                                                    <button className='text-white font-semibold  bg-green-700 py-1 px-2 rounded-md' onClick={() => onOpenModal(note)} >Update</button>
+                                                    <button className='text-white font-semibold bg-red-700  py-1 px-2 rounded-md' onClick={() => onOpenDeleteModal(note)}>Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             }
                         </table>
@@ -261,7 +262,7 @@ function ManageQP() {
             <Modal open={open} onClose={onCloseModal} center classNames={{ modal: 'updateModal' }}>
 
                 <div className='w-[100%] text-center  bg-white pb-10 mt-10'>
-                    <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Update Question Paper</h1>
+                    <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Add Notes</h1>
 
                     <div className="mt-14 max-md:mt-5 flex max-md:flex-col justify-between  items-center md:flex-row px-12 ">
                         <label htmlFor="semesters" className='font-semibold text-xl'>
@@ -305,7 +306,7 @@ function ManageQP() {
 
                         <br />
                         <button className='mt-8 w-[80%] bg-blue-800 rounded-lg py-2 text-xl text-white cursor-pointer hover:bg-blue-500'>
-                            Update
+                            Upload
                         </button>
                     </form>
                 </div>
@@ -322,4 +323,4 @@ function ManageQP() {
     )
 }
 
-export default ManageQP
+export default FManageNotes

@@ -55,12 +55,10 @@ const Navbar = () => {
                             ) : (
                                 <>
                                     <div className="flex flex-row">
-                                        <Link className='p-4 pr-0 font-bold uppercase hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' to='/Faculty/Dashboard' >{auth?.user?.username}</Link>
+                                        <Link className='p-4 pr-0 font-bold uppercase hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' to='/Faculty' >Faculty</Link>
                                         <li className="mt-2 cursor-pointer" >
-                                            <BiUserCircle onClick={() => navigate('/Faculty/Dashboard')} size={40} />
+                                            <BiUserCircle onClick={() => navigate('/Faculty')} size={40} />
                                         </li>
-
-
                                     </div>
                                 </>
                             )} 

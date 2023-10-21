@@ -10,10 +10,11 @@ function TimeTable() {
     const [shiftId, setShiftId] = useState('')
     const [timeTable, setTimeTable] = useState([])
     const [dateOnly,setDateOnly]=useState('')
+    const urlBackend = import.meta.env.VITE_BACKEND_API
     const getTimeTable = async () => {
         setLoader(true);
         try {
-            const response = await axios.get('http://localhost:3000/api/v2/get-timeTable', { params:{ semesterId: semesterId, shiftId: shiftId 
+            const response = await axios.get(`${urlBackend}/api/v2/get-timeTable`, { params:{ semesterId: semesterId, shiftId: shiftId 
         },});
             setTimeTable(response.data.timeTable);
             console.log(timeTable);
@@ -52,7 +53,7 @@ function TimeTable() {
                                         
                         <div className='flex justify-between px-[10%]'>
                             <h1 className='text-start font-semibold text-2xl max-md:text-sm'>{tt.name}</h1>
-                                <h1 className='text-start  text-lg max-md:text-sm font-semibold'>Created On: <span className='text-blue-700 max-md:text-sm'>{new Date(tt.createdAt).toLocaleDateString()}</span></h1>
+                            <h1 className='text-start  text-lg max-md:text-sm font-semibold'>Created On: <span className='text-blue-700 max-md:text-sm'>{new Date(tt.createdAt).toLocaleDateString()}</span></h1>
                         </div>
                            
                         <img src={tt.photo} alt="" className='mt-5  h-[500px] max-[600px]:h-max' />           

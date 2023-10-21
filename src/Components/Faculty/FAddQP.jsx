@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import img1 from '../../Images/AddNotes.png'
 import { Select } from 'antd'
+import img1 from '../../Images/AddNotes.png'
 import { Option } from 'antd/es/mentions';
 import axios from 'axios'
 import toast from 'react-hot-toast';
-function AddNotes() {
+import themeHook from '../Admin/ContextP'
+function FAddQP() {
     const [semesterList, setSemesterList] = useState([]);
     const [subjectList, setSubjectList] = useState([]);
     const [selectedSem, setSelectedSem] = useState('');
     const [selectedSubject, setSelectedSubject] = useState('')
     const [nName, setNName] = useState('')
     const [link, setLink] = useState('')
-    const [role, setRole] = useState(1)
-    // const [subjectName,setSubjectName]=useState('')
-    // const [semesterName,setSemesterName]=useState('')
     const urlBackend = import.meta.env.VITE_BACKEND_API
+    const {auth}=themeHook()
     const handleChangeSemester = (value) => {
         setSelectedSem(value);
         setSelectedSubject('');
@@ -23,7 +22,7 @@ function AddNotes() {
     const handleChangeSubject = (value) => {
         setSelectedSubject(value);
         console.log(value);
-    }
+    };
     const allSem = () => {
         axios.get(`${urlBackend}/api/v1/get-semesters`).then((response) => {
             if (response.data.success) {
@@ -98,29 +97,29 @@ function AddNotes() {
             formData.append('link', link);
             formData.append('subject', selectedSubject);
             formData.append('semester', selectedSem);
-            formData.append('role', role);
+            formData.append('role', auth?.user?.phone);
 
             try {
-                const response = await axios.post(`${urlBackend}/api/v1/add-notes`, formData, {
+                const response = await axios.post(`${urlBackend}/api/v4/add-qp`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
 
                 if (response.data.success) {
-                    toast.success('Notes Added Successfully!', {
+                    toast.success('Question Paper Added Successfully!', {
                         autoClose: 2000,
                         position: 'bottom-center',
                     });
                 } else {
-                    toast.error('Note already Exist with this name', {
+                    toast.error('Question paper with name Already Exist', {
                         autoClose: 2000,
                         position: 'bottom-center',
                     });
                 }
             } catch (error) {
                 console.error('Error:', error);
-                toast.error('Failed to Add Notes ', {
+                toast.error('Failed to Add Question paper ', {
                     autoClose: 2000,
                     position: 'bottom-center',
                 });
@@ -132,53 +131,51 @@ function AddNotes() {
     })
     return (
         <div className='h-screen overflow-y-scroll pb-10 bg-blue-50'>
-            <div className="w-[100%] mt-8 max-md:mt-8 flex justify-center items-center">
-                <div className="w-[80%] max-[806px]:w-[96%] flex md:flex-row max-md:flex-col-reverse   bg-white shadow-xl rounded-md">
-                    <div className='w-[100%] text-center bg-white pb-10 mt-10 '>
-                        <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Add Notes</h1>
-                        <div className='w-[100%] flex flex-col justify-center items-center px-[10%]'>
-                            <div className="mt-14 max-md:mt-5 flex max-md:flex-col justify-between  items-center md:flex-row w-[100%] ">
-                                <label htmlFor="semesters" className='font-semibold text-xl'>
-                                    Select Semester:
-                                </label>
-                                <Select
-                                    id="semesters"
-                                    className="max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none"
-                                    placeholder='Select Semester'
-                                    onChange={handleChangeSemester}
-                                >
-                                    {semesterList?.map((semester) => (
-                                        <Option key={semester._id} value={semester._id}>
-                                            {semester.name}
-                                        </Option>
-                                    ))}
+            <div className="w-[100%] mt-10 max-md:mt-2 flex justify-center items-center max-xl:px-2 ">
+                <div className="w-[80%] max-sm:w-[96%] flex md:flex-row- max-md:flex-col-reverse p-3 bg-white shadow-xl rounded-md">
+                    <div className='w-[100%] text-center  bg-white pb-10 mt-10'>
+                        <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Add Question paper</h1>
 
-                                </Select>
-                            </div>
-                            <div className="mt-5 flex max-md:flex-col justify-between  items-center md:flex-row w-[100%]">
-                                <label htmlFor="semesters" className='font-semibold text-xl'>
-                                    Select Subject:
-                                </label>
-                                <Select
-                                    id="semesters"
-                                    className="max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none"
-                                    placeholder='Select Subject'
-                                    onChange={handleChangeSubject}
-                                >
-                                    {
-                                        subjectList?.map((subject) => {
+                        <div className="mt-14 max-md:mt-5 flex max-md:flex-col justify-between  items-center md:flex-row px-12 ">
+                            <label htmlFor="semesters" className='font-semibold text-xl'>
+                                Select Semester:
+                            </label>
+                            <Select
+                                id="semesters"
+                                className="max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none"
+                                placeholder='Select Semester'
+                                onChange={handleChangeSemester}
+                            >
+                                {semesterList?.map((semester) => (
+                                    <Option key={semester._id} value={semester._id}>
+                                        {semester.name}
+                                    </Option>
+                                ))}
 
-                                            return <Option key={subject._id} value={subject._id} >{subject.name}</Option>
-                                        })
-                                    }
+                            </Select>
+                        </div>
+                        <div className="mt-5 flex max-md:flex-col justify-between  items-center md:flex-row px-12">
+                            <label htmlFor="semesters" className='font-semibold text-xl'>
+                                Select Subject:
+                            </label>
+                            <Select
+                                id="semesters"
+                                className="max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none"
+                                placeholder='Select Subject'
+                                onChange={handleChangeSubject}
+                            >
+                                {
+                                    subjectList?.map((subject) => {
+                                        return <Option key={subject._id} value={subject._id} >{subject.name}</Option>
+                                    })
+                                }
 
-                                </Select>
-                            </div>
+                            </Select>
                         </div>
                         <form className='mt-5 text-black' onSubmit={handleOnSubmit}>
                             <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Name'
-                                onChange={(e) => setNName(e.target.value)} required />
-                            <input type="url" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Link' onChange={(e) => setLink(e.target.value)} required />
+                                onChange={(e) => setNName(e.target.value)} />
+                            <input type="url" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Link' onChange={(e) => setLink(e.target.value)} />
 
                             <br />
                             <button className='mt-8 w-[80%] bg-blue-800 rounded-lg py-2 text-xl text-white cursor-pointer hover:bg-blue-500'>
@@ -196,4 +193,4 @@ function AddNotes() {
     )
 }
 
-export default AddNotes
+export default FAddQP

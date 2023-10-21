@@ -16,13 +16,14 @@ function StudentQuesPaper() {
     const [selectedSubject, setSelectedSubject] = useState('')
     const [quesList, setQuesList] = useState([])
     const [subjectList, setSubjectList] = useState([])
+    const urlBackend = import.meta.env.VITE_BACKEND_API
     const handleChangeSubject = (value) => {
         setSelectedSubject(value);
         console.log(value);
         getQuesPBySubject(value)
     }
     const allSubjects = (semesterId) => {
-        axios.get(`http://localhost:3000/api/v1/subjects/${semesterId}`).then((response) => {
+        axios.get(`${urlBackend}/api/v1/subjects/${semesterId}`).then((response) => {
             if (response.data.success) {
                 setSubjectList(response.data.subjects);
                 console.log(subjectList);
@@ -37,7 +38,7 @@ function StudentQuesPaper() {
     const getAllQuesP = () => {
         setLoader(true)
         axios
-            .get(`http://localhost:3000/api/v2/get-quesP/${semesterId}`)
+            .get(`${urlBackend}/api/v2/get-quesP/${semesterId}`)
             .then((response) => {
                 if (response.data.success) {
                     setQuesList(response.data.quesP);
@@ -62,7 +63,7 @@ function StudentQuesPaper() {
     const getQuesPBySubject = (selectedSubject) => {
         setLoader(true)
         axios
-            .get(`http://localhost:3000/api/v2/get-quesP-by-subject/${selectedSubject}`)
+            .get(`${urlBackend}/api/v2/get-quesP-by-subject/${selectedSubject}`)
             .then((response) => {
                 if (response.data.success) {
                     setQuesList(response.data.quesP);
@@ -89,7 +90,7 @@ function StudentQuesPaper() {
         e.preventDefault();
         setLoader(true);
         try {
-            const response = await axios.get('http://localhost:3000/api/v2/search-quesP', {
+            const response = await axios.get(`${urlBackend}/api/v2/search-quesP`, {
                 params: { search, semester: semesterId },
             });
             setQuesList(response.data.quesP);

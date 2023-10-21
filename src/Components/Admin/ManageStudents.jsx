@@ -25,7 +25,7 @@ function ManageStudents() {
     const [phone, setPhone] = useState('');
     const [shiftPlaceholder, setShiftPlaceholder] = useState('')
     const [semesterPlaceholder, setSemesterPlaceholder] = useState('')
-
+    const urlBackend = import.meta.env.VITE_BACKEND_API
     const handleChangeSemester = (value) => {
         setSelectedSem(value);
         setSelectedShift('');
@@ -36,7 +36,7 @@ function ManageStudents() {
         console.log(value);
     }
     const allShifts = (selectedSemesterId) => {
-        axios.get(`http://localhost:3000/api/v1/get-shifts/${selectedSemesterId}`).then((response) => {
+        axios.get(`${urlBackend}/api/v1/get-shifts/${selectedSemesterId}`).then((response) => {
             if (response.data.success) {
                 setShiftList(response.data.shifts);
             } else {
@@ -48,7 +48,7 @@ function ManageStudents() {
     }
 
     const allSem = () => {
-        axios.get('http://localhost:3000/api/v1/get-semesters').then((response) => {
+        axios.get(`${urlBackend}/api/v1/get-semesters`).then((response) => {
             if (response.data.success) {
                 setSemesterList(response.data.semesters);
             } else {
@@ -63,7 +63,7 @@ function ManageStudents() {
     }, [])
 
     const getStudents = () => {
-        axios.get('http://localhost:3000/api/v1/get-students').then((response) => {
+        axios.get(`${urlBackend}/api/v1/get-students`).then((response) => {
             if (response.data.success) {
                 console.log(response.data.students)
                 setStudentList(response.data.students);
@@ -118,7 +118,7 @@ function ManageStudents() {
     const handleDelete = (e) => {
         e.preventDefault();
         if (selectedStudent._id) {
-            axios.delete(`http://localhost:3000/api/v1/delete-student/${selectedStudent._id}`)
+            axios.delete(`${urlBackend}/api/v1/delete-student/${selectedStudent._id}`)
                 .then((response) => {
                     if (response.data.success) {
                         getStudents()
@@ -217,7 +217,7 @@ function ManageStudents() {
             formData.append('phone', phone);
             formData.append('semester', selectedSem);
             formData.append('shift', selectedShift);
-            axios.put(`http://localhost:3000/api/v1/update-student/${selectedStudent._id}`, formData)
+            axios.put(`${urlBackend}/api/v1/update-student/${selectedStudent._id}`, formData)
                 .then((response) => {
 
                     if (response.data.success) {

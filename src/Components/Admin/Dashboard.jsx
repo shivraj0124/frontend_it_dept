@@ -13,20 +13,21 @@ function Dashboard() {
     const [qPS,setTotalQPS]=useState(0)
     const [tTS,setTotalTTS]=useState(0)
     const [notices,setTotalNotices]=useState(0)
+    const urlBackend = import.meta.env.VITE_BACKEND_API
     useEffect(() => {
-        axios.get('http://localhost:3000/api/v1/faculties-count').then((response) => {
+        axios.get(`${urlBackend}/api/v1/faculties-count`).then((response) => {
             setTotalFaculties(response.data.totalFaculties);
         });
-        axios.get('http://localhost:3000/api/v1/notes-count').then((response) => {
+        axios.get(`${urlBackend}/api/v1/notes-count`).then((response) => {
             setTotalNotes(response.data.totalNotes);
         });
-        axios.get('http://localhost:3000/api/v1/qp-count').then((response) => {
+        axios.get(`${urlBackend}/api/v1/qp-count`).then((response) => {
             setTotalQPS(response.data.totalQP);
         });
-        axios.get('http://localhost:3000/api/v1/timeTable-count').then((response) => {
+        axios.get(`${urlBackend}/api/v1/timeTable-count`).then((response) => {
             setTotalTTS(response.data.totalTimetables);
         });
-        axios.get('http://localhost:3000/api/v1/notice-count').then((response) => {
+        axios.get(`${urlBackend}/api/v1/notice-count`).then((response) => {
             setTotalNotices(response.data.totalNotices);
         });
     }, []);

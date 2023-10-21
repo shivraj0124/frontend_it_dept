@@ -22,6 +22,7 @@ function ManageTimeTable() {
     const [photo, setPhoto] = useState(null);
     const [shiftPlaceholder, setShiftPlaceholder] = useState('')
     const [semesterPlaceholder, setSemesterPlaceholder] = useState('')
+    const urlBackend = import.meta.env.VITE_BACKEND_API
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         setPhoto(file);
@@ -36,7 +37,7 @@ function ManageTimeTable() {
         console.log(value);
     }
     const allShifts = (selectedSemesterId) => {
-        axios.get(`http://localhost:3000/api/v1/get-shifts/${selectedSemesterId}`).then((response) => {
+        axios.get(`${urlBackend}/api/v1/get-shifts/${selectedSemesterId}`).then((response) => {
             if (response.data.success) {
                 setShiftList(response.data.shifts);
             } else {
@@ -48,7 +49,7 @@ function ManageTimeTable() {
     }
 
     const allSem = () => {
-        axios.get('http://localhost:3000/api/v1/get-semesters').then((response) => {
+        axios.get(`${urlBackend}/api/v1/get-semesters`).then((response) => {
             if (response.data.success) {
                 setSemesterList(response.data.semesters);
             } else {
@@ -63,7 +64,7 @@ function ManageTimeTable() {
     }, [])
 
     const getTTs = () => {
-        axios.get('http://localhost:3000/api/v1/get-timetables').then((response) => {
+        axios.get(`${urlBackend}/api/v1/get-timetables`).then((response) => {
             if (response.data.success) {
                 setTTList(response.data.timeTable);
                 console.log(response.data.timeTable)
@@ -114,7 +115,7 @@ function ManageTimeTable() {
     const handleDelete = (e) => {
         e.preventDefault();
         if (selectedTT._id) {
-            axios.delete(`http://localhost:3000/api/v1/delete-TT/${selectedTT._id}`)
+            axios.delete(`${urlBackend}/api/v1/delete-TT/${selectedTT._id}`)
                 .then((response) => {
                     if (response.data.success) {
                         getTTs()
@@ -174,7 +175,7 @@ function ManageTimeTable() {
                 formData.append('photo', photo);
             }
 
-            axios.put(`http://localhost:3000/api/v1/update-TT/${selectedTT._id}`, formData)
+            axios.put(`${urlBackend}/api/v1/update-TT/${selectedTT._id}`, formData)
                 .then((response) => {
 
                     if (response.data.success) {

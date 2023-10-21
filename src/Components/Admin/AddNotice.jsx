@@ -6,7 +6,7 @@ export default function AddNotice() {
     const [title,setTitle]=useState('')
     const [link,setLink]=useState('')
     const [description,setDescription]=useState('')
-
+    const urlBackend = import.meta.env.VITE_BACKEND_API
     // alert('Hello')
     const handleOnSubmit=async (e)=>{
         e.preventDefault()
@@ -47,7 +47,7 @@ export default function AddNotice() {
         formData.append('description', description);
 
         try {
-            const response = await axios.post('http://localhost:3000/api/v1/add-notice', formData, {
+            const response = await axios.post(`${urlBackend}/api/v1/add-notice`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -75,16 +75,16 @@ export default function AddNotice() {
     }
     return (
         <div className='h-screen overflow-y-scroll pb-10 bg-blue-50'>
-        <div className="w-100 mt-5 justify-center max-xl:px-2 xl:px-36 ">
-            <div className="w-[100%] flex md:flex-row- max-md:flex-col-reverse p-3 bg-white shadow-xl rounded-md">
-                <div className='w-[100%] text-center  bg-white pb-10'>
+        <div className="w-[100%] mt-5 flex justify-center items-center">
+                <div className="w-[80%] max-[806px]:w-[96%] flex md:flex-row- max-md:flex-col-reverse p-3 bg-white shadow-xl rounded-md">
+                <div className='w-[100%] text-center  bg-white max-md:pb-10 pb-6'>
                     <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Add Notice</h1>
-                    <form className='mt-10 text-black' onSubmit={handleOnSubmit}>
+                    <form className='mt-5 text-black' onSubmit={handleOnSubmit}>
                         <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Title' onChange={(e)=>setTitle(e.target.value)} required />
                         <br />
                         <input type="url" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Link (Optional)' onChange={(e)=>setLink(e.target.value)} />
                         <br />
-                        <textarea className='placeholder:text-slate-400 border-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none rounded-md p-5 text-xl font-semibold mt-10 w-[80%]  ' rows={5}  placeholder='Description..' onChange={(e)=>setDescription(e.target.value)} required>
+                        <textarea className='placeholder:text-slate-400 border-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none rounded-md p-5 text-xl font-semibold max-xl:mt-2 mt-10 w-[80%]  ' rows={5}  placeholder='Description..' onChange={(e)=>setDescription(e.target.value)} required>
 
                         </textarea>
                         <br />

@@ -3,12 +3,13 @@ import axios from 'axios';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 import toast from 'react-hot-toast';
-import './AdminComponents.css';
+import '../Admin/AdminComponents.css';
 import BarLoader from 'react-spinners/BarLoader'
 import { Link } from 'react-router-dom'
 import { Select } from 'antd'
 import { Option } from 'antd/es/mentions';
-function ManageQP() {
+import themeHook from '../Admin/ContextP'
+function FManageQP() {
     const [open, setOpen] = useState(false);
     const [QPList, setQPList] = useState('')
     const [loader, setLoader] = useState(true)
@@ -23,6 +24,7 @@ function ManageQP() {
     const [subjectPlaceholder, setSubjectPlaceholder] = useState('')
     const [semesterPlaceholder, setSemesterPlaceholder] = useState('')
     const urlBackend = import.meta.env.VITE_BACKEND_API
+    const { auth } = themeHook()
     const handleChangeSemester = (value) => {
         setSelectedSem(value);
         setSelectedSubject('');
@@ -60,7 +62,7 @@ function ManageQP() {
     }, [])
 
     const getQPs = () => {
-        axios.get(`${urlBackend}/api/v1/get-qp`).then((response) => {
+        axios.get(`${urlBackend}/api/v4/get-qp/${auth?.user?.phone}`).then((response) => {
             if (response.data.success) {
                 setQPList(response.data.qP);
                 console.log(response.data.qP)
@@ -110,7 +112,7 @@ function ManageQP() {
     const handleDelete = (e) => {
         e.preventDefault();
         if (selectedQP._id) {
-            axios.delete(`${urlBackend}/api/v1/delete-qp/${selectedQP._id}`)
+            axios.delete(`${urlBackend}/api/v4/delete-qp/${selectedQP._id}`)
                 .then((response) => {
                     if (response.data.success) {
                         getQPs()
@@ -169,7 +171,7 @@ function ManageQP() {
             formData.append('subject', selectedSubject);
 
 
-            axios.put(`${urlBackend}/api/v1/update-qp/${selectedQP._id}`, formData)
+            axios.put(`${urlBackend}/api/v4/update-qp/${selectedQP._id}`, formData)
                 .then((response) => {
 
                     if (response.data.success) {
@@ -222,35 +224,35 @@ function ManageQP() {
                                     <th className='  p-2 px-4'>Edit</th>
                                 </tr>
                             </thead>
-                            {QPList?.length === 0 ? 
+                            {QPList?.length === 0 ?
                                 <tr className=''>
-                                   <td className='p-2 px-4 w-24'></td>
-                                   <td className='p-2 px-4 w-24'></td>
+                                    <td className='p-2 px-4 w-24'></td>
+                                    <td className='p-2 px-4 w-24'></td>
                                     <td className='p-2 px-4 w-44'>No Data Found</td>
-                                   <td className='p-2 px-4 w-20'></td>
-                                   <td className='p-2 px-4 w-20'></td>
-                                   <td className='p-2 px-4 w-20'></td>
-                                   </tr>
-                                 :
+                                    <td className='p-2 px-4 w-20'></td>
+                                    <td className='p-2 px-4 w-20'></td>
+                                    <td className='p-2 px-4 w-20'></td>
+                                </tr>
+                                :
                                 <tbody className='bg-slate-800 text-white '>
 
-                                {QPList?.map((QP, index) => (
-                                    <tr key={QP._id} className='border-2 border-gray-700'>
-                                        <td className='  p-2 px-4'>{index + 1}</td>
-                                        <td className='  p-2 px-4'>{QP.name}</td>
-                                        <td className='  p-2 px-4'>{QP.semester.name}</td>
-                                        <td className='  p-2 px-4'>{QP.subject.name}</td>
-                                        <td className='  p-2 px-4' ><Link target="_blank" to={QP.link}>view</Link></td>
+                                    {QPList?.map((QP, index) => (
+                                        <tr key={QP._id} className='border-2 border-gray-700'>
+                                            <td className='  p-2 px-4'>{index + 1}</td>
+                                            <td className='  p-2 px-4'>{QP.name}</td>
+                                            <td className='  p-2 px-4'>{QP.semester.name}</td>
+                                            <td className='  p-2 px-4'>{QP.subject.name}</td>
+                                            <td className='  p-2 px-4' ><Link target="_blank" to={QP.link}>view</Link></td>
 
-                                        <td className='  py-2 px-4'>
-                                            <div className='flex flex-row gap-4 justify-left'>
-                                                <button className='text-white font-semibold  bg-green-700 py-1 px-2 rounded-md' onClick={() => onOpenModal(QP)} >Update</button>
-                                                <button className='text-white font-semibold bg-red-700  py-1 px-2 rounded-md' onClick={() => onOpenDeleteModal(QP)}>Delete</button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            <td className='  py-2 px-4'>
+                                                <div className='flex flex-row gap-4 justify-left'>
+                                                    <button className='text-white font-semibold  bg-green-700 py-1 px-2 rounded-md' onClick={() => onOpenModal(QP)} >Update</button>
+                                                    <button className='text-white font-semibold bg-red-700  py-1 px-2 rounded-md' onClick={() => onOpenDeleteModal(QP)}>Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     ))
-                                }
+                                    }
                                 </tbody>
                             }
                         </table>
@@ -322,4 +324,4 @@ function ManageQP() {
     )
 }
 
-export default ManageQP
+export default FManageQP

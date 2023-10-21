@@ -5,8 +5,11 @@ import BarLoader from 'react-spinners/BarLoader';
 import toast from 'react-hot-toast';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
-
-export default function ManageNotice() {
+import themeHook from '../Admin/ContextP'
+import { Select } from 'antd'
+import { Option } from 'antd/es/mentions';
+import '../Admin/AdminComponents.css'
+export default function FManageNotices() {
     const [open, setOpen] = useState(false);
     const [openDes, setOpenDes] = useState(false);
     const [title, setTitle] = useState('');
@@ -16,16 +19,53 @@ export default function ManageNotice() {
     const [loader, setLoader] = useState(true);
     const [selectedNotice, setSelectedNotice] = useState(null);
     const [noticeList, setNoticeList] = useState([]);
+    const [semesterList, setSemesterList] = useState([]);
+    const [shiftList, setShiftList] = useState([]);
+    const [selectedSem, setSelectedSem] = useState('');
+    const [selectedShift, setSelectedShift] = useState('')
+    const [shiftPlaceholder, setShiftPlaceholder] = useState('')
+    const [semesterPlaceholder, setSemesterPlaceholder] = useState('')
+    const {auth}=themeHook();
     const urlBackend = import.meta.env.VITE_BACKEND_API
     const handleDescriptionModal = (notice) => {
         setOpenDes(true);
         setDescriptionView(notice.description);
     };
-
+    const handleChangeSemester = (value) => {
+        setSelectedSem(value);
+        setSelectedShift('');
+        allShifts(value);
+    };
+    const handleChangeShift = (value) => {
+        setSelectedShift(value);
+        console.log(value);
+    }
     const onCloseDes = () => {
         setOpenDes(false);
     };
+    const allShifts = (selectedSemesterId) => {
+        axios.get(`${urlBackend}/api/v1/get-shifts/${selectedSemesterId}`).then((response) => {
+            if (response.data.success) {
+                setShiftList(response.data.shifts);
+            } else {
+                console.error('Failed to Fetch Subjects');
+            }
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+    }
 
+    const allSem = () => {
+        axios.get(`${urlBackend}/api/v1/get-semesters`).then((response) => {
+            if (response.data.success) {
+                setSemesterList(response.data.semesters);
+            } else {
+                console.error('Failed to Fetch Semesters');
+            }
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+    };
     const [openDelete, setOpenDelete] = useState(false);
     const openDeleteModal = (notice) => {
         setOpenDelete(true);
@@ -38,7 +78,7 @@ export default function ManageNotice() {
     const handleDelete = (e) => {
         e.preventDefault();
         if (selectedNotice && selectedNotice._id) {
-            axios.delete(`${urlBackend}/api/v1/delete-notice/${selectedNotice._id}`)
+            axios.delete(`${urlBackend}/api/v4/delete-notice/${selectedNotice._id}`)
                 .then((response) => {
                     if (response.data.success) {
                         getNotices();
@@ -68,10 +108,15 @@ export default function ManageNotice() {
 
     const onOpenModal = (notice) => {
         setOpen(true);
+        allSem()
         setSelectedNotice(notice);
         setTitle(notice.title);
         setLink(notice.link);
         setDescription(notice.description);
+        setSemesterPlaceholder(notice.semester.name)
+        setShiftPlaceholder(notice.shift.name)
+        setSelectedSem(notice.semester._id)
+        setSelectedShift(notice.shift._id)
     };
 
     const onCloseModal = () => {
@@ -80,14 +125,18 @@ export default function ManageNotice() {
         setTitle('');
         setLink('');
         setDescription('');
+        setSemesterPlaceholder('')
+        setShiftPlaceholder('')
+        setSelectedSem('')
+        setSelectedShift('')
     };
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
         let updateOrNot = 1;
-        const arr = [title,description];
+        const arr = [title, description];
         let countLoop = 0;
-        arr.map((item,index) => {
+        arr.map((item, index) => {
             // alert(item);
             item.replace(/\s+/g, '');
             if (item.trim() === '') {
@@ -100,8 +149,8 @@ export default function ManageNotice() {
                     }) : toast.error(`Description Field must be filled`, {
                         autoClose: 2000,
                         position: 'bottom-center',
-                    }); 
-                    
+                    });
+
             }
         });
 
@@ -110,7 +159,9 @@ export default function ManageNotice() {
             formData.append('title', title);
             formData.append('link', link);
             formData.append('description', description);
-            axios.put(`${urlBackend}/api/v1/update-notice/${selectedNotice._id}`, formData)
+            formData.append('semester', selectedSem);
+            formData.append('shift', selectedShift);
+            axios.put(`${urlBackend}/api/v4/update-notice/${selectedNotice._id}`, formData)
                 .then((response) => {
                     if (response.data.success) {
                         getNotices();
@@ -140,10 +191,10 @@ export default function ManageNotice() {
 
     const getNotices = () => {
         axios
-            .get(`${urlBackend}/api/v1/get-notices`)
+            .get(`${urlBackend}/api/v4/get-notices/${auth?.user?.phone}`)
             .then((response) => {
                 if (response.data.success) {
-                    setNoticeList(response.data.notice);
+                    setNoticeList(response.data.fNotice);
                 } else {
                     console.error('Failed to fetch Notice details');
                 }
@@ -173,6 +224,8 @@ export default function ManageNotice() {
                                     <th className="p-3 px-4   max-md:text-sm">SR.No</th>
                                     <th className="p-3 px-4  max-md:text-sm">Title</th>
                                     <th className="p-3 px-4  max-md:text-sm">Description</th>
+                                    <th className="p-3 px-4  max-md:text-sm">Semester</th>
+                                    <th className="p-3 px-4  max-md:text-sm">Shift</th>
                                     <th className="p-3  px-4 max-md:text-sm">Link</th>
                                     <th className="p-3 max-md:text-sm ">Edit</th>
                                 </tr>
@@ -181,7 +234,9 @@ export default function ManageNotice() {
                                 <tr>
                                     <td className="p-3 px-4 max-md:text-sm w-24"></td>
                                     <td className="p-3 px-4 max-md:text-sm w-24"></td>
+                                    <td className="p-3 px-4 w-20"></td>
                                     <td className="p-3 px-4 max-md:text-sm w-44">No Data Found</td>
+                                    <td className="p-3 px-4 w-20"></td>
                                     <td className="p-3 px-4 w-20"></td>
                                     <td className="p-3 px-4 w-20"></td>
                                 </tr>
@@ -192,10 +247,13 @@ export default function ManageNotice() {
                                             <td className="p-3 px-5   max-md:text-sm">{index + 1}</td>
                                             <td className="p-3 px-5    max-md:text-sm">{notice.title}</td>
                                             <td onClick={() => handleDescriptionModal(notice)} className='cursor-pointer p-3 px-4  max-md:text-sm '>View</td>
+                                            <td className="p-3 px-5    max-md:text-sm">{notice.semester.name}</td>
+                                            <td className="p-3 px-5    max-md:text-sm">{notice.shift.name}</td>
                                             <td className="p-3 px-5 max-md:text-sm">
-                                                <Link target="_blank" to={notice.link}>
+                                               { notice.link.length === 0 ?  <p>No Link</p>:<Link target="_blank" to={notice.link}>
                                                     View
                                                 </Link>
+}
                                             </td>
                                             <td className="p-3  max-md:text-sm ">
                                                 <div className="flex flex-row gap-2 justify-start min-[1150px]:w-[80px]">
@@ -218,24 +276,67 @@ export default function ManageNotice() {
                 </div>
             </Modal>
             <Modal open={open} onClose={onCloseModal} center classNames={{ modal: 'updateModal' }}>
-                <div className="w-[100%] md:w-[600px] mt-5 justify-center ">
-                    <div className="w-[100%] flex md:flex-row- max-md:flex-col-reverse bg-white rounded-md">
-                        <div className="w-[100%] text-center bg-white pb-10">
-                            <h1 className="text-center font-semibold text-2xl underline underline-offset-4">Update Notice</h1>
-                            <form className="mt-2 text-black" onSubmit={handleOnSubmit}>
-                                <input type="text" className="text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300 hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-                                <br />
-                                <input type="url" className="text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300 hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2" placeholder="Link (Optional)" value={link} onChange={(e) => setLink(e.target.value)} />
-                                <br />
-                                <textarea className="placeholder:text-slate-400 border-2 border-blue-300 hover:border-blue-900 focus:border-blue-900 focus:outline-none rounded-md p-5 text-xl font-semibold mt-10 w-[80%]" rows={5} placeholder="Description.." value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
-                                <br />
-                                <button className="mt-8 w-[80%] bg-blue-800 rounded-lg py-2 text-xl text-white cursor-pointer hover:bg-blue-500">
-                                    Update Notice
-                                </button>
-                            </form>
+                <div className='md:w-[700px] max-md:w-[450px]  mt-5  bg-white '>
+                    <h1 className='text-center font-semibold text-2xl underline underline-offset-4 mt-4'>Add Notice</h1>
+                    <div className='flex flex-row max-md:flex-col  w-[100%]  justify-center mt-6 '>
+                        <div className='mt-2 flex max-md:flex-col  items-center w-[100%] flex-row  '>
+                            <label htmlFor='semesters' className='font-semibold text-xl'>
+                                Select Semester:
+                            </label>
+                            <Select
+                                id='semesters'
+                                className='max-md:w-[80%] md:w-[57%] font-semibold  focus:outline-none'
+                                placeholder='Select Semester'
+                                defaultValue={semesterPlaceholder}
+                                onChange={handleChangeSemester}
+                            >
+                                {semesterList?.map((semester) => (
+                                    <Option key={semester._id} value={semester._id}>
+                                        {semester.name}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </div>
+                        <div className='mt-2 flex max-md:flex-col items-center flex-row w-[100%] '>
+                            <label htmlFor='shifts' className='font-semibold text-xl'>
+                                Select Shift:
+                            </label>
+                            <Select
+                                id='shifts'
+                                className='max-md:w-[80%] md:w-[57%] font-semibold  focus:outline-none'
+                                placeholder='Select Shift'
+                                defaultValue={shiftPlaceholder}
+                                onChange={handleChangeShift}
+                            >
+                                {shiftList?.map((shift) => (
+                                    <Option key={shift._id} value={shift._id}>
+                                        {shift.name}
+                                    </Option>
+                                ))}
+                            </Select>
                         </div>
                     </div>
+                    <form className='mt-2 text-black w-[100%] flex flex-col justify-center ' onSubmit={handleOnSubmit} >
+                        <input
+                            type='text'
+                            className='mt-2 text-xl font-semibold placeholder:text-slate-400 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[100%] '
+                            placeholder='Name e.g.(FYFS)'
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            required
+                        />
+                        <input type="url" className='text-xl font-semibold placeholder:text-slate-400 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[100%] my-2' placeholder='Link (Optional)' onChange={(e) => setLink(e.target.value)} value={link} />
+                        <br />
+                        <textarea className='placeholder:text-slate-400 border-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none rounded-md p-5 text-xl font-semibold mt-2 w-[100%]  ' rows={5} placeholder='Description..' onChange={(e) => setDescription(e.target.value)} value={description} required>
+
+                        </textarea>
+                        <br />
+                        <button className='mt-2 max-md:mt-5 w-[100%] bg-blue-800 rounded-lg py-2 text-xl text-white cursor-pointer hover:bg-blue-500'>
+                            Update Notice
+                        </button>
+                    </form>
                 </div>
+
             </Modal>
             <Modal open={openDelete} onClose={onCloseDeleteModal} center classNames={{ modal: 'deleteModal' }}>
                 <h1>Delete Record ?</h1>

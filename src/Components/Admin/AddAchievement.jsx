@@ -5,7 +5,7 @@ function AddAchievement() {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [photo, setPhoto] = useState(null);
-
+    const urlBackend = import.meta.env.VITE_BACKEND_API
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         setPhoto(file);
@@ -57,14 +57,14 @@ function AddAchievement() {
             formData.append('photo', photo);
 
             try {
-                const response = await axios.post('http://localhost:3000/api/v1/add-achievements', formData, {
+                const response = await axios.post(`${urlBackend}/api/v1/add-achievements`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
                 console.log(response.data);
                 if (response.data.success) {
-                    toast.success('Registration Successfully!', {
+                    toast.success('Achievement Added Successfully!', {
                         autoClose: 2000,
                         position: "bottom-center"
                     });
@@ -93,8 +93,8 @@ function AddAchievement() {
     };
   return (
       <div className='h-screen overflow-y-scroll pb-10 bg-blue-50'>
-          <div className="w-100 mt-5 justify-center max-xl:px-2 xl:px-40 ">
-              <div className="w-[100%] flex md:flex-row- max-md:flex-col-reverse bg-white shadow-xl rounded-md">
+          <div className="w-100 mt-5 flex justify-center max-xl:px-2 ">
+              <div className="w-[90%] flex md:flex-row-1 max-md:flex-col bg-white shadow-xl rounded-lg ">
                   <div className='w-[100%] text-center  bg-white pb-10'>
                       <h1 className='text-center font-semibold text-2xl underline underline-offset-4 mt-2'>Add Achievement</h1>
                       <form className='mt-10 text-black' onSubmit={handleOnSubmit}>

@@ -12,12 +12,13 @@ function ManageFaculty() {
     const [selectedFacultyId, setSelectedFacultyId] = useState(null);//for delete record
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [qualification, setQualification] = useState('');
     const [post, setPost] = useState('');
     const [experience, setExperience] = useState('');
     const [photo, setPhoto] = useState(null);
     const [loader, setLoader] = useState(true)
-
+    const urlBackend = import.meta.env.VITE_BACKEND_API
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         setPhoto(file);
@@ -25,7 +26,7 @@ function ManageFaculty() {
 
     useEffect(() => {
         // Fetch faculty details
-        axios.get('http://localhost:3000/api/v1/manage-faculty')
+        axios.get(`${urlBackend}/api/v1/manage-faculty`)
             .then((response) => {
                 if (response.data.success) {
                     setFacultyList(response.data.faculties);
@@ -45,6 +46,7 @@ function ManageFaculty() {
         // Set initial values for form fields based on the selected faculty
         setName(faculty.name);
         setEmail(faculty.email);
+        setPhone(faculty.phone);
         setQualification(faculty.qualification);
         setPost(faculty.post);
         setExperience(faculty.experience);
@@ -58,6 +60,7 @@ function ManageFaculty() {
         // Clear form fields
         setName('');
         setEmail('');
+        setPhone('');
         setQualification('');
         setPost('');
         setExperience('');
@@ -66,8 +69,9 @@ function ManageFaculty() {
     // const [updateOrNot, setUpdateOrNot] = useState(1)
     const updateFaculty = (e) => {
         e.preventDefault();
+        console.log(selectedFaculty)
         let updateOrNot=1;
-        const arr = [name, email, qualification, post, experience];
+        const arr = [name, email,phone, qualification, post, experience];
         let countLoop=0;
         arr.map((item, key) => {
             
@@ -87,6 +91,7 @@ function ManageFaculty() {
             const formData = new FormData();
             formData.append('name', name);
             formData.append('email', email.replace(/\s+/g, ''));
+            formData.append('phone', phone);
             formData.append('qualification', qualification);
             formData.append('post', post);
             formData.append('experience', experience);
@@ -94,7 +99,7 @@ function ManageFaculty() {
                 formData.append('photo', photo);
             }
 
-            axios.put(`http://localhost:3000/api/v1/update-faculty/${selectedFaculty._id}`, formData)
+            axios.put(`${urlBackend}/api/v1/update-faculty/${selectedFaculty._id}`, formData)
                 .then((response) => {
                     
                     if (response.data.success) {
@@ -129,24 +134,24 @@ function ManageFaculty() {
     };
 
     const [openDelete, setOpenDelete] = useState(false)
-    const onOpenDeleteModal = (facultyId) => {
+    const onOpenDeleteModal = (faculty) => {
         setOpenDelete(true);
-        setSelectedFacultyId(facultyId)
+        setSelectedFaculty(faculty)
     }
     const onCloseDeleteModal = () => {
         setOpenDelete(false)
-        setSelectedFacultyId(null)
+        setSelectedFaculty(null)
     }
 
     const handleDelete = (e) => {
         e.preventDefault();
-        if (selectedFacultyId._id) {
-            axios.delete(`http://localhost:3000/api/v1/delete-faculty/${selectedFacultyId._id}`)
+        console.log(selectedFaculty)
+        if (selectedFaculty._id) {
+            axios.delete(`${urlBackend}/api/v1/delete-faculty/${selectedFaculty._id}`)
                 .then((response) => {
                     if (response.data.success) {
                         setFacultyList((prevFacultyList) =>
-                            prevFacultyList.filter(
-                                (faculty) => faculty._id !== selectedFacultyId._id
+                            prevFacultyList.filter((faculty) => faculty._id !== selectedFaculty._id
                             )
                         );
                         toast.success('Faculty deleted successfully !',
@@ -181,13 +186,14 @@ function ManageFaculty() {
                     />
                 </div>
                     :
-                    <div className='text-left overflow-y-auto max-xl:max-h-[400px] max-h-[500px] rounded-md bg-red-900 md:w-[80%]'>
+                    <div className='text-left overflow-y-auto max-xl:max-h-[400px] max-h-[500px] rounded-md  md:w-[100%] px-2'>
                         <table className='w-[100%] border-collapse rounded-md'>
                             <thead className='sticky top-0  '>
                                 <tr className='bg-slate-950 text-white border-slate-950 rounded-md'>
                                     <th className='   py-2 px-3 max-md:text-sm'>SR.No</th>
                                     <th className='  py-2 px-3 max-md:text-sm'>Name</th>
                                     <th className='  py-2 px-3 max-md:text-sm'>Email</th>
+                                    <th className='  py-2 px-3 max-md:text-sm'>phone</th>
                                     <th className='  py-2 px-3 max-md:text-sm'>Post</th>
                                     <th className='  py-2 px-3 max-md:text-sm'>Qualification</th>
                                     <th className='  py-2 px-3 max-md:text-sm'>Experience</th>
@@ -199,6 +205,7 @@ function ManageFaculty() {
                                 <tr className='rounded-md border-2'>
                                     <td className='p-2 px-3 w-20'></td>
                                     <td className='p-2 px-3 w-20'></td>
+                                    <td className='p-2 px-3 w-10'></td>
                                     <td className='p-2 px-3 w-10'></td>
                                     <td className='p-6 px-3 md:w-44 font-semibold'>No Data Found</td>
                                     <td className='p-2 px-3 '></td>
@@ -213,6 +220,7 @@ function ManageFaculty() {
                                     <td className='  py-2 px-3'>{index + 1}</td>
                                     <td className='  py-2 px-3'>{faculty.name}</td>
                                     <td className='  py-2 px-3'>{faculty.email}</td>
+                                    <td className='  py-2 px-3'>{faculty.phone}</td>
                                     <td className='  py-2 px-3'>{faculty.post}</td>
                                     <td className='  py-2 px-3'>{faculty.qualification}</td>
                                     <td className='  py-2 px-3'>{faculty.experience}</td>
@@ -251,6 +259,13 @@ function ManageFaculty() {
                             placeholder='Email'
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <input
+                            type="number"
+                            className='text-xl max-md:text-sm font-semibold placeholder:text-slate-500 border-b-2 border-blue-300 hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2'
+                            placeholder='phone'
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
                         />
                         <input
                             type="text"

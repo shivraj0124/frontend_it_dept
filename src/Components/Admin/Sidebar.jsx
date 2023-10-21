@@ -74,7 +74,7 @@ const Sidebar = () => {
 
                 <div className='flex flex-rows-1 w-[100%] top-0 left-0 fixed '>
                     <div className={nav ? "bg-slate-900 text-white shadow-2xl h-screen w-[300px] max-md:w-[100%] flex flex-col overflow-hidden  max-md:top-0 max-md:absolute ease-in-out duration-700 z-20 list_direction top-0 left-0 overflow-y-scroll  " : "w-[300px] max-md:hidden ease-in-out duration-700 bg-slate-900 text-white shadow-2xl h-screen  flex flex-col overflow-hidden  z-20 list_direction top-0  left-0 overflow-y-scroll  "} >
-                        <div className="flex flex-row  items-center justify-between gap-2 p-5 pt-2 item_direction">
+                        <div className="flex flex-row  items-center justify-between gap-2 p-2 item_direction">
                             <div className='flex flex-row items-center gap-2'>
                             <img src={img1} onClick={() => navigate('/')} className='h-[50px] md:h-[50px] p-0 md:w-[50px] rounded-[50%] cursor-pointer ' />
                             <h1 className='text-2xl font-mono'>IT-DEPT</h1>
@@ -85,7 +85,7 @@ const Sidebar = () => {
 
                             </div>
                         </div>
-                        <nav className="flex-grow p-4 text-lg item_direction ">
+                        <nav className="flex-grow p-2 text-lg item_direction ">
 
                             <Link to="/Admin/Dashboard" className="flex flex-row py-2 gap-2 items-center" onClick={handleNav}>
 

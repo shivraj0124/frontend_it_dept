@@ -22,6 +22,7 @@ function ManageNotes() {
     const [link, setLink] = useState('')
     const [subjectPlaceholder, setSubjectPlaceholder] = useState('')
     const [semesterPlaceholder, setSemesterPlaceholder] = useState('')
+    const urlBackend = import.meta.env.VITE_BACKEND_API
     const handleChangeSemester = (value) => {
         setSelectedSem(value);
         setSelectedSubject('');
@@ -32,7 +33,7 @@ function ManageNotes() {
         console.log(value);
     }
     const allSubjects = (selectedSemesterId) => {
-        axios.get(`http://localhost:3000/api/v1/subjects/${selectedSemesterId}`).then((response) => {
+        axios.get(`${urlBackend}/api/v1/subjects/${selectedSemesterId}`).then((response) => {
             if (response.data.success) {
                 setSubjectList(response.data.subjects);
             } else {
@@ -44,7 +45,7 @@ function ManageNotes() {
     }
 
     const allSem = () => {
-        axios.get('http://localhost:3000/api/v1/get-semesters').then((response) => {
+        axios.get(`${urlBackend}/api/v1/get-semesters`).then((response) => {
             if (response.data.success) {
                 setSemesterList(response.data.semesters);
             } else {
@@ -58,7 +59,7 @@ function ManageNotes() {
        getNotes()
     }, [])
         const getNotes=()=>{
-        axios.get('http://localhost:3000/api/v1/get-notes').then((response) => {
+        axios.get(`${urlBackend}/api/v1/get-notes`).then((response) => {
             if (response.data.success) {
                 setNotesList(response.data.notes);
                 console.log(response.data.notes)
@@ -107,7 +108,7 @@ function ManageNotes() {
     const handleDelete = (e) => {
         e.preventDefault();
         if (selectedNote._id) {
-            axios.delete(`http://localhost:3000/api/v1/delete-note/${selectedNote._id}`)
+            axios.delete(`${urlBackend}/api/v1/delete-note/${selectedNote._id}`)
                 .then((response) => {
                     if (response.data.success) {
                         getNotes()
@@ -166,7 +167,7 @@ function ManageNotes() {
             formData.append('subject', selectedSubject);
 
 
-            axios.put(`http://localhost:3000/api/v1/update-note/${selectedNote._id}`, formData)
+            axios.put(`${urlBackend}/api/v1/update-note/${selectedNote._id}`, formData)
                 .then((response) => {
 
                     if (response.data.success) {

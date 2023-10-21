@@ -4,14 +4,15 @@ import { Select } from 'antd'
 import { Option } from 'antd/es/mentions';
 import axios from 'axios'
 import toast from 'react-hot-toast';
-function AddNotes() {
+import themeHook from '../Admin/ContextP'
+function FAddNotes() {
+    const {auth}=themeHook()
     const [semesterList, setSemesterList] = useState([]);
     const [subjectList, setSubjectList] = useState([]);
     const [selectedSem, setSelectedSem] = useState('');
     const [selectedSubject, setSelectedSubject] = useState('')
     const [nName, setNName] = useState('')
     const [link, setLink] = useState('')
-    const [role, setRole] = useState(1)
     // const [subjectName,setSubjectName]=useState('')
     // const [semesterName,setSemesterName]=useState('')
     const urlBackend = import.meta.env.VITE_BACKEND_API
@@ -92,16 +93,17 @@ function AddNotes() {
                 }
             }
         })
+        console.log(auth?.user?.phone)
         if (updateOrNot === 1) {
             const formData = new FormData();
             formData.append('name', nName);
             formData.append('link', link);
             formData.append('subject', selectedSubject);
             formData.append('semester', selectedSem);
-            formData.append('role', role);
+            formData.append('role',auth?.user?.phone);
 
             try {
-                const response = await axios.post(`${urlBackend}/api/v1/add-notes`, formData, {
+                const response = await axios.post(`${urlBackend}/api/v4/add-notes`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -132,48 +134,47 @@ function AddNotes() {
     })
     return (
         <div className='h-screen overflow-y-scroll pb-10 bg-blue-50'>
-            <div className="w-[100%] mt-8 max-md:mt-8 flex justify-center items-center">
-                <div className="w-[80%] max-[806px]:w-[96%] flex md:flex-row max-md:flex-col-reverse   bg-white shadow-xl rounded-md">
-                    <div className='w-[100%] text-center bg-white pb-10 mt-10 '>
+            <div className="w-100 mt-16 max-md:mt-2 justify-center max-xl:px-2 xl:px-36 ">
+                <div className="w-[100%] flex md:flex-row- max-md:flex-col-reverse p-3 bg-white shadow-xl rounded-md">
+                    <div className='w-[100%] text-center  bg-white pb-10 mt-10'>
                         <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Add Notes</h1>
-                        <div className='w-[100%] flex flex-col justify-center items-center px-[10%]'>
-                            <div className="mt-14 max-md:mt-5 flex max-md:flex-col justify-between  items-center md:flex-row w-[100%] ">
-                                <label htmlFor="semesters" className='font-semibold text-xl'>
-                                    Select Semester:
-                                </label>
-                                <Select
-                                    id="semesters"
-                                    className="max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none"
-                                    placeholder='Select Semester'
-                                    onChange={handleChangeSemester}
-                                >
-                                    {semesterList?.map((semester) => (
-                                        <Option key={semester._id} value={semester._id}>
-                                            {semester.name}
-                                        </Option>
-                                    ))}
 
-                                </Select>
-                            </div>
-                            <div className="mt-5 flex max-md:flex-col justify-between  items-center md:flex-row w-[100%]">
-                                <label htmlFor="semesters" className='font-semibold text-xl'>
-                                    Select Subject:
-                                </label>
-                                <Select
-                                    id="semesters"
-                                    className="max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none"
-                                    placeholder='Select Subject'
-                                    onChange={handleChangeSubject}
-                                >
-                                    {
-                                        subjectList?.map((subject) => {
+                        <div className="mt-14 max-md:mt-5 flex max-md:flex-col justify-between  items-center md:flex-row px-12 ">
+                            <label htmlFor="semesters" className='font-semibold text-xl'>
+                                Select Semester:
+                            </label>
+                            <Select
+                                id="semesters"
+                                className="max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none"
+                                placeholder='Select Semester'
+                                onChange={handleChangeSemester}
+                            >
+                                {semesterList?.map((semester) => (
+                                    <Option key={semester._id} value={semester._id}>
+                                        {semester.name}
+                                    </Option>
+                                ))}
 
-                                            return <Option key={subject._id} value={subject._id} >{subject.name}</Option>
-                                        })
-                                    }
+                            </Select>
+                        </div>
+                        <div className="mt-5 flex max-md:flex-col justify-between  items-center md:flex-row px-12">
+                            <label htmlFor="semesters" className='font-semibold text-xl'>
+                                Select Subject:
+                            </label>
+                            <Select
+                                id="semesters"
+                                className="max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none"
+                                placeholder='Select Subject'
+                                onChange={handleChangeSubject}
+                            >
+                                {
+                                    subjectList?.map((subject) => {
 
-                                </Select>
-                            </div>
+                                        return <Option key={subject._id} value={subject._id} >{subject.name}</Option>
+                                    })
+                                }
+
+                            </Select>
                         </div>
                         <form className='mt-5 text-black' onSubmit={handleOnSubmit}>
                             <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Name'
@@ -186,7 +187,7 @@ function AddNotes() {
                             </button>
                         </form>
                     </div>
-                    <div className='w-[100%] max-md:h-[40%] max-xl:hidden'>
+                    <div className='w-[100%] max-md:h-[40%] max-lg:hidden'>
                         <img className='w-[100%] h-[100%] max-md:h-[200px]' src={img1} alt="" />
                     </div>
 
@@ -196,4 +197,4 @@ function AddNotes() {
     )
 }
 
-export default AddNotes
+export default FAddNotes

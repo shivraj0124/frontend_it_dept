@@ -11,7 +11,8 @@ function AddQP() {
     const [selectedSubject, setSelectedSubject] = useState('')
     const [nName, setNName] = useState('')
     const [link, setLink] = useState('')
-
+    const [role, setRole] = useState(1)
+    const urlBackend = import.meta.env.VITE_BACKEND_API
     const handleChangeSemester = (value) => {
         setSelectedSem(value);
         setSelectedSubject('');
@@ -22,7 +23,7 @@ function AddQP() {
         console.log(value);
     };
     const allSem = () => {
-        axios.get('http://localhost:3000/api/v1/get-semesters').then((response) => {
+        axios.get(`${urlBackend}/api/v1/get-semesters`).then((response) => {
             if (response.data.success) {
                 setSemesterList(response.data.semesters);
             } else {
@@ -34,7 +35,7 @@ function AddQP() {
     };
 
     const allSubjects = (selectedSemesterId) => {
-        axios.get(`http://localhost:3000/api/v1/subjects/${selectedSemesterId}`).then((response) => {
+        axios.get(`${urlBackend}/api/v1/subjects/${selectedSemesterId}`).then((response) => {
             if (response.data.success) {
                 setSubjectList(response.data.subjects);
             } else {
@@ -95,9 +96,10 @@ function AddQP() {
         formData.append('link', link);
         formData.append('subject', selectedSubject);
         formData.append('semester', selectedSem);
+        formData.append('role', role);
 
         try {
-            const response = await axios.post('http://localhost:3000/api/v1/add-qp', formData, {
+            const response = await axios.post(`${urlBackend}/api/v1/add-qp`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -128,12 +130,12 @@ function AddQP() {
     })
     return (
         <div className='h-screen overflow-y-scroll pb-10 bg-blue-50'>
-            <div className="w-100 mt-16 max-md:mt-2 justify-center max-xl:px-2 xl:px-36 ">
-                <div className="w-[100%] flex md:flex-row- max-md:flex-col-reverse p-3 bg-white shadow-xl rounded-md">
-                    <div className='w-[100%] text-center  bg-white pb-10 mt-10'>
+            <div className="w-[100%] mt-10 max-md:mt-2 flex justify-center items-center max-xl:px-2 ">
+                <div className="lg:w-[80%] flex md:flex-row- max-md:flex-col-reverse p-2 bg-white shadow-xl rounded-md pb-5">
+                    <div className='w-[100%] text-center  bg-white  mt-5 flex flex-col justify-center items-center'>
                         <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Add Question paper</h1>
 
-                        <div className="mt-14 max-md:mt-5 flex max-md:flex-col justify-between  items-center md:flex-row px-12 ">
+                        <div className="mt-5 max-md:mt-5 flex max-md:flex-col justify-between  items-center md:flex-row w-[80%] ">
                             <label htmlFor="semesters" className='font-semibold text-xl'>
                                 Select Semester:
                             </label>
@@ -151,7 +153,7 @@ function AddQP() {
 
                             </Select>
                         </div>
-                        <div className="mt-5 flex max-md:flex-col justify-between  items-center md:flex-row px-12">
+                        <div className="mt-5 flex max-md:flex-col justify-between  items-center md:flex-row w-[80%] ">
                             <label htmlFor="semesters" className='font-semibold text-xl'>
                                 Select Subject:
                             </label>

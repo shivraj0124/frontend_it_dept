@@ -8,6 +8,8 @@ import img from '../../Images/logo_try.jpg'
 import no_data_found from '../../Images/no_data_found.png'
 import BarLoader from 'react-spinners/BarLoader'
 function StudentNotes() {
+  console.log(import.meta.env.VITE_BACKEND_API);
+  const urlBackend = import.meta.env.VITE_BACKEND_API
   const { auth } = themeHook()
   const [search, setSearch] = useState('');
   const [loader, setLoader] = useState(true);
@@ -22,7 +24,7 @@ function StudentNotes() {
     getNotesBySubject(value)
   }
   const allSubjects = (semesterId) => {
-    axios.get(`http://localhost:3000/api/v1/subjects/${semesterId}`).then((response) => {
+    axios.get(`${urlBackend}/api/v1/subjects/${semesterId}`).then((response) => {
       if (response.data.success) {
         setSubjectList(response.data.subjects);
         console.log(subjectList);
@@ -37,7 +39,7 @@ function StudentNotes() {
   const getAllNOtes = () => {
     setLoader(true)
     axios
-      .get(`http://localhost:3000/api/v2/get-notes/${semesterId}`)
+      .get(`${urlBackend}/api/v2/get-notes/${semesterId}`)
       .then((response) => {
         if (response.data.success) {
           setNotesList(response.data.notes);
@@ -62,7 +64,7 @@ function StudentNotes() {
   const getNotesBySubject = (selectedSubject) => {
     setLoader(true)
     axios
-      .get(`http://localhost:3000/api/v2/get-notes-by-subject/${selectedSubject}`)
+      .get(`${urlBackend}/api/v2/get-notes-by-subject/${selectedSubject}`)
       .then((response) => {
         if (response.data.success) {
           setNotesList(response.data.notes);
@@ -89,7 +91,7 @@ function StudentNotes() {
     e.preventDefault();
     setLoader(true);
     try {
-      const response = await axios.get('http://localhost:3000/api/v2/search-notes', {
+      const response = await axios.get(`${urlBackend}/api/v2/search-notes`, {
         params: { search, semester:semesterId },
       });
       setNotesList(response.data.notes);

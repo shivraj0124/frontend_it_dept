@@ -14,7 +14,7 @@ function ManageAchievements() {
     const [aList, setAList] = useState([]);
     const [selectedAchievement, setSelectedAchievement] = useState(null); // Initialize with null
     const [photo, setPhoto] = useState(null);
-
+    const urlBackend = import.meta.env.VITE_BACKEND_API
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         setPhoto(file);
@@ -29,7 +29,7 @@ function ManageAchievements() {
     };
 
     const getAllAchievements =()=>{
-        axios.get('http://localhost:3000/api/v1/get-achievements').then((response) => {
+        axios.get(`${urlBackend}/api/v1/get-achievements`).then((response) => {
             if (response.data.success) {
                 setAList(response.data.achievements);
             } else {
@@ -103,7 +103,7 @@ function ManageAchievements() {
                 formData.append('photo', photo);
             }
 
-            axios.put(`http://localhost:3000/api/v1/update-achievement/${selectedAchievement._id}`, formData)
+            axios.put(`${urlBackend}/api/v1/update-achievement/${selectedAchievement._id}`, formData)
                 .then((response) => {
 
                     if (response.data.success) {
@@ -145,7 +145,7 @@ function ManageAchievements() {
     const handleDelete=(e)=>{
         e.preventDefault();
         if (selectedAchievement && selectedAchievement._id) {
-            axios.delete(`http://localhost:3000/api/v1/delete-achievement/${selectedAchievement._id}`)
+            axios.delete(`${urlBackend}/api/v1/delete-achievement/${selectedAchievement._id}`)
                 .then((response) => {
                     if (response.data.success) {
                         getAllAchievements();
@@ -176,14 +176,14 @@ function ManageAchievements() {
       getAllAchievements()
     },[])
   return (
-      <div className="h-screen bg-blue-50">
-          <div className="w-[100%] mt-10 max-md:mt-2 flex justify-center  items-center">
+      <div className="h-screen bg-blue-50 ">
+          <div className="w-[100%] mt-10 max-md:mt-2 flex justify-center  items-center px-2">
               {loader ? (
                   <div className="flex justify-center items-center mt-32">
                       <BarLoader color="blue" />
                   </div>
               ) : (
-                      <div className="text-left overflow-y-auto max-h-[500px] rounded-md w-[100%] px-2">
+                      <div className="text-left overflow-y-auto h-[460px]  rounded-md w-[100%]">
                       <table className="w-[100%] border-2 border-collapse rounded-md">
                           <thead className="sticky top-0">
                               <tr className="bg-slate-950 text-white border-2 border-slate-950 text-lg">
