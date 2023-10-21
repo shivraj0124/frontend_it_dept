@@ -1,5 +1,5 @@
 // style={{background:'rgba(0,0,0,0.2)'}} backgroundImage:`url(${home_2})`,
-import React, { useState } from "react";
+import React, { useState} from "react";
 import img1 from '../Images/logo_try.jpg'
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { BiUserCircle } from 'react-icons/bi';
@@ -13,17 +13,17 @@ const Navbar = () => {
     const handleNav = () => {
         setNav(!nav);
     };
-
+    
     const navigate=useNavigate()
+   
     return (
-        <div className='flex justify-between items-center h-20 w-[100%] mt-0 lg:px-20 px-2 sticky top-0 z-40 text-black bg-blue-50' >
+        <div className='flex justify-between px-[10%] items-center  h-20 sticky top-0 px-4 z-40 text-black bg-blue-50' >
             <div className="flex items-center gap-2 ">
             <img src={img1} onClick={() => navigate('/')} className='h-[60px] md:h-[60px] p-0 md:w-[60px] rounded-[50%] cursor-pointer ' />
                 <h1 className='text-2xl font-mono text-blue-500'>IT-DEPT</h1>
             </div>
             <ul className='hidden md:flex font-semibold'>
                 <Link className='p-4 hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' to='/' >Home</Link>
-                <Link className='p-4 hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' to='/About'>About</Link>
                 <Link className='p-4 hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' to='/FacultyDetails'>Faculty</Link>
                 <Link className='p-4 hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' to='/Curriculum'>Curriculum</Link>
                 <Link className='p-4 hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' to='/Contact'>Contact</Link>

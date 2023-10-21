@@ -41,22 +41,20 @@ function StudentNotices() {
       
     };
     const getNotices = () => {
-        axios
-            .get(`${urlBackend}/api/v2/get-notices`, {
+        axios.get(`${urlBackend}/api/v2/get-notices`, {
                 params: {
-                    semesterId: semesterId,shiftId: shiftId
+                    semesterId: semesterId, shiftId: shiftId
                 },
-            })
-            .then((response) => {
+            }).then((response) => {
                 if (response.data.success) {
                     setNoticeList(response.data.notice);
+                    setLoader(false);
                 } else {
                     console.error('Failed to fetch Notice details');
                 }
                 setLoader(false);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
+            }).catch((error) => {
+                console.error('Error:');
             });
     };
 
@@ -64,7 +62,7 @@ function StudentNotices() {
         setSemesterId(auth?.user?.semester)
         setShiftId(auth?.user?.shift)
         getNotices();
-    }, []);
+    }, [semesterId]);
   return (
       <div className='flex flex-col'>
           {loader ? (
@@ -100,8 +98,9 @@ function StudentNotices() {
                   }
               </div>
           )}
+          {/*  min-[300px]:w-[220px] min-[350px]:w-[300px] */}
           <Modal open={open} onClose={onCloseModal}  classNames={{ modal: 'updateModal' }}>
-              <div className='p-5 bg-white min-[300px]:w-[220px] min-[350px]:w-[300px] sm:w-[400px] lg:w-[600px]'>
+              <div className='p-5 bg-white  w-[100%] max-sm:p-0'>
                   <h1 className='text-center text-2xl underline underline-offset-4 mt-4 font-bold'>Notice</h1>
                   <div className='flex flex-col  w-[100%]  justify-center mt-6 '>
                     <div className='w-[100%] flex flex-row justify-between max-md:text-sm font-semibold'>
@@ -117,9 +116,7 @@ function StudentNotices() {
                     <p className='mt-5'>
                         {description}
                     </p>
-                    
-                  </div>
-               
+                  </div>               
               </div>
 
           </Modal>

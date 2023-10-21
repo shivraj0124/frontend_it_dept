@@ -42,6 +42,7 @@ import FManageQP from "./Components/Faculty/FManageQP";
 import FAddNotice from "./Components/Faculty/FAddNotice";
 import FManageNotices from "./Components/Faculty/FManageNotices";
 import StudentNotices from "./Components/Students/StudentNotices";
+import MiniphotoG from "./Components/HomeComponents/MiniphotoG"
 function App() {
   
   return (
@@ -55,6 +56,7 @@ function App() {
             <Route exact path='/FacultyDetailes' element={<FacultyDetailes />}></Route>
             <Route exact path='/Curriculum' element={<Curriculum />}></Route>
             <Route exact path='/Contact' element={<Contact />}></Route>
+              <Route exact path='/MiniphotoG' element={<MiniphotoG />}></Route>
             <Route exact path='/Login' element={<LoginForm />}></Route>
             <Route exact path='/Student-Login' element={<Login />}></Route>
             <Route exact path='/Faculty-Login' element={<FacultyLogin />}></Route>
