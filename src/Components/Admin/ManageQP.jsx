@@ -13,7 +13,7 @@ function ManageQP() {
     const [QPList, setQPList] = useState('')
     const [loader, setLoader] = useState(true)
     const [selectedQP, setSelectedQP] = useState(null)
-
+    const [search, setSearch] = useState('')
     const [semesterList, setSemesterList] = useState([]);
     const [subjectList, setSubjectList] = useState([]);
     const [selectedSem, setSelectedSem] = useState('');
@@ -31,6 +31,13 @@ function ManageQP() {
     const handleChangeSubject = (value) => {
         setSelectedSubject(value);
         console.log(value);
+    }
+    const FilterBySemester = (value) => {
+        getQpBySemester(value)
+        allSubjects(value);
+    }
+    const FilterBySubject = (value) => {
+        getQpBySubject(value)
     }
     const allSubjects = (selectedSemesterId) => {
         axios.get(`${urlBackend}/api/v1/subjects/${selectedSemesterId}`).then((response) => {
@@ -57,6 +64,7 @@ function ManageQP() {
     };
     useEffect(() => {
         getQPs()
+        allSem()
     }, [])
 
     const getQPs = () => {
@@ -74,7 +82,75 @@ function ManageQP() {
                 console.error('Error:', error);
             });
     }
+    const getQpBySemester = (value) => {
+        setLoader(true)
+        axios
+            .get(`${urlBackend}/api/v1/get-qp-by-semester/${value}`)
+            .then((response) => {
+                if (response.data.success) {
+                    setQPList(response.data.qp);
+                    setLoader(false)
+                    console.log(response.data.notes);
+                } else {
+                    console.log(response.data.message);
+                    setInterval(() => {
+                        setLoader(false)
+                    }, 2000);
 
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                setInterval(() => {
+                    setLoader(false)
+                }, 2000);
+
+            });
+    }
+    const getQpBySubject = (value) => {
+        setLoader(true)
+        axios.get(`${urlBackend}/api/v1/get-qp-by-subject/${value}`)
+            .then((response) => {
+                if (response.data.success) {
+                    setQPList(response.data.qp);
+                    setLoader(false)
+                    console.log(subjectId);
+                    console.log(response.data.qp);
+                } else {
+                    console.log(response.data.message);
+                    setInterval(() => {
+                        setLoader(false)
+                    }, 2000);
+
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                setInterval(() => {
+                    setLoader(false)
+                }, 2000);
+
+            });
+    }
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        setLoader(true);
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/search-qp`, {
+                params: { search },
+            });
+            setQPList(response.data.qp);
+            setInterval(() => {
+                setLoader(false)
+            }, 2000);
+
+        } catch (error) {
+            console.error('Error fetching notes:', error);
+            setInterval(() => {
+                setLoader(false)
+            }, 2000);
+        }
+    };
     const onOpenModal = (QP) => {
         setOpen(true);
         setSelectedQP(QP)
@@ -200,17 +276,63 @@ function ManageQP() {
                     console.error('Error:', error);
                 });
         }
-
     };
     return (
         <div className='h-screen bg-blue-50'>
-            <div className="w-[100%]  mt-10 max-md:mt-2 flex justify-center  items-center">
+            <div className="w-[100%]  max-md:mt-2 md:flex flex-col justify-center  items-center">
+                <div className=" px-2 flex  w-[100%] flex-row justify-between sticky top-0 p-2" style={{ backgroundColor: 'rgb(0,0,0,0.1)' }}>
+                    <div className='w-[60%]'>
+                        <button className='py-2 w-[60%]  max-md:text-sm font-semibold bg-blue-700 text-white rounded-md shadow-md hover:bg-blue-700 hover:text-white' onClick={getQPs}>All Question Papers</button>
+                    </div>
+                    <form onSubmit={handleSearch} className='w-[100%] flex justify-center items-center max-lg:w-[100%] '>
+                        <input type="text " className=' w-[100%] rounded-xl h-[40px] max-lg:h-[30px] bg-blue-50  px-4 focus:border-blue-400 focus:outline-none border' placeholder='Search Here ....' value={search}
+                            onChange={(e) => setSearch(e.target.value)} />
+                    </form>
+                </div>
+                <div className=" flex w-[100%] flex-row justify-between sticky top-0 p-2 gap-4 " >
+                    <div className=" flex max-md:flex-col justify-center  items-center md:flex-row w-[100%]">
+                        <label htmlFor="semesters" className='font-semibold text-xl max-md:text-[15px]'>
+                            Select Semester:
+                        </label>
+                        <Select
+                            id="semesters"
+                            className="max-md:text-sm max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none"
+                            placeholder='Notes By Semester'
+                            onChange={FilterBySemester}
+                        >
+                            {semesterList?.map((semester) => (
+                                <Option key={semester._id} value={semester._id}>
+                                    {semester.name}
+                                </Option>
+                            ))}
+
+                        </Select>
+                    </div>
+                    <div className="flex max-md:flex-col justify-center  items-center md:flex-row w-[100%]">
+                        <label htmlFor="semesters" className='font-semibold text-xl max-md:text-[15px] '>
+                            Select Subject:
+                        </label>
+                        <Select
+                            id="semesters"
+                            className="max-md:text-sm max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none placeholder-blue-500 "
+                            placeholder='Notes By Subject'
+                            onChange={FilterBySubject}
+                        >
+                            {
+                                subjectList?.map((subject) => {
+                                    return <Option key={subject._id} value={subject._id} >{subject.name}</Option>
+                                })
+                            }
+                        </Select>
+                    </div>
+                </div>
                 {loader ? <div className='flex justify-center items-center mt-32'>
                     <BarLoader color="blue"
                     />
                 </div>
                     :
-                    <div className='text-left overflow-y-auto max-h-[500px]  rounded-md w-[100%] px-2'>
+                    <div className='md:w-[100%] px-2 pb-2'>
+                        <div className='text-left overflow-y-auto max-h-[500px] max-xl:max-h-[460px] rounded-md w-[100%]'>
                         <table className='w-[100%] border-2  rounded-md '>
                             <thead className='sticky top-0 '>
                                 <tr className='bg-slate-950 text-white border-2 border-slate-950'>
@@ -222,38 +344,39 @@ function ManageQP() {
                                     <th className='  p-2 px-4'>Edit</th>
                                 </tr>
                             </thead>
-                            {QPList?.length === 0 ? 
+                            {QPList?.length === 0 ?
                                 <tr className=''>
-                                   <td className='p-2 px-4 w-24'></td>
-                                   <td className='p-2 px-4 w-24'></td>
+                                    <td className='p-2 px-4 w-24'></td>
+                                    <td className='p-2 px-4 w-24'></td>
                                     <td className='p-2 px-4 w-44'>No Data Found</td>
-                                   <td className='p-2 px-4 w-20'></td>
-                                   <td className='p-2 px-4 w-20'></td>
-                                   <td className='p-2 px-4 w-20'></td>
-                                   </tr>
-                                 :
+                                    <td className='p-2 px-4 w-20'></td>
+                                    <td className='p-2 px-4 w-20'></td>
+                                    <td className='p-2 px-4 w-20'></td>
+                                </tr>
+                                :
                                 <tbody className='bg-slate-800 text-white '>
 
-                                {QPList?.map((QP, index) => (
-                                    <tr key={QP._id} className='border-2 border-gray-700'>
-                                        <td className='  p-2 px-4'>{index + 1}</td>
-                                        <td className='  p-2 px-4'>{QP.name}</td>
-                                        <td className='  p-2 px-4'>{QP.semester.name}</td>
-                                        <td className='  p-2 px-4'>{QP.subject.name}</td>
-                                        <td className='  p-2 px-4' ><Link target="_blank" to={QP.link}>view</Link></td>
+                                    {QPList?.map((QP, index) => (
+                                        <tr key={QP._id} className='border-2 border-gray-700'>
+                                            <td className='  p-2 px-4'>{index + 1}</td>
+                                            <td className='  p-2 px-4'>{QP.name}</td>
+                                            <td className='  p-2 px-4'>{QP.semester.name}</td>
+                                            <td className='  p-2 px-4'>{QP.subject.name}</td>
+                                            <td className='  p-2 px-4' ><Link target="_blank" to={QP.link}>view</Link></td>
 
-                                        <td className='  py-2 px-4'>
-                                            <div className='flex flex-row gap-4 justify-left'>
-                                                <button className='text-white font-semibold  bg-green-700 py-1 px-2 rounded-md' onClick={() => onOpenModal(QP)} >Update</button>
-                                                <button className='text-white font-semibold bg-red-700  py-1 px-2 rounded-md' onClick={() => onOpenDeleteModal(QP)}>Delete</button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            <td className='  py-2 px-4'>
+                                                <div className='flex flex-row gap-4 justify-left'>
+                                                    <button className='text-white font-semibold  bg-green-700 py-1 px-2 rounded-md' onClick={() => onOpenModal(QP)} >Update</button>
+                                                    <button className='text-white font-semibold bg-red-700  py-1 px-2 rounded-md' onClick={() => onOpenDeleteModal(QP)}>Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     ))
-                                }
+                                    }
                                 </tbody>
                             }
                         </table>
+                    </div>
                     </div>
                 }
             </div>

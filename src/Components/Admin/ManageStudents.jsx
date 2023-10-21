@@ -72,17 +72,16 @@ function ManageStudents() {
                 console.error('Failed to fetch Students details');
             }
             setLoader(false)
-        })
-            .catch((error) => {
+        }).catch((error) => {
                 console.error('Error:', error);
                 setLoader(false)
-            });
+        });
     }
 
     const onOpenModal = (student) => {
         setOpen(true);
         setSelectedStudent(student)
-        console.log(student._id)
+        // console.log(student._id)
         setStudentName(student.name)
         setEmail(student.email)
         setEnrNo(student.EnrNo)
@@ -147,7 +146,6 @@ function ManageStudents() {
                     });
                 });
         }
-
     };
 
     const handleUpdate = async (e) => {
@@ -259,7 +257,8 @@ function ManageStudents() {
                     />
                 </div>
                     :
-                    <div className='text-left overflow-y-auto max-h-[500px]  rounded-md w-[100%] px-2 '>
+                     <div className='md:w-[100%] px-2 pb-2'>
+                    <div className='text-left overflow-y-auto max-h-[500px] max-xl:max-h-[460px] rounded-md w-[100%]'>
                         <table className='w-[100%] border-2 border-slate-950  border-collapse  rounded-md m-0'>
                             <thead className='sticky top-0 '>
                                 <tr className='bg-slate-950 text-white text-lg font-semibold'>
@@ -307,6 +306,7 @@ function ManageStudents() {
                                 </tbody>
                             }
                         </table>
+                    </div>
                     </div>
                 }
             </div>
