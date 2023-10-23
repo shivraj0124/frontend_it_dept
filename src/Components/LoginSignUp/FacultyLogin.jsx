@@ -36,7 +36,7 @@ export default function FacultyLogin() {
                 toast.error('Invalid Credentials! Please Try Again');
             }
         } catch (error) {
-            toast.error('Invalid Credentials! Please Try Again: ' + error.message);
+            toast.error(error.message);
         }
 
         setPhone('');

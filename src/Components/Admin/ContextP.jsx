@@ -7,7 +7,7 @@ export const UserProvider = ({ children }) => {
     const [loggedIn, setLoggedIn] = useState(localStorage.getItem("username") ? true : false)
     const [auth, setAuth] = useState(localStorage.getItem("auth") ? { user: JSON.parse(localStorage.getItem("auth")) } : { user: null })
     const [studentDetails,setStudentDetails]=useState()
-    const [findForm, setFindForm] = useState('')
+    const [findForm, setFindForm] = useState('S')
     const urlBackend = import.meta.env.VITE_BACKEND_API
     const value = {
         username,

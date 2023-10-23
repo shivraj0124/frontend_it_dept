@@ -82,20 +82,20 @@ const Navbar = () => {
                         <li className='pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Home</li>
                     </Link>
                     <Link to='About' >
-                        <li className='pt-2 pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>About</li>
+                        <li className='pt-1 pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>About</li>
                     </Link>
                     <Link to='/Faculty'>
-                        <li className='pt-2  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Faculty</li>
+                        <li className='pt-1  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Faculty</li>
                     </Link>
                     <Link to='/Curriculum'>
-                        <li className='pt-2  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Curriculum</li>
+                        <li className='pt-1  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Curriculum</li>
                     </Link>
                     <Link to='/Contact'>
-                        <li className='pt-2  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Contact</li>
+                        <li className='pt-1  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Contact</li>
                     </Link>
                     
                     { !auth?.user ? 
-                    <Link to='/Login' className='pt-2  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' >Login</Link>
+                    <Link to='/Login' className='pt-1  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' >Login</Link>
                       :             
                         <>
                             {auth?.user?.role === 2 ? (

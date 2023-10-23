@@ -77,7 +77,7 @@ function StudentNotices() {
           ) : !loader && noticeList?.length <= 0 ? (<div className="flex justify-center items-center mt-10">
               <img src={no_data_found} alt="" className='w-[300px] h-[400px]' />
           </div>) : (
-              <div className='grid lg:grid-cols-3 max-sm:grid-cols-1 max-lg:grid-cols-2 gap-4 mt-5 px-2'>
+              <div className='grid lg:grid-cols-3 max-sm:grid-cols-1 max-lg:grid-cols-2 gap-4 md:mt-5 px-2 pb-10'>
                   {noticeList.map((notice, index) => {
                       return <>
                           <div key={index} className='p-4 shadow-xl rounded-md bg-white'>

@@ -6,7 +6,7 @@ import { TypeAnimation } from 'react-type-animation';
 function About() {
     const navigate = useNavigate()
     return (
-        <div className="w-[100%] flex flex-col h-full md:px-[10%] px-2 pb-12 bg-white ">
+        <div className="w-[100%] flex flex-col h-full md:px-[10%] px-4 pb-12 bg-white ">
             <div className="mt-10">
                 <div className="flex flex-col md:flex-row">
 

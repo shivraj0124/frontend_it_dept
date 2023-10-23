@@ -131,7 +131,7 @@ export default function FAddNotice() {
                
                     <div className='xl:w-[80%] w-[96%] flex flex-col justify-center items-center mt-2 bg-white pb-4 lg:pb-10 shadow-xl rounded-md'>
                         <h1 className='text-center font-semibold text-2xl underline underline-offset-4 mt-4'>Add Notice</h1>
-                        <div className='flex flex-row  w-[80%]  justify-center mt-6 '>
+                        <div className='flex flex-row  w-[80%]  justify-center mt-4 '>
                             <div className='mt-2 flex max-md:flex-col  items-center w-[100%] flex-row  '>
                                 <label htmlFor='semesters' className='font-semibold text-xl'>
                                     Select Semester:
@@ -178,7 +178,7 @@ export default function FAddNotice() {
                             />
                             <input type="url" className='text-xl font-semibold placeholder:text-slate-400 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[100%] my-2' placeholder='Link (Optional)' onChange={(e) => setLink(e.target.value)} />
                             <br />
-                            <textarea className='placeholder:text-slate-400 border-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none rounded-md p-5 text-xl font-semibold mt-2 w-[100%]  ' rows={5} placeholder='Description..' onChange={(e) => setDescription(e.target.value)} required>
+                            <textarea className='placeholder:text-slate-400 border-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none rounded-md p-5 text-xl font-semibold mt-2 w-[100%]  ' rows={3} placeholder='Description..' onChange={(e) => setDescription(e.target.value)} required>
 
                             </textarea>
                             <br />

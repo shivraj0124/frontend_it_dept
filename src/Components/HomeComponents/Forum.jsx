@@ -6,7 +6,7 @@ import { TypeAnimation } from 'react-type-animation';
 const Forum = () => {
     
     return (
-        <div className="w-[100%]  flex flex-col md:flex-row  h-full pb-12 items-center justify-center bg-gray-100 md:px-[10%]">
+        <div className="w-[100%]  flex flex-col md:flex-row px-4  h-full pb-12 items-center justify-center bg-gray-100 md:px-[10%]">
 
             <div className=" font-sans md:font-serif flex-col w-[40%] max-md:w-[100%]  items-center justify-center mt-10">
 

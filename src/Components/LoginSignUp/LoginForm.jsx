@@ -7,7 +7,7 @@ function LoginForm() {
   const { findForm, setFindForm } = themeHook()
   // const navigate =useNavigate()
   return (
-    <div className=' mt-0 h-screen flex justify-center x bg-blue-50 overflow-y-auto'>
+    <div className='pt-5  h-screen flex justify-center bg-blue-50 overflow-y-auto'>
       <div className='flex flex-col fixed  bg-[#fcfcfe] shadow-xl rounded-xl mt-5 max-md:mt-2 pb-9 max-md:w-[90%] justify-center items-center w-max h-max py-5 px-8'>
         <h1 className='font-semibold text-gray-500'>Login As</h1>
 
