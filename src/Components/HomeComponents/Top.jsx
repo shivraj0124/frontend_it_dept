@@ -10,7 +10,7 @@ function Top() {
       <div className='w-[100%]   bg-blue-50' >
         <div className='px-[10%]'>
           {/* <div className='absolute top-0 left-0 w-[100%] h-screen z-0' style={{ background: 'rgba(0,0,0,0.7)' }}></div> */}
-          <div className='flex md:flex-row-reverse flex-col-reverse justify-center items-center z-10 max-md:gap-y-16 max-md:pt-20' >
+          <div className='flex md:flex-row-reverse flex-col-reverse justify-center items-center z-10 max-md:gap-y-16 max-md:pt-5' >
             <div className='h-[80%] w-[80%] '>
 
               <img src={rightImg} alt="" className='h-[100%] w-[100%] ' />
@@ -22,7 +22,7 @@ function Top() {
               </div>
               <div>
                 <h1 className='text-2xl font-semibold text-[#0099ff] '>Government Polytechnic Mumbai</h1>
-                <h1 className='md:text-3xl text-3xl font-bold text-slate-800'>Department Of Information Technology</h1>
+                <h1 className='md:text-3xl text-3xl max-md:text-2xl font-bold text-slate-800'>Department Of Information Technology</h1>
                 <h4 className='text-gray-700 text-xl'>(An autonomous Institute of Government of Maharashtra)</h4>
               </div>
             </div>

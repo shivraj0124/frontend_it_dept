@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import BarLoader from 'react-spinners/BarLoader';
 import img from '../../Images/logo_try.jpg'
+import no_data_found from '../../Images/no_data_found.png'
 import themeHook from '../Admin/ContextP'
 import '../Admin/AdminComponents.css'
 import 'react-responsive-modal/styles.css';
@@ -19,7 +20,7 @@ function StudentNotices() {
     const [shiftPlaceholder, setShiftPlaceholder] = useState('')
     const [semesterPlaceholder, setSemesterPlaceholder] = useState('')
     const urlBackend = import.meta.env.VITE_BACKEND_API
-    const {auth}=themeHook()
+    const {studentDetails}=themeHook()
 
     const onOpenModal = (notice) => {
         setOpen(true);
@@ -40,28 +41,32 @@ function StudentNotices() {
         setShiftPlaceholder('')
       
     };
-    const getNotices = () => {
-        axios.get(`${urlBackend}/api/v2/get-notices`, {
+    const getNotices = async (semesterId, shiftId) => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v2/get-notices`, {
                 params: {
-                    semesterId: semesterId, shiftId: shiftId
+                    semesterId: semesterId,
+                    shiftId: shiftId,
                 },
-            }).then((response) => {
-                if (response.data.success) {
-                    setNoticeList(response.data.notice);
-                    setLoader(false);
-                } else {
-                    console.error('Failed to fetch Notice details');
-                }
-                setLoader(false);
-            }).catch((error) => {
-                console.error('Error:');
             });
+
+            if (response.data.success) {
+                setNoticeList(response.data.notice);
+                setLoader(false);
+            } else {
+                console.error('Failed to fetch Notice details');
+            }
+            setLoader(false);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
     };
 
     useEffect(() => {
-        setSemesterId(auth?.user?.semester)
-        setShiftId(auth?.user?.shift)
-        getNotices();
+        setShiftId(studentDetails[0].semester?._id)
+        setSemesterId(studentDetails[0].semester?._id)
+        getNotices(studentDetails[0].semester?._id, studentDetails[0].shift?._id)
     }, [semesterId]);
   return (
       <div className='flex flex-col'>

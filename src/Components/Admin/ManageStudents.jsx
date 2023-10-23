@@ -13,7 +13,7 @@ function ManageStudents() {
     const [studentList, setStudentList] = useState([])
     const [loader, setLoader] = useState(true)
     const [selectedStudent, setSelectedStudent] = useState(null)
-
+    const [search, setSearch] = useState('')
     const [semesterList, setSemesterList] = useState([]);
     const [shiftList, setShiftList] = useState([]);
     const [selectedSem, setSelectedSem] = useState('');
@@ -33,7 +33,13 @@ function ManageStudents() {
     };
     const handleChangeShift = (value) => {
         setSelectedShift(value);
-        console.log(value);
+    }
+    const FilterBySemester = (value) => {
+        getStudentsBySemester(value)
+        allShifts(value);
+    }
+    const FilterByShift = (value) => {
+        getStudentsByShift(value)
     }
     const allShifts = (selectedSemesterId) => {
         axios.get(`${urlBackend}/api/v1/get-shifts/${selectedSemesterId}`).then((response) => {
@@ -60,6 +66,7 @@ function ManageStudents() {
     };
     useEffect(() => {
         getStudents()
+        allSem()
     }, [])
 
     const getStudents = () => {
@@ -73,10 +80,77 @@ function ManageStudents() {
             }
             setLoader(false)
         }).catch((error) => {
-                console.error('Error:', error);
-                setLoader(false)
+            console.error('Error:', error);
+            setLoader(false)
         });
     }
+    const getStudentsBySemester = (value) => {
+        setLoader(true)
+        axios
+            .get(`${urlBackend}/api/v1/get-students-by-semester/${value}`)
+            .then((response) => {
+                if (response.data.success) {
+                    setStudentList(response.data.students);
+                    setLoader(false)
+                    console.log(response.data.students);
+                } else {
+                    console.log(response.data.message);
+                    setInterval(() => {
+                        setLoader(false)
+                    }, 2000);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                setInterval(() => {
+                    setLoader(false)
+                }, 2000);
+            });
+    }
+    const getStudentsByShift = (value) => {
+        setLoader(true)
+        axios.get(`${urlBackend}/api/v1/get-students-by-shift/${value}`)
+            .then((response) => {
+                if (response.data.success) {
+                    setStudentList(response.data.students);
+                    setLoader(false)
+                    // console.log(subjectId);
+                    // console.log(response.data.students);
+                } else {
+                    console.log(response.data.message);
+                    setInterval(() => {
+                        setLoader(false)
+                    }, 2000);
+
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                setInterval(() => {
+                    setLoader(false)
+                }, 2000);
+
+            });
+    }
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        setLoader(true);
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/search-student`, {
+                params: { search },
+            });
+            setStudentList(response.data.students);
+            setInterval(() => {
+                setLoader(false)
+            }, 2000);
+
+        } catch (error) {
+            console.error('Error fetching notes:', error);
+            setInterval(() => {
+                setLoader(false)
+            }, 2000);
+        }
+    };
 
     const onOpenModal = (student) => {
         setOpen(true);
@@ -91,8 +165,8 @@ function ManageStudents() {
         setShiftPlaceholder(student.shift.name)
         setSelectedSem(student.semester._id)
         setSelectedShift(student.shift._id)
-
     }
+
     const onCloseModal = () => {
         setOpen(false);
         setSelectedStudent(null)
@@ -113,6 +187,57 @@ function ManageStudents() {
     const onCloseDeleteModal = () => {
         setOpenDelete(false)
         setSelectedStudent(null)
+    }
+    const [openSemUpdateModal, setOpenSemUpdateModal] = useState(false)
+    const [currentSemesterId, setCurrentSemesterId]=useState('')
+    const [currentShiftId, setCurrentShiftId]=useState('')
+    const [newSemesterId, setNewSemesterId]=useState('')
+    const [newShiftId,setNewShiftId]=useState('')
+    const openUpdateSemModal = () => {
+        setOpenSemUpdateModal(true)
+        allSem()
+    }
+    const closeUpdateSemModal = () => {
+        setOpenSemUpdateModal(false)
+    }
+    const currentSemChange=(value)=>{
+        allShifts(value)
+        setCurrentSemesterId(value)
+
+    }
+    const currentShiftChange=(value)=>{
+        setCurrentShiftId(value)
+    }
+    const newSemesterChange = (value) => {
+        allShifts(value)
+        setNewSemesterId(value)
+
+    }
+    const newShiftChange =(value)=>{
+        setNewShiftId(value)
+    }
+    const handleChangeSemesterOfStudent=async (e)=>{
+        e.preventDefault()
+        try {
+            const response = await axios.put('http://localhost:3000/api/v1/update-students-semester', {
+                currentSemesterId,
+                currentShiftId,
+                newSemesterId,
+                newShiftId,
+            });
+
+            if (response.data.success) {
+                getStudents()
+                toast.success('Students updated successfully.');
+                closeUpdateSemModal()
+
+            } else {
+                toast.error('Error updating students.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            
+        }
     }
     const handleDelete = (e) => {
         e.preventDefault();
@@ -251,62 +376,116 @@ function ManageStudents() {
 
     return (
         <div className='h-screen bg-blue-50'>
-            <div className="w-[100%]  mt-10 max-md:mt-2 md:flex justify-center max-xl:px-2 items-center">
+            <div className="w-[100%] md:flex flex-col justify-center  items-center">
+                <div className=" flex  w-[100%] min-[600px]:flex-row max-sm:flex-col justify-between sticky top-0 p-2 gap-4" style={{ backgroundColor: 'rgb(0,0,0,0.1)' }}>
+                    <div className='flex flex-row justify-between gap-x-1'>
+                        <div className='w-max'>
+                            <button className='py-2 w-max px-4 max-md:text-sm font-semibold bg-blue-700 text-white rounded-md shadow-md hover:bg-blue-700 hover:text-white' onClick={getStudents}>All Students</button>
+                        </div>
+                        <div className='w-max'>
+                            <button className='py-2 w-max px-4  max-md:text-sm font-semibold bg-blue-700 text-white rounded-md shadow-md hover:bg-blue-700 hover:text-white' onClick={openUpdateSemModal}>Update Students Semester</button>
+                        </div>
+                    </div>
+                    <form onSubmit={handleSearch} className='w-[100%] flex justify-center items-center max-lg:w-[100%] '>
+                        <input type="text " className=' w-[100%] rounded-xl h-[40px] max-lg:h-[30px] bg-blue-50  px-4 focus:border-blue-400 focus:outline-none border' placeholder='Search Here ....' value={search}
+                            onChange={(e) => setSearch(e.target.value)} />
+                    </form>
+                </div>
+                <div className=" flex w-[100%] flex-row justify-between sticky top-0 p-2 gap-4 " >
+                    <div className=" flex max-md:flex-col justify-center  items-center md:flex-row w-[100%]">
+                        <label htmlFor="semesters" className='font-semibold text-xl max-md:text-[15px]'>
+                            Select Semester:
+                        </label>
+                        <Select
+                            id="semesters"
+                            className="max-md:text-sm max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none"
+                            placeholder='Notes By Semester'
+                            onChange={FilterBySemester}
+                        >
+                            {semesterList?.map((semester) => (
+                                <Option key={semester._id} value={semester._id}>
+                                    {semester.name}
+                                </Option>
+                            ))}
+
+                        </Select>
+                    </div>
+                    <div className="flex max-md:flex-col justify-center  items-center md:flex-row w-[100%]">
+                        <label htmlFor="semesters" className='font-semibold text-xl max-md:text-[15px] '>
+                            Select Shift:
+                        </label>
+                        <Select
+                            id="semesters"
+                            className="max-md:text-sm max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none placeholder-blue-500 "
+                            placeholder='Notes By Shift'
+                            onChange={FilterByShift}
+                        >
+                            {
+                                shiftList?.map((shift) => {
+                                    return <Option key={shift._id} value={shift._id} >{shift.name}</Option>
+                                })
+                            }
+                        </Select>
+                    </div>
+                </div>
+
                 {loader ? <div className='flex justify-center items-center mt-32'>
                     <BarLoader color="blue"
                     />
                 </div>
                     :
-                     <div className='md:w-[100%] px-2 pb-2'>
-                    <div className='text-left overflow-y-auto max-h-[500px] max-xl:max-h-[460px] rounded-md w-[100%]'>
-                        <table className='w-[100%] border-2 border-slate-950  border-collapse  rounded-md m-0'>
-                            <thead className='sticky top-0 '>
-                                <tr className='bg-slate-950 text-white text-lg font-semibold'>
-                                    <th className='py-2 px-4'>SR.No</th>
-                                    <th className='py-2 px-4 '>Name</th>
-                                    <th className='py-2 px-4 '>Email</th>
-                                    <th className='py-2  px-4'>Enrollment No</th>
-                                    <th className='py-2 px-4 '>Phone</th>
-                                    <th className='py-2 px-4 ' >Semester</th>
-                                    <th className='py-2 px-4 '>Shift</th>
+                    <div className='md:w-[100%] px-2'>
+                        <div className='text-left overflow-y-auto max-h-[500px] max-xl:max-h-[460px] rounded-md w-[100%]'>
+                            <table className='w-[100%]  rounded-md'>
+                                <thead className='sticky top-0 '>
+                                    <tr className='bg-slate-950 text-white text-lg font-semibold'>
+                                        <th className='py-2 px-4'>SR.No</th>
+                                        <th className='py-2 px-4 '>Name</th>
+                                        <th className='py-2 px-4 '>Email</th>
+                                        <th className='py-2  px-4'>Enrollment No</th>
+                                        <th className='py-2 px-4 '>Phone</th>
+                                        <th className='py-2 px-4 ' >Semester</th>
+                                        <th className='py-2 px-4 '>Shift</th>
 
-                                    <th className='py-2 px-4'>Edit</th>
-                                </tr>
-                            </thead>
-                            {studentList?.length === 0 ?
-                                <tr className=''>
-                                    <td className='py-2 px-4 w-24'></td>
-                                    <td className='py-2 px-4 w-24'></td>
-                                    <td className='py-2 px-4 w-44'>No Data Found</td>
-                                    <td className='py-2 px-4 w-20'></td>
-                                    <td className='py-2 px-4 w-20'></td>
-                                    <td className='py-2 px-4 w-20'></td>
-                                </tr>
-                                :
-                                <tbody className='bg-slate-800 text-white '>
+                                        <th className='py-2 px-4'>Edit</th>
+                                    </tr>
+                                </thead>
+                                {studentList?.length === 0 ?
+                                    <tr className=''>
+                                        <td className='py-2 px-4 w-10'></td>
+                                        <td className='py-2 px-4 w-10'></td>
+                                        <td className='py-2 px-4 w-10'></td>
+                                        <td className='py-2 px-4 w-10'></td>
+                                        <td className='py-2 px-4 w-44'>No Data Found</td>
+                                        <td className='py-2 px-4 w-10'></td>
+                                        <td className='py-2 px-4 w-10'></td>
+                                        <td className='py-2 px-4 w-10'></td>
+                                    </tr>
+                                    :
+                                    <tbody className='bg-slate-800 text-white '>
 
-                                    {studentList?.map((student, index) => (
-                                        <tr key={student._id} className=''>
-                                            <td className='py-2 px-4'>{index + 1}</td>
-                                            <td className='py-2 px-4'>{student.name}</td>
-                                            <td className='py-2 px-4' >{student.email}</td>
-                                            <td className='py-2 px-4' >{student.EnrNo}</td>
-                                            <td className='py-2 px-4' >{student.phone}</td>
-                                            <td className='py-2 px-4'>{student.semester.name}</td>
-                                            <td className='py-2 px-4'>{student.shift.name}</td>
-                                            <td className='  py-2 px-4'>
-                                                <div className='flex flex-row gap-2 justify-left'>
-                                                    <button className='text-white font-semibold  bg-green-700 py-1 px-2 rounded-md' onClick={() => onOpenModal(student)}  >Update</button>
-                                                    <button className='text-white font-semibold bg-red-700  py-1 px-2 rounded-md' onClick={() => onOpenDeleteModal(student)} >Delete</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))
-                                    }
-                                </tbody>
-                            }
-                        </table>
-                    </div>
+                                        {studentList?.map((student, index) => (
+                                            <tr key={student._id} className=''>
+                                                <td className='py-2 px-4'>{index + 1}</td>
+                                                <td className='py-2 px-4'>{student.name}</td>
+                                                <td className='py-2 px-4' >{student.email}</td>
+                                                <td className='py-2 px-4' >{student.EnrNo}</td>
+                                                <td className='py-2 px-4' >{student.phone}</td>
+                                                <td className='py-2 px-4'>{student.semester.name}</td>
+                                                <td className='py-2 px-4'>{student.shift.name}</td>
+                                                <td className='  py-2 px-4'>
+                                                    <div className='flex flex-row gap-2 justify-left'>
+                                                        <button className='text-white font-semibold  bg-green-700 py-1 px-2 rounded-md' onClick={() => onOpenModal(student)}  >Update</button>
+                                                        <button className='text-white font-semibold bg-red-700  py-1 px-2 rounded-md' onClick={() => onOpenDeleteModal(student)} >Delete</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))
+                                        }
+                                    </tbody>
+                                }
+                            </table>
+                        </div>
                     </div>
                 }
             </div>
@@ -378,6 +557,98 @@ function ManageStudents() {
                     <button className='py-1 px-4 text-red-600 border-2 border-red-600 rounded-md'>Delete</button>
                 </form>
             </Modal>
+            <Modal open={openSemUpdateModal} onClose={closeUpdateSemModal} center classNames={{ modal: 'updateModal' }}>
+                <div className="w-[100%] flex flex-col max-md:flex-col p-3 justify-center items-center bg-white  rounded-md">
+                    <div>
+                        <h1 className='text-lg font-bold text-center'>Update Semester of All Students</h1>
+                        <p className='max-md:text-sm text-lg mt-2'>
+                            First select the current semester and shift of students you have to change,
+                            Then Select the new semester and shift which you want
+
+                        </p>
+                    </div>
+                        <h1 className='text-blue-700 mt-2 text-xl'>Select Current Semester and Shift</h1>    
+                    <div className='flex flex-col w-[100%] md:w-[80%] md:gap-2 mt-2'>
+                        <div className=" flex max-md:flex-col justify-between  items-center md:flex-row ">
+                            <label htmlFor="semesters" className='font-semibold text-lg max-md:text-[15px] w-max'>
+                                Select Semester:
+                            </label>
+                            <Select
+                                id="semesters"
+                                className="max-md:text-sm w-[80%] md:w-[60%] font-semibold md:ml-3 focus:outline-none"
+                                placeholder='Select Semester'
+                                onChange={currentSemChange}
+                            >
+                                {semesterList?.map((semester) => (
+                                    <Option key={semester._id} value={semester._id}>
+                                        {semester.name}
+                                    </Option>
+                                ))}
+
+                            </Select>
+                        </div>
+                        <div className="flex max-md:flex-col justify-between  items-center md:flex-row ">
+                            <label htmlFor="semesters" className='font-semibold text-lg max-md:text-[15px] w-max'>
+                                Select Shift:
+                            </label>
+                            <Select
+                                id="semesters"
+                                className="max-md:text-sm w-[80%] md:w-[60%] font-semibold md:ml-3 focus:outline-none placeholder-blue-500 "
+                                placeholder='Select Shift'
+                                onChange={currentShiftChange}
+                            >
+                                {
+                                    shiftList?.map((shift) => {
+                                        return <Option key={shift._id} value={shift._id} >{shift.name}</Option>
+                                    })
+                                }
+                            </Select>
+                        </div>
+                    </div>
+                        <h1 className='text-center text-blue-700 text-xl mt-2'>Select New Semester and Shift</h1>
+                    <div className='flex flex-col w-[100%] md:w-[80%] md:gap-2 mt-2'>
+                        <div className=" flex max-md:flex-col justify-between items-center md:flex-row ">
+                            <label htmlFor="semesters" className='font-semibold text-lg max-md:text-[15px] max'>
+                                Select Semester:
+                            </label>
+                            <Select
+                                id="semesters"
+                                className="max-md:text-sm w-[80%] md:w-[60%] font-semibold md:ml-3 focus:outline-none"
+                                placeholder='Select Semester'
+                                onChange={newSemesterChange}
+                            >
+                                {semesterList?.map((semester) => (
+                                    <Option key={semester._id} value={semester._id}>
+                                        {semester.name}
+                                    </Option>
+                                ))}
+
+                            </Select>
+                        </div>
+                        <div className="flex max-md:flex-col justify-between  items-center md:flex-row">
+                            <label htmlFor="semesters" className='font-semibold text-lg max-md:text-[15px] w-max'>
+                                Select Shift:
+                            </label>
+                            <Select
+                                id="semesters"
+                                className="max-md:text-sm w-[80%] md:w-[60%] font-semibold md:ml-3 focus:outline-none placeholder-blue-500 "
+                                placeholder='Select Shift'
+                                onChange={newShiftChange}
+                            >
+                                {
+                                    shiftList?.map((shift) => {
+                                        return <Option key={shift._id} value={shift._id} >{shift.name}</Option>
+                                    })
+                                }
+                            </Select>
+                        </div>
+                    </div>
+                    <form onSubmit={handleChangeSemesterOfStudent} className='flex justify-center items-center'>
+                        <button type="submit" className='mt-4 bg-blue-700 text-white py-2 px-4 rounded-md'>Update Student Semester</button>
+                    </form>
+                </div>
+            </Modal>
+
         </div>
     )
 }

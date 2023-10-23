@@ -34,46 +34,54 @@ function FManageNotes() {
         setSelectedSubject(value);
         console.log(value);
     }
-    const allSubjects = (selectedSemesterId) => {
-        axios.get(`${urlBackend}/api/v1/subjects/${selectedSemesterId}`).then((response) => {
+    const allSubjects =async (selectedSemesterId) => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/subjects/${selectedSemesterId}`);
+
             if (response.data.success) {
                 setSubjectList(response.data.subjects);
             } else {
                 console.error('Failed to Fetch Subjects');
             }
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
+
     }
 
-    const allSem = () => {
-        axios.get(`${urlBackend}/api/v1/get-semesters`).then((response) => {
+    const allSem =async () => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-semesters`);
+
             if (response.data.success) {
                 setSemesterList(response.data.semesters);
             } else {
                 console.error('Failed to Fetch Semesters');
             }
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
+
     };
     useEffect(() => {
         getNotes()
     }, [])
-    const getNotes = () => {
-        axios.get(`${urlBackend}/api/v4/get-notes/${auth?.user?.phone}`).then((response) => {
+    const getNotes =async () => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v4/get-notes/${auth?.user?.phone}`);
+
             if (response.data.success) {
                 setNotesList(response.data.notes);
-                console.log(response.data.notes)
-
+                console.log(response.data.notes);
             } else {
                 console.error('Failed to fetch Time Table details');
             }
-            setLoader(false)
-        })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+
+            setLoader(false);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
     }
 
     const onOpenModal = (note) => {
@@ -107,38 +115,37 @@ function FManageNotes() {
         setOpenDelete(false)
         setSelectedNote(null)
     }
-    const handleDelete = (e) => {
+    const handleDelete =async (e) => {
         e.preventDefault();
-        if (selectedNote._id) {
-            axios.delete(`${urlBackend}/api/v4/delete-note/${selectedNote._id}`)
-                .then((response) => {
-                    if (response.data.success) {
-                        getNotes()
-                        setNotesList((prevNoteList) =>
-                            prevNoteList.filter(
-                                (note) => note._id !== selectedNote._id
-                            )
-                        );
-                        toast.success('Note deleted successfully !',
-                            {
-                                autoClose: 2000,
-                                position: 'bottom-center'
-                            })
-                    } else {
-                        toast.error('Failed to delete note', {
-                            autoClose: 2000,
-                            position: 'bottom-center'
-                        });
-                    }
-                    onCloseDeleteModal();
-                })
-                .catch((error) => {
-                    toast.error(error, {
+        try {
+            if (selectedNote._id) {
+                const response = await axios.delete(`${urlBackend}/api/v4/delete-note/${selectedNote._id}`);
+
+                if (response.data.success) {
+                    getNotes();
+                    setNotesList((prevNoteList) =>
+                        prevNoteList.filter((note) => note._id !== selectedNote._id)
+                    );
+                    toast.success('Note deleted successfully!', {
                         autoClose: 2000,
-                        position: 'bottom-center'
+                        position: 'bottom-center',
                     });
-                });
+                } else {
+                    toast.error('Failed to delete note', {
+                        autoClose: 2000,
+                        position: 'bottom-center',
+                    });
+                }
+
+                onCloseDeleteModal();
+            }
+        } catch (error) {
+            toast.error(error.message, {
+                autoClose: 2000,
+                position: 'bottom-center',
+            });
         }
+
 
     };
 

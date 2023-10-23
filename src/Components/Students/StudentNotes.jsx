@@ -8,9 +8,9 @@ import img from '../../Images/logo_try.jpg'
 import no_data_found from '../../Images/no_data_found.png'
 import BarLoader from 'react-spinners/BarLoader'
 function StudentNotes() {
-  console.log(import.meta.env.VITE_BACKEND_API);
+  // console.log(import.meta.env.VITE_BACKEND_API);
   const urlBackend = import.meta.env.VITE_BACKEND_API
-  const { auth } = themeHook()
+  const { studentDetails,userId } = themeHook()
   const [search, setSearch] = useState('');
   const [loader, setLoader] = useState(true);
   const [semesterId, setSemesterId] = useState('')
@@ -23,69 +23,69 @@ function StudentNotes() {
     console.log(value);
     getNotesBySubject(value)
   }
-  const allSubjects = (semesterId) => {
-    axios.get(`${urlBackend}/api/v1/subjects/${semesterId}`).then((response) => {
+  const allSubjects =async (semesterId) => {
+    try {
+      const response = await axios.get(`${urlBackend}/api/v1/subjects/${semesterId}`);
+
       if (response.data.success) {
         setSubjectList(response.data.subjects);
         console.log(subjectList);
       } else {
         console.error('Failed to Fetch Subjects');
       }
-    }).catch((error) => {
+    } catch (error) {
       console.error('Error:', error);
-    });
+    }
+
   }
 
-  const getAllNOtes = () => {
+  const getAllNOtes =async (semesterId) => {
     setLoader(true)
-    axios
-      .get(`${urlBackend}/api/v2/get-notes/${semesterId}`)
-      .then((response) => {
-        if (response.data.success) {
-          setNotesList(response.data.notes);
-          setLoader(false)
-          console.log(semesterId);
-          console.log(response.data.notes);
-        } else {
-          console.log(response.data.message);
-          setInterval(() => {
-            setLoader(false)
-          },2000);
-        }
-      })
-      .catch((error) => {
-        console.log(error);        
-        setInterval(() => {
-          setLoader(false)
-        }, 2000);
+    try {
+      const response = await axios.get(`${urlBackend}/api/v2/get-notes/${semesterId}`);
 
-      });
+      if (response.data.success) {
+        setNotesList(response.data.notes);
+        setLoader(false);
+        console.log(semesterId);
+        console.log(response.data.notes);
+      } else {
+        console.log(response.data.message);
+        setTimeout(() => {
+          setLoader(false);
+        }, 2000);
+      }
+    } catch (error) {
+      console.log(error);
+      setTimeout(() => {
+        setLoader(false);
+      }, 2000);
+    }
+
   }
-  const getNotesBySubject = (selectedSubject) => {
+  const getNotesBySubject =async (selectedSubject) => {
     setLoader(true)
-    axios
-      .get(`${urlBackend}/api/v2/get-notes-by-subject/${selectedSubject}`)
-      .then((response) => {
-        if (response.data.success) {
-          setNotesList(response.data.notes);
-          setLoader(false)
-          console.log(subjectId);
-          console.log(response.data.notes);
-        } else {
-          console.log(response.data.message);
-          setInterval(() => {
-            setLoader(false)
-          }, 2000);
+    try {
+      const response = await axios.get(`${urlBackend}/api/v2/get-notes-by-subject/${selectedSubject}`);
 
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setInterval(() => {
-          setLoader(false)
+      if (response.data.success) {
+        setNotesList(response.data.notes);
+        setLoader(false);
+        console.log(subjectId);
+        console.log(response.data.notes);
+      } else {
+        console.log(response.data.message);
+        setTimeout(() => {
+          setLoader(false);
         }, 2000);
+      }
+    } catch (error) {
+      console.log(error);
+      setTimeout(() => {
+        setLoader(false);
+      }, 2000);
+    }
 
-      });
   }
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -108,16 +108,16 @@ function StudentNotes() {
   };
   
   useEffect(() => {
-    setSemesterId(auth?.user?.semester)
-    allSubjects(auth?.user?.semester)
-    getAllNOtes()
-    
-  }, [semesterId])
+    console.log(studentDetails[0]?.semester._id ,'Heloooo')
+    allSubjects(studentDetails[0]?.semester?._id)   
+    setSemesterId(studentDetails[0]?.semester?._id)
+    getAllNOtes(studentDetails[0]?.semester?._id)  
+  }, [])
   return (
 
    
       <div className='flex flex-col'>
-        <div className="py-2 px-2 flex max-lg:flex-col-reverse  w-[100%] lg:flex-row sticky top-0 " style={{backgroundColor:'rgb(0,0,0,0.1)'}}>
+        <div className="py-2 px-2 flex max-lg:flex-col-reverse  w-[100%] lg:flex-row md:sticky top-0 " style={{backgroundColor:'rgb(0,0,0,0.1)'}}>
           <div className='flex flex-row w-[100%] lg:w-[40%] justify-between items-center gap-2 max-lg:mt-5'>         
             <button className='py-2 w-[60%] lg:w-max lg:px-4 max-md:text-sm font-semibold bg-blue-700 text-white rounded-md shadow-md hover:bg-blue-700 hover:text-white' onClick={getAllNOtes}>All Subjects</button>
          

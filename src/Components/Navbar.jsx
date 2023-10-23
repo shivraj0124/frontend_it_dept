@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import themeHook from "./Admin/ContextP";
 const Navbar = () => {
     const [nav, setNav] = useState(false);
-    const {auth} =themeHook()
+    const {auth,username} =themeHook()
     const handleNav = () => {
         setNav(!nav);
     };
@@ -17,7 +17,7 @@ const Navbar = () => {
     const navigate=useNavigate()
    
     return (
-        <div className='flex justify-between px-[10%] items-center  h-20 sticky top-0 px-4 z-40 text-black bg-blue-50' >
+        <div className='flex justify-between md:px-[10%] px-2  items-center h-20 sticky top-0 z-40 text-black bg-blue-50 w-[100%]' >
             <div className="flex items-center gap-2 ">
             <img src={img1} onClick={() => navigate('/')} className='h-[60px] md:h-[60px] p-0 md:w-[60px] rounded-[50%] cursor-pointer ' />
                 <h1 className='text-2xl font-mono text-blue-500'>IT-DEPT</h1>
@@ -82,20 +82,20 @@ const Navbar = () => {
                         <li className='pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Home</li>
                     </Link>
                     <Link to='About' >
-                        <li className='pt-4 pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>About</li>
+                        <li className='pt-2 pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>About</li>
                     </Link>
                     <Link to='/Faculty'>
-                        <li className='pt-4  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Faculty</li>
+                        <li className='pt-2  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Faculty</li>
                     </Link>
                     <Link to='/Curriculum'>
-                        <li className='pt-4  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Curriculum</li>
+                        <li className='pt-2  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Curriculum</li>
                     </Link>
                     <Link to='/Contact'>
-                        <li className='pt-4  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Contact</li>
+                        <li className='pt-2  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Contact</li>
                     </Link>
                     
                     { !auth?.user ? 
-                    <Link to='/Login' className='pt-4  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' >Login</Link>
+                    <Link to='/Login' className='pt-2  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' >Login</Link>
                       :             
                         <>
                             {auth?.user?.role === 2 ? (
@@ -108,11 +108,11 @@ const Navbar = () => {
                                     
                                 </>
                             ) : auth?.user?.role === 1 ? (
-                                <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Student/Dashboard')} >
+                                <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Student/')} >
                                     <li className='mt-2 ml-6' >
                                         <BiUserCircle size={40} />
                                     </li>
-                                    <li className='pt-4 font-bold uppercase text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={() => navigate('/profile')} >{auth?.user?.username}</li>
+                                        <li className='pt-4 font-bold uppercase text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={() => navigate('/Student')} >{username}</li>
                                 </div>
                                    
                                 </>
@@ -121,7 +121,7 @@ const Navbar = () => {
                                         <li className='mt-2 ml-6' >
                                             <BiUserCircle size={40} />
                                         </li>
-                                        <li className='pt-4 font-bold uppercase text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={() => navigate('/profile')} >{auth?.user?.username}</li>
+                                        <li className='pt-4 font-bold uppercase text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={() => navigate('/Faculty')} >{username}</li>
                                     </div>
                                        
                                     </>

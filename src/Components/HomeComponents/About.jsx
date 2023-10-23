@@ -29,7 +29,7 @@ function About() {
                             </h1>
                             The Department of Information Technology was established in 2001.the Information Technology department will strive to achieve excellence in education so as to enable students to establish themselves as world-class technicians. The department will provide vibrant infrastructure and software application tool sets to empower them with the proficiency and knowledge required to excel in the dynamic field of IT and to pursue higher education. Information Technology department is on a third floor of main building of Gpmumbai..
                         </p>
-                        <button className="w-max mt-8 py-2 px-6 bg-blue-500 hover:bg-blue-800 rounded-md" onClick={() => navigate('/Login')}>
+                        <button className="w-max mt-8 py-2 px-6 bg-blue-50 border border-blue-700 hover:bg-blue-900 text-blue-700 font-semibold rounded-md" onClick={() => navigate('/Login')}>
                             Explore More
                         </button>
                     </div>

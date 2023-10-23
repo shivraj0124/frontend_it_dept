@@ -40,6 +40,10 @@ const Sidebar = () => {
         const replacedString = newLocation.replace(/\//g, ' > ')
         return replacedString + ' >';
     }
+    const clearLocalStorage = () => {
+        localStorage.clear();
+        handleNav()
+    };
   
     useEffect(() => {
                
@@ -269,7 +273,7 @@ const Sidebar = () => {
                             {/* LogOut */}
                             <div className='mt-5'>
                                 <hr />
-                                <Link to='/' className="flex flex-row py-2 gap-2 items-center" onClick={handleNav}>
+                                    <Link to='/' className="flex flex-row py-2 gap-2 items-center" onClick={clearLocalStorage}>
 
                                     <FiLogOut size={22} />
                                     <h1>

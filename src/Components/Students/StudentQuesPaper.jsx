@@ -8,7 +8,7 @@ import img from '../../Images/logo_try.jpg'
 import no_data_found from '../../Images/no_data_found.png'
 import BarLoader from 'react-spinners/BarLoader'
 function StudentQuesPaper() {
-    const { auth } = themeHook()
+    const { studentDetails } = themeHook()
     const [search, setSearch] = useState('');
     const [loader, setLoader] = useState(true);
     const [semesterId, setSemesterId] = useState('')
@@ -22,69 +22,69 @@ function StudentQuesPaper() {
         console.log(value);
         getQuesPBySubject(value)
     }
-    const allSubjects = (semesterId) => {
-        axios.get(`${urlBackend}/api/v1/subjects/${semesterId}`).then((response) => {
+    const allSubjects = async (semesterId) => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/subjects/${semesterId}`);
+
             if (response.data.success) {
                 setSubjectList(response.data.subjects);
                 console.log(subjectList);
             } else {
                 console.error('Failed to Fetch Subjects');
             }
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
+
     }
 
-    const getAllQuesP = () => {
+    const getAllQuesP =async (semesterId) => {
         setLoader(true)
-        axios
-            .get(`${urlBackend}/api/v2/get-quesP/${semesterId}`)
-            .then((response) => {
-                if (response.data.success) {
-                    setQuesList(response.data.quesP);
-                    setLoader(false)
-                    console.log(semesterId);
-                    console.log(response.data.quesP);
-                } else {
-                    console.log(response.data.message);
-                    setInterval(() => {
-                        setLoader(false)
-                    }, 2000);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                setInterval(() => {
-                    setLoader(false)
-                }, 2000);
+        try {
+            const response = await axios.get(`${urlBackend}/api/v2/get-quesP/${semesterId}`);
 
-            });
+            if (response.data.success) {
+                setQuesList(response.data.quesP);
+                setLoader(false);
+                console.log(semesterId);
+                console.log(response.data.quesP);
+            } else {
+                console.log(response.data.message);
+                setTimeout(() => {
+                    setLoader(false);
+                }, 2000);
+            }
+        } catch (error) {
+            console.error(error);
+            setTimeout(() => {
+                setLoader(false);
+            }, 2000);
+        }
+
     }
-    const getQuesPBySubject = (selectedSubject) => {
+    const getQuesPBySubject =async (selectedSubject) => {
         setLoader(true)
-        axios
-            .get(`${urlBackend}/api/v2/get-quesP-by-subject/${selectedSubject}`)
-            .then((response) => {
-                if (response.data.success) {
-                    setQuesList(response.data.quesP);
-                    setLoader(false)
-                    console.log(subjectId);
-                    console.log(response.data.quesP);
-                } else {
-                    console.log(response.data.message);
-                    setInterval(() => {
-                        setLoader(false)
-                    }, 2000);
+        try {
+            const response = await axios.get(`${urlBackend}/api/v2/get-quesP-by-subject/${selectedSubject}`);
 
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                setInterval(() => {
-                    setLoader(false)
+            if (response.data.success) {
+                setQuesList(response.data.quesP);
+                setLoader(false);
+                console.log(subjectId);
+                console.log(response.data.quesP);
+            } else {
+                console.log(response.data.message);
+                setTimeout(() => {
+                    setLoader(false);
                 }, 2000);
+            }
+        } catch (error) {
+            console.log(error);
+            setTimeout(() => {
+                setLoader(false);
+            }, 2000);
+        }
 
-            });
     }
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -107,11 +107,11 @@ function StudentQuesPaper() {
     };
 
     useEffect(() => {
-        setSemesterId(auth?.user?.semester)
-        allSubjects(auth?.user?.semester)
-        getAllQuesP()
-
-    }, [semesterId])
+        console.log(studentDetails[0]?.semester?._id)
+        allSubjects(studentDetails[0]?.semester?._id)
+        setSemesterId(studentDetails[0]?.semester?._id)
+        getAllQuesP(studentDetails[0]?.semester?._id)
+    }, [])
     return (
 
         <div className=''>

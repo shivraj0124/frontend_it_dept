@@ -9,9 +9,9 @@ function Footer() {
     const navigate = useNavigate()
 
     return (
-        <div className=" flex w-[100%] pt-7 md:flex-row flex-col h-max md:px-[2%] text-slate-600 bg-blue-300  p-5 "  >
-            <div className=" w-[80%] flex flex-col  gap-2 text-[18px] text-[#646464] md:ml-0 ml-12 md:items-start md:justify-start items-center justify-center ">
-                <h4 className='  text-center text-gray-500 ml-4 mt-5'>Follows Us On.</h4>
+        <div className="flex w-full  max-md:justify-center max-md:items-center  md:flex-row flex-col h-max md:px-[2%] text-slate-600 bg-gray-100 py-5 px-10  mt-5 "  >
+            <div className=" w-[100%] flex flex-col  gap-2 text-[18px] text-[#646464] md:ml-0  md:items-start md:justify-start items-center justify-center ">
+                <h4 className='  text-center text-gray-500  mt-5'>Follows Us On.</h4>
                 <div className='flex flex-row gap-4 '>
                     <div className="flex text-2xl bg-[#efefef] p-2 rounded-full hover:bg-blue-500 hover:text-white" style={{ transition: "all 0.3s" }}>
                         <FaFacebookF />
@@ -25,17 +25,12 @@ function Footer() {
                     <div className="flex text-2xl bg-[#efefef] p-2 rounded-full hover:bg-gradient-to-r from-yellow-400 via-orange-400 via-pink-500 via-purple-600 to-blue-500  hover:text-white" style={{ transition: "all 0.3s" }}>
                         <FaInstagram />
                     </div>
-
-
                 </div>
-
-
-
             </div>
-            <div className=' w-[100%] ml-10 flex flex-col justify-center items-center'>
+            <div className=' w-[100%] flex flex-col justify-center items-center'>
                 <div className="flex items-center gap-2 mt-2">
-                    <h1 className='text-xl font-mono'>IT-DEPT</h1>
                     <img src={img1} onClick={() => navigate('/')} className='h-[40px] md:h-[30px]  md:w-[30px] rounded-[50%] cursor-pointer ' />
+                    <h1 className='text-xl font-mono text-blue-700'>IT-DEPT</h1>
                 </div>
                 <h4 className='text-center text-gray-500'>Copyright. All rights reserved.</h4>
             </div>

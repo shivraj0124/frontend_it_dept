@@ -20,11 +20,8 @@ const FacultySidebar = () => {
     const navigate = useNavigate()
     const [isOpen, setIsOpen] = useState(false);
     const [nav, setNav] = useState(false)
-    const [notesQP, setNotesQP] = useState(false)
-    // const [stDrop, setStDrop] = useState(false)
-    // const [TT, setTT] = useState(false)
+    const [notesQP, setNotesQP] = useState(false)   
     const [notice, setNotice] = useState(false)
-    // const [achievement, setAchievement] = useState(false)
     const [loader, setLoader] = useState(true)
     const [showTop, setShowTop] = useState(false)
     const handleNav = () => {
@@ -39,6 +36,10 @@ const FacultySidebar = () => {
         const replacedString = newLocation.replace(/\//g, ' > ')
         return replacedString + ' >';
     }
+    const clearLocalStorage = () => {
+        localStorage.clear();
+        handleNav()
+    };
 
     useEffect(() => {
 
@@ -156,7 +157,7 @@ const FacultySidebar = () => {
                                 {/* LogOut */}
                                 <div className='mt-5'>
                                     <hr />
-                                    <Link to='/' className="flex flex-row py-2 gap-2 items-center" onClick={handleNav}>
+                                    <Link to='/' className="flex flex-row py-2 gap-2 items-center" onClick={clearLocalStorage}>
 
                                         <FiLogOut size={22} />
                                         <h1>

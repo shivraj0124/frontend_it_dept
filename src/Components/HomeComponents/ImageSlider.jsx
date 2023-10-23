@@ -11,8 +11,8 @@ export default function ImageSlider() {
 
     return (
         <div className="flex md:flex-row max-md:flex-col md:gap-x-10 gap-2 items-center justify-center bg-white">
-            <div className="w-[70%] h-[70vh] flex justify-center items-center">
-                <div className="rounded-md w-full h-max px-4 py-2 shadow-lg ">
+            <div className="max-md:w-[90%] w-[70%] px-2 h-[70vh] flex justify-center items-center">
+                <div className="rounded-md w-full h-max  py-2 shadow-lg ">
                     <Carousel
                         autoPlay
                         infiniteLoop

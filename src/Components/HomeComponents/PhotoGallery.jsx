@@ -24,7 +24,7 @@ function PhotoGallery() {
                 {
                     set === 0 ? <>
                         <div className='flex flex-col justify-center items-center'>
-                            <div className='h-max w-[100%] mt-10 grid lg:grid-cols-3 xl:grid-cols-3 max-lg:grid-cols-2 gap-10 max-md:grid-cols-1'>
+                            <div className='h-max w-[90%] mt-10 grid lg:grid-cols-3 xl:grid-cols-3 max-lg:grid-cols-2 max-md:gap-y-5 md:gap-10 max-md:grid-cols-1'>
                                 <div className='p-5 w-[100%] md:w-[300px]  bg-white shadow-xl rounded-md' >
                                     <img src={img2} alt="" className='w-[100%] rounded-md' />
                                     <p className='mt-4'>Boys Kho-Kho team stood as Runner-up in the inter college zonal Tournament.</p>
@@ -53,7 +53,7 @@ function PhotoGallery() {
 
 
                             </div>
-                            <Link className='py-2 px-10 mt-10 bg-white0 w-max rounded-md text-white font-semibold hover:bg-blue-400' to='/MiniphotoG' >Show More...</Link>
+                            <Link className='py-2 px-10 mt-10 bg-blue-700 w-max rounded-md text-white font-semibold hover:bg-blue-400' to='/MiniphotoG' >Show More...</Link>
                             {/* <button onClick={handleButtonClick} className='py-2 px-10 mt-10 bg-white0 w-max rounded-md text-white font-semibold hover:bg-blue-400'>Show More...</button> */}
                         </div>
                     </> :

@@ -35,7 +35,10 @@ const StudentSidebar = () => {
         const replacedString = newLocation.replace(/\//g, ' > ')
         return replacedString + ' >';
     }
-  
+    const clearLocalStorage = () => {
+        localStorage.clear();
+        handleNav()
+    };
     useEffect(() => {
         if (auth?.user?.role !== 1) {
             setFindForm('S')
@@ -94,7 +97,7 @@ const StudentSidebar = () => {
 
                                 className=" w-full pt-5 flex flex-row cursor-pointer gap-x-2 pl-2 items-center justify-between pr-5"
                             >
-                                <div className='flex flex-row items-center gap-x-2' onClick={() => { handleNav(); navigate('/Student/Notes') }}><PiNotePencil size={21} />
+                                <div className='flex flex-row items-center gap-x-2' onClick={() => { handleNav(); navigate('/Student/Notes') }}><CgNotes size={21} />
                                     Notes
                                 </div>
 
@@ -118,7 +121,7 @@ const StudentSidebar = () => {
                                 className=" w-full pt-5 flex flex-row cursor-pointer gap-x-2 pl-2 items-center justify-between pr-5"
                             >
                                 <div className='flex flex-row items-center gap-x-2' onClick={() => { handleNav(); navigate('/Student/Notices') }}><PiNotePencil size={21} />
-                                    Time Table
+                                    Notices 
                                 </div>
                             </div>
 
@@ -138,7 +141,7 @@ const StudentSidebar = () => {
                             {/* LogOut */}
                             <div className='mt-5'>
                                 <hr />
-                                <Link to='/' className="flex flex-row py-2 gap-2 items-center" onClick={handleNav}>
+                                <Link to='/' className="flex flex-row py-2 gap-2 items-center" onClick={clearLocalStorage}>
 
                                     <FiLogOut size={22} />
                                     <h1>

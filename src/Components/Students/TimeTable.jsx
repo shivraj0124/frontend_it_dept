@@ -4,7 +4,7 @@ import axios from 'axios'
 import no_data_found from '../../Images/no_data_found.png'
 import BarLoader from 'react-spinners/BarLoader'
 function TimeTable() {
-    const { auth } = themeHook()
+    const { studentDetails } = themeHook()
     const [loader, setLoader] = useState(true);
     const [semesterId, setSemesterId] = useState('')
     const [shiftId, setShiftId] = useState('')
@@ -31,11 +31,10 @@ function TimeTable() {
     }
     
     useEffect(() => {
-        setSemesterId(auth?.user?.semester)
-        setShiftId(auth?.user?.shift)
-        getTimeTable(auth?.user?.semester)
-
-    }, [semesterId])
+        setSemesterId(studentDetails[0].semester?._id)
+        setShiftId(studentDetails[0].semester?._id)
+        getTimeTable(studentDetails[0].semester?._id)
+    }, [])
     return (
         <div className="h-max bg-blue-50 overflow-x-auto">
             <div className="w-[100%] mt-2 max-md:mt-2 flex justify-center">

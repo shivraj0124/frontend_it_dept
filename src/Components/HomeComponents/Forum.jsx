@@ -6,11 +6,11 @@ import { TypeAnimation } from 'react-type-animation';
 const Forum = () => {
     
     return (
-        <div className="w-[100%]  flex flex-col md:flex-row h-full px-[1%] py-[0%] pb-12 items-center justify-center bg-gray-100">
+        <div className="w-[100%]  flex flex-col md:flex-row  h-full pb-12 items-center justify-center bg-gray-100 md:px-[10%]">
 
-            <div className=" font-sans md:font-serif flex-col w-[40%] items-center justify-center ">
+            <div className=" font-sans md:font-serif flex-col w-[40%] max-md:w-[100%]  items-center justify-center mt-10">
 
-                <h1 className="text-black mb-4 font-bold">
+                <h1 className="text-black mb-4 font-bold max-md:px-2 text-xl">
                     <TypeAnimation
                         sequence={[
                             ' Hello viewers... ',
@@ -25,7 +25,7 @@ const Forum = () => {
                         repeat={Infinity}
                     />
                 </h1>
-                <p className=" text-md font-sans md:font-serif max-md:text-md md:ml-12 text-gray-500 md:mr-[20%] ">
+                <p className=" text-md font-sans md:font-serif max-md:text-md md:ml-12 text-gray-500 md:mr-[20%]  max-md:px-2">
 
                     <ul className='list-disc pl-4 text-lg'>
                         <li>Login First To Community.</li>
@@ -36,7 +36,7 @@ const Forum = () => {
 
             </div>
 
-            <div className=" w-[45%] mt-10 ml-12 flex flex-col ">
+            <div className=" w-[45%] max-md:w-[100%] mt-10 max-md:mt-5  max-md:ml-0 px-4 flex flex-col ">
                 <img className="rounded-md w-[90%] mt-5    h-auto" src={img1} alt="" />
                 <p className='text-md mt-5 font-sans md:font-serif text-gray-500'>A Query Resolution Community is an online platform where users can post questions or queries on various topics and receive answers and solutions from other community members. It serves as a collaborative and knowledge-sharing space where individuals seek assistance or information from a broader audience...</p>
                 <Link to="https://forumgpm.netlify.app/">

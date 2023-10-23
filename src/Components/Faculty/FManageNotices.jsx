@@ -43,28 +43,34 @@ export default function FManageNotices() {
     const onCloseDes = () => {
         setOpenDes(false);
     };
-    const allShifts = (selectedSemesterId) => {
-        axios.get(`${urlBackend}/api/v1/get-shifts/${selectedSemesterId}`).then((response) => {
+    const allShifts =async (selectedSemesterId) => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-shifts/${selectedSemesterId}`);
+
             if (response.data.success) {
                 setShiftList(response.data.shifts);
             } else {
-                console.error('Failed to Fetch Subjects');
+                console.error('Failed to Fetch Shifts');
             }
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
+
     }
 
-    const allSem = () => {
-        axios.get(`${urlBackend}/api/v1/get-semesters`).then((response) => {
+    const allSem = async () => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-semesters`);
+
             if (response.data.success) {
                 setSemesterList(response.data.semesters);
             } else {
                 console.error('Failed to Fetch Semesters');
             }
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
+
     };
     const [openDelete, setOpenDelete] = useState(false);
     const openDeleteModal = (notice) => {
@@ -75,35 +81,37 @@ export default function FManageNotices() {
         setOpenDelete(false);
     };
 
-    const handleDelete = (e) => {
+    const handleDelete = async (e) => {
         e.preventDefault();
-        if (selectedNotice && selectedNotice._id) {
-            axios.delete(`${urlBackend}/api/v4/delete-notice/${selectedNotice._id}`)
-                .then((response) => {
-                    if (response.data.success) {
-                        getNotices();
-                        setNoticeList((prevNoticeList) =>
-                            prevNoticeList.filter((notice) => notice._id !== selectedNotice._id)
-                        );
-                        toast.success('Notice deleted successfully !', {
-                            autoClose: 2000,
-                            position: 'bottom-center',
-                        });
-                    } else {
-                        toast.error('Failed to delete Notice', {
-                            autoClose: 2000,
-                            position: 'bottom-center',
-                        });
-                    }
-                    onCloseDeleteModal();
-                })
-                .catch((error) => {
-                    toast.error(error, {
+        try {
+            if (selectedNotice && selectedNotice._id) {
+                const response = await axios.delete(`${urlBackend}/api/v4/delete-notice/${selectedNotice._id}`);
+
+                if (response.data.success) {
+                    getNotices();
+                    setNoticeList((prevNoticeList) =>
+                        prevNoticeList.filter((notice) => notice._id !== selectedNotice._id)
+                    );
+                    toast.success('Notice deleted successfully!', {
                         autoClose: 2000,
                         position: 'bottom-center',
                     });
-                });
+                } else {
+                    toast.error('Failed to delete Notice', {
+                        autoClose: 2000,
+                        position: 'bottom-center',
+                    });
+                }
+
+                onCloseDeleteModal();
+            }
+        } catch (error) {
+            toast.error(error.message, {
+                autoClose: 2000,
+                position: 'bottom-center',
+            });
         }
+
     };
 
     const onOpenModal = (notice) => {
@@ -131,78 +139,85 @@ export default function FManageNotices() {
         setSelectedShift('')
     };
 
-    const handleOnSubmit = (e) => {
+    const handleOnSubmit =async (e) => {
         e.preventDefault();
         let updateOrNot = 1;
         const arr = [title, description];
         let countLoop = 0;
-        arr.map((item, index) => {
-            // alert(item);
-            item.replace(/\s+/g, '');
+
+        arr.forEach((item, index) => {
+            item = item.replace(/\s+/g, ''); // Assign the result back to the variable
             if (item.trim() === '') {
                 countLoop += 1;
                 updateOrNot = 0;
                 if (countLoop <= 1)
-                    index === 0 ? toast.error(`Title Field must be filled`, {
-                        autoClose: 2000,
-                        position: 'bottom-center',
-                    }) : toast.error(`Description Field must be filled`, {
-                        autoClose: 2000,
-                        position: 'bottom-center',
-                    });
-
+                    index === 0
+                        ? toast.error(`Title Field must be filled`, {
+                            autoClose: 2000,
+                            position: 'bottom-center',
+                        })
+                        : toast.error(`Description Field must be filled`, {
+                            autoClose: 2000,
+                            position: 'bottom-center',
+                        });
             }
         });
 
         if (updateOrNot === 1) {
-            const formData = new FormData();
-            formData.append('title', title);
-            formData.append('link', link);
-            formData.append('description', description);
-            formData.append('semester', selectedSem);
-            formData.append('shift', selectedShift);
-            axios.put(`${urlBackend}/api/v4/update-notice/${selectedNotice._id}`, formData)
-                .then((response) => {
-                    if (response.data.success) {
-                        getNotices();
-                        setNoticeList((prevNoticeList) =>
-                            prevNoticeList.map((notice) =>
-                                notice._id === selectedNotice._id ? response.data.updatedNotice : notice
-                            )
-                        );
-                        toast.success('Notice Updated Successfully', {
-                            autoClose: 2000,
-                            closeButton: true,
-                            position: 'bottom-center',
-                        });
-                        onCloseModal();
-                    } else {
-                        toast.error('Notice with this Title already exists', {
-                            autoClose: 2000,
-                            position: 'bottom-center',
-                        });
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+            try {
+                const formData = new FormData();
+                formData.append('title', title);
+                formData.append('link', link);
+                formData.append('description', description);
+                formData.append('semester', selectedSem);
+                formData.append('shift', selectedShift);
+
+                const response = await axios.put(
+                    `${urlBackend}/api/v4/update-notice/${selectedNotice._id}`,
+                    formData
+                );
+
+                if (response.data.success) {
+                    getNotices();
+                    setNoticeList((prevNoticeList) =>
+                        prevNoticeList.map((notice) =>
+                            notice._id === selectedNotice._id ? response.data.updatedNotice : notice
+                        )
+                    );
+                    toast.success('Notice Updated Successfully', {
+                        autoClose: 2000,
+                        closeButton: true,
+                        position: 'bottom-center',
+                    });
+                    onCloseModal();
+                } else {
+                    toast.error('Notice with this Title already exists', {
+                        autoClose: 2000,
+                        position: 'bottom-center',
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
+
     };
 
-    const getNotices = () => {
-        axios
-            .get(`${urlBackend}/api/v4/get-notices/${auth?.user?.phone}`)
-            .then((response) => {
-                if (response.data.success) {
-                    setNoticeList(response.data.fNotice);
-                } else {
-                    console.error('Failed to fetch Notice details');
-                }
-                setLoader(false);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+    const getNotices =async () => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v4/get-notices/${auth?.user?.phone}`);
+
+            if (response.data.success) {
+                setNoticeList(response.data.fNotice);
+            } else {
+                console.error('Failed to fetch Notice details');
+            }
+
+            setLoader(false);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
     };
 
     useEffect(() => {
