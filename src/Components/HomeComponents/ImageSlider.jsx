@@ -1,7 +1,7 @@
 
 import React from "react";
 import img1 from '../../Images/firstSlider-1.png'
-import img2 from '../../Images/img2.png'
+import img2 from '../../Images/Img2.png'
 import img3 from '../../Images/stu.png'
 import img4 from '../../Images/mam.png'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
