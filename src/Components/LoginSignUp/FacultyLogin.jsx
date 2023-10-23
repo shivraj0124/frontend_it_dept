@@ -12,33 +12,33 @@ export default function FacultyLogin() {
     const navigate=useNavigate()
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('phone', phone);
-        formData.append('password', password);
+        try {
+            const formData = new FormData();
+            formData.append('phone', phone);
+            formData.append('password', password);
 
-        axios
-            .post(`${urlBackend}/api/v3/faculty-login`, formData)
-            .then((response) => {
-                if (response.data.success) {
-                    setLoggedIn(true);
-                    setAuth({
-                        ...auth,
-                        user: response.data.user,
-                    });
-                    localStorage.setItem("username", response.data?.user.name);
-                    setUsername(response.data.user.name)
-                    localStorage.setItem("userId", response.data?.user._id)
-                    localStorage.setItem("auth", JSON.stringify(response.data.user));
-                    toast.success(`Faculty Logged In Successfully`);
-                    navigate('/')
-                } else {
-                    setLoggedIn(false);
-                    toast.error('Invalid Credentials! Please Try Again');
-                }
-            })
-            .catch((error) => {
+            const response = await axios.post(`${urlBackend}/api/v3/faculty-login`, formData);
+
+            if (response.data.success) {
+                setLoggedIn(true);
+                setAuth({
+                    ...auth,
+                    user: response.data.user,
+                });
+                localStorage.setItem("username", response.data?.user.name);
+                setUsername(response.data.user.name);
+                localStorage.setItem("userId", response.data?.user._id);
+                localStorage.setItem("auth", JSON.stringify(response.data.user));
+                toast.success(`Faculty Logged In Successfully`);
+                navigate('/');
+            } else {
+                setLoggedIn(false);
                 toast.error('Invalid Credentials! Please Try Again');
-            });
+            }
+        } catch (error) {
+            toast.error('Invalid Credentials! Please Try Again: ' + error.message);
+        }
+
         setPhone('');
         setPassword('');
     }
