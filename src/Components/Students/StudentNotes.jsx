@@ -119,7 +119,7 @@ function StudentNotes() {
       <div className='flex flex-col'>
         <div className="py-2 px-2 flex max-lg:flex-col-reverse  w-[100%] lg:flex-row md:sticky top-0 " style={{backgroundColor:'rgb(0,0,0,0.1)'}}>
           <div className='flex flex-row w-[100%] lg:w-[40%] justify-between items-center gap-2 max-lg:mt-5'>         
-            <button className='py-2 w-[60%] lg:w-max lg:px-4 max-md:text-sm font-semibold bg-blue-700 text-white rounded-md shadow-md hover:bg-blue-700 hover:text-white' onClick={getAllNOtes}>All Subjects</button>
+          <button className='py-2 w-[60%] lg:w-max lg:px-4 max-md:text-sm font-semibold bg-blue-700 text-white rounded-md shadow-md hover:bg-blue-700 hover:text-white' onClick={() => getAllNOtes(studentDetails[0]?.semester?._id)}>All Subjects</button>
          
             <Select
               id="semesters"
