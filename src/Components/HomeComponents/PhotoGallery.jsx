@@ -53,7 +53,7 @@ function PhotoGallery() {
 
 
                             </div>
-                            <Link className='py-2 px-10 mt-10 bg-blue-700 w-max rounded-md text-white font-semibold hover:bg-blue-400' to='/MiniphotoG' >Show More...</Link>
+                            <Link className='py-2 px-10 mt-10 bg-blue-700 w-max rounded-md text-white font-semibold hover:bg-blue-900' to='/MiniphotoG' >Show More...</Link>
                             {/* <button onClick={handleButtonClick} className='py-2 px-10 mt-10 bg-white0 w-max rounded-md text-white font-semibold hover:bg-blue-400'>Show More...</button> */}
                         </div>
                     </> :

@@ -9,7 +9,7 @@ function Footer() {
     const navigate = useNavigate()
 
     return (
-        <div className="flex w-full  max-md:justify-center max-md:items-center  md:flex-row flex-col h-max md:px-[2%] text-slate-600 bg-gray-100 py-5 px-10  mt-5 "  >
+        <div className="flex w-full  max-md:justify-center max-md:items-center  md:flex-row flex-col h-max md:px-[10%] px-2 text-slate-600 bg-gray-100 py-5 mt-5 "  >
             <div className=" w-[100%] flex flex-col  gap-2 text-[18px] text-[#646464] md:ml-0  md:items-start md:justify-start items-center justify-center ">
                 <h4 className='  text-center text-gray-500  mt-5'>Follows Us On.</h4>
                 <div className='flex flex-row gap-4 '>

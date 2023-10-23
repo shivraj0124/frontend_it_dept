@@ -10,7 +10,7 @@ import { Carousel } from 'react-responsive-carousel';
 export default function ImageSlider() {
 
     return (
-        <div className="flex md:flex-row max-md:flex-col md:gap-x-10 gap-2 items-center justify-center bg-white">
+        <div className="flex md:flex-row max-md:flex-col md:px-[10%] px-2 gap-2 items-center justify-center bg-white">
             <div className="max-md:w-[90%] w-[70%] px-2 h-[70vh] flex justify-center items-center">
                 <div className="rounded-md w-full h-max  py-2 shadow-lg ">
                     <Carousel
