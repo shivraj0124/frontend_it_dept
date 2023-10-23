@@ -17,7 +17,7 @@ const Navbar = () => {
     const navigate=useNavigate()
    
     return (
-        <div className='flex justify-between md:px-[10%] px-2  items-center h-max sticky top-0 z-40 text-black bg-blue-50 w-[100%]' >
+        <div className='flex justify-between md:px-[10%] px-2  items-center h-max py-1 sticky top-0 z-40 text-black bg-blue-50 w-[100%]' >
             <div className="flex items-center gap-2 ">
             <img src={img1} onClick={() => navigate('/')} className='h-[60px] md:h-[60px] p-0 md:w-[60px] rounded-[50%] cursor-pointer ' />
                 <h1 className='text-2xl font-mono text-blue-500'>IT-DEPT</h1>
