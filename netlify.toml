@@ -8,3 +8,4 @@ status = 200
 
   [plugins.inputs]
   cloudName = "dc28atbon"
+  deliveryType="upload"
