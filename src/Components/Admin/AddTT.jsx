@@ -75,7 +75,7 @@ function AddTT() {
                     position: 'bottom-center',
                 });
             } else {
-                toast.error('Failed to Upload Time Table', {
+                toast.error('Failed to Upload Time Table hello', {
                     autoClose: 2000,
                     position: 'bottom-center',
                 });
