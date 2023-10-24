@@ -39,7 +39,7 @@ function ManageQP() {
     const FilterBySubject = (value) => {
         getQpBySubject(value)
     }
-    const allSubjects =async (selectedSemesterId) => {
+    const allSubjects = async (selectedSemesterId) => {
         try {
             const response = await axios.get(`${urlBackend}/api/v1/subjects/${selectedSemesterId}`);
 
@@ -56,12 +56,12 @@ function ManageQP() {
 
     const allSem =async () => {
         try {
-            const response = await axios.get(`${urlBackend}/api/v1/subjects/${selectedSemesterId}`);
+            const response = await axios.get(`${urlBackend}/api/v1/get-semesters`);
 
             if (response.data.success) {
-                setSubjectList(response.data.subjects);
+                setSemesterList(response.data.semesters);
             } else {
-                console.error('Failed to Fetch Subjects');
+                console.error('Failed to Fetch Semesters');
             }
         } catch (error) {
             console.error('Error:', error);
