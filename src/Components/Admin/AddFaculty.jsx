@@ -77,7 +77,10 @@ export default function AddFaculty() {
         }
       }
     })
-
+    if (photo === null) {
+      toast.error('Please Upload the Photo')
+      updateOrNot = 0
+    }
     if (updateOrNot === 1) {
       const formData = new FormData();
       formData.append('name', name);

@@ -41,96 +41,103 @@ function ManageStudents() {
     const FilterByShift = (value) => {
         getStudentsByShift(value)
     }
-    const allShifts = (selectedSemesterId) => {
-        axios.get(`${urlBackend}/api/v1/get-shifts/${selectedSemesterId}`).then((response) => {
+    const allShifts =async (selectedSemesterId) => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-shifts/${selectedSemesterId}`);
+
             if (response.data.success) {
                 setShiftList(response.data.shifts);
             } else {
                 console.error('Failed to Fetch Subjects');
             }
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
+
     }
 
-    const allSem = () => {
-        axios.get(`${urlBackend}/api/v1/get-semesters`).then((response) => {
+    const allSem =async () => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-semesters`);
+
             if (response.data.success) {
                 setSemesterList(response.data.semesters);
             } else {
                 console.error('Failed to Fetch Semesters');
             }
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
+
     };
     useEffect(() => {
         getStudents()
         allSem()
     }, [])
 
-    const getStudents = () => {
-        axios.get(`${urlBackend}/api/v1/get-students`).then((response) => {
-            if (response.data.success) {
-                console.log(response.data.students)
-                setStudentList(response.data.students);
+    const getStudents =async () => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-students`);
 
+            if (response.data.success) {
+                console.log(response.data.students);
+                setStudentList(response.data.students);
             } else {
                 console.error('Failed to fetch Students details');
             }
-            setLoader(false)
-        }).catch((error) => {
+            setLoader(false);
+        } catch (error) {
             console.error('Error:', error);
-            setLoader(false)
-        });
-    }
-    const getStudentsBySemester = (value) => {
-        setLoader(true)
-        axios
-            .get(`${urlBackend}/api/v1/get-students-by-semester/${value}`)
-            .then((response) => {
-                if (response.data.success) {
-                    setStudentList(response.data.students);
-                    setLoader(false)
-                    console.log(response.data.students);
-                } else {
-                    console.log(response.data.message);
-                    setInterval(() => {
-                        setLoader(false)
-                    }, 2000);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                setInterval(() => {
-                    setLoader(false)
-                }, 2000);
-            });
-    }
-    const getStudentsByShift = (value) => {
-        setLoader(true)
-        axios.get(`${urlBackend}/api/v1/get-students-by-shift/${value}`)
-            .then((response) => {
-                if (response.data.success) {
-                    setStudentList(response.data.students);
-                    setLoader(false)
-                    // console.log(subjectId);
-                    // console.log(response.data.students);
-                } else {
-                    console.log(response.data.message);
-                    setInterval(() => {
-                        setLoader(false)
-                    }, 2000);
+            setLoader(false);
+        }
 
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                setInterval(() => {
-                    setLoader(false)
-                }, 2000);
+    }
+    const getStudentsBySemester =async (value) => {
+        setLoader(true)
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-students-by-semester/${value}`);
 
-            });
+            if (response.data.success) {
+                setStudentList(response.data.students);
+                setLoader(false);
+                console.log(response.data.students);
+            } else {
+                console.log(response.data.message);
+                setTimeout(() => {
+                    setLoader(false);
+                }, 2000);
+            }
+        } catch (error) {
+            console.log(error);
+            setTimeout(() => {
+                setLoader(false);
+            }, 2000);
+        }
+
+    }
+    const getStudentsByShift =async (value) => {
+        setLoader(true)
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-students-by-shift/${value}`);
+
+            if (response.data.success) {
+                setStudentList(response.data.students);
+                setLoader(false);
+                // console.log(subjectId);
+                // console.log(response.data.students);
+            } else {
+                console.log(response.data.message);
+                setTimeout(() => {
+                    setLoader(false);
+                }, 2000);
+            }
+        } catch (error) {
+            console.log(error);
+            setTimeout(() => {
+                setLoader(false);
+            }, 2000);
+        }
+
     }
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -239,38 +246,37 @@ function ManageStudents() {
             
         }
     }
-    const handleDelete = (e) => {
+    const handleDelete =async (e) => {
         e.preventDefault();
-        if (selectedStudent._id) {
-            axios.delete(`${urlBackend}/api/v1/delete-student/${selectedStudent._id}`)
-                .then((response) => {
-                    if (response.data.success) {
-                        getStudents()
-                        setStudentList((prevStudentList) =>
-                            prevStudentList.filter(
-                                (student) => student._id !== selectedStudent._id
-                            )
-                        );
-                        toast.success(`${selectedStudent.EnrNo} deleted successfully !`,
-                            {
-                                autoClose: 2000,
-                                position: 'bottom-center'
-                            })
-                    } else {
-                        toast.error('Failed to delete Time Table', {
-                            autoClose: 2000,
-                            position: 'bottom-center'
-                        });
-                    }
-                    onCloseDeleteModal();
-                })
-                .catch((error) => {
-                    toast.error(error, {
+        try {
+            if (selectedStudent._id) {
+                const response = await axios.delete(`${urlBackend}/api/v1/delete-student/${selectedStudent._id}`);
+                if (response.data.success) {
+                    getStudents();
+                    setStudentList((prevStudentList) =>
+                        prevStudentList.filter(
+                            (student) => student._id !== selectedStudent._id
+                        )
+                    );
+                    toast.success(`${selectedStudent.EnrNo} deleted successfully !`, {
                         autoClose: 2000,
                         position: 'bottom-center'
                     });
-                });
+                } else {
+                    toast.error('Failed to delete Student', {
+                        autoClose: 2000,
+                        position: 'bottom-center'
+                    });
+                }
+                onCloseDeleteModal();
+            }
+        } catch (error) {
+            toast.error(error, {
+                autoClose: 2000,
+                position: 'bottom-center'
+            });
         }
+
     };
 
     const handleUpdate = async (e) => {
@@ -331,45 +337,45 @@ function ManageStudents() {
         })
 
 
-        if (updateOrNot === 1) {
-            const formData = new FormData();
-            formData.append('name', studentName);
-            formData.append('email', email);
-            formData.append('EnrNo', enrNo);
-            formData.append('password', password);
-            formData.append('phone', phone);
-            formData.append('semester', selectedSem);
-            formData.append('shift', selectedShift);
-            axios.put(`${urlBackend}/api/v1/update-student/${selectedStudent._id}`, formData)
-                .then((response) => {
+        try {
+            if (updateOrNot === 1) {
+                const formData = new FormData();
+                formData.append('name', studentName);
+                formData.append('email', email);
+                formData.append('EnrNo', enrNo);
+                formData.append('password', password);
+                formData.append('phone', phone);
+                formData.append('semester', selectedSem);
+                formData.append('shift', selectedShift);
 
-                    if (response.data.success) {
-                        getStudents()
-                        // Update facultyList with the updated faculty data
-                        setStudentList((prevStudentList) =>
-                            prevStudentList.map((student) =>
-                                student._id === selectedStudent ? response.data.student : student
-                            )
-                        );
-                        toast.success(`${selectedStudent.EnrNo} Updated Successfully`, {
-                            autoClose: 2000,
-                            closeButton: true,
-                            position: "bottom-center"
-                        })
+                const response = await axios.put(
+                    `${urlBackend}/api/v1/update-student/${selectedStudent._id}`,
+                    formData
+                );
 
-                        onCloseModal();
-                    } else {
-                        toast.error('Student is Already exist',
-                            {
-                                autoClose: 2000,
-                                position: 'bottom-center'
-                            }
-                        );
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+                if (response.data.success) {
+                    getStudents();
+                    setStudentList((prevStudentList) =>
+                        prevStudentList.map((student) =>
+                            student._id === selectedStudent ? response.data.student : student
+                        )
+                    );
+                    toast.success(`${selectedStudent.EnrNo} Updated Successfully`, {
+                        autoClose: 2000,
+                        closeButton: true,
+                        position: 'bottom-center'
+                    });
+
+                    onCloseModal();
+                } else {
+                    toast.error('Student is Already exist', {
+                        autoClose: 2000,
+                        position: 'bottom-center'
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
 
     };

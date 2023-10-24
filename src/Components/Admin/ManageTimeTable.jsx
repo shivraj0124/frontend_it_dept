@@ -36,48 +36,55 @@ function ManageTimeTable() {
         setSelectedShift(value);
         console.log(value);
     }
-    const allShifts = (selectedSemesterId) => {
-        axios.get(`${urlBackend}/api/v1/get-shifts/${selectedSemesterId}`).then((response) => {
+    const allShifts =async (selectedSemesterId) => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-shifts/${selectedSemesterId}`);
+
             if (response.data.success) {
                 setShiftList(response.data.shifts);
             } else {
-                console.error('Failed to Fetch Subjects');
+                console.error('Failed to Fetch Shifts');
             }
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
+
     }
 
-    const allSem = () => {
-        axios.get(`${urlBackend}/api/v1/get-semesters`).then((response) => {
+    const allSem =async () => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-semesters`);
+
             if (response.data.success) {
                 setSemesterList(response.data.semesters);
             } else {
                 console.error('Failed to Fetch Semesters');
             }
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
+
     };
     useEffect(() => {
         getTTs()
     }, [])
 
-    const getTTs = () => {
-        axios.get(`${urlBackend}/api/v1/get-timetables`).then((response) => {
+    const getTTs = async () => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-timetables`);
+
             if (response.data.success) {
                 setTTList(response.data.timeTable);
-                console.log(response.data.timeTable)
-
+                console.log(response.data.timeTable);
             } else {
                 console.error('Failed to fetch Time Table details');
             }
-            setLoader(false)
-        })
-            .catch((error) => {
-                console.error('Error:', error);
-                setLoader(false)
-            });
+            setLoader(false);
+        } catch (error) {
+            console.error('Error:', error);
+            setLoader(false);
+        }
+
     }
 
     const onOpenModal = (TT) => {
@@ -112,38 +119,36 @@ function ManageTimeTable() {
         setOpenDelete(false)
         setSelectedTT(null)
     }
-    const handleDelete = (e) => {
+    const handleDelete =async (e) => {
         e.preventDefault();
         if (selectedTT._id) {
-            axios.delete(`${urlBackend}/api/v1/delete-TT/${selectedTT._id}`)
-                .then((response) => {
-                    if (response.data.success) {
-                        getTTs()
-                        setTTList((prevTTList) =>
-                            prevTTList.filter(
-                                (TT) => TT._id !== selectedTT._id
-                            )
-                        );
-                        toast.success('Time Table  deleted successfully !',
-                            {
-                                autoClose: 2000,
-                                position: 'bottom-center'
-                            })
-                    } else {
-                        toast.error('Failed to delete Time Table', {
-                            autoClose: 2000,
-                            position: 'bottom-center'
-                        });
-                    }
-                    onCloseDeleteModal();
-                })
-                .catch((error) => {
-                    toast.error(error, {
+            try {
+                const response = await axios.delete(`${urlBackend}/api/v1/delete-TT/${selectedTT._id}`);
+
+                if (response.data.success) {
+                    getTTs();
+                    setTTList((prevTTList) =>
+                        prevTTList.filter((TT) => TT._id !== selectedTT._id)
+                    );
+                    toast.success('Time Table deleted successfully!', {
                         autoClose: 2000,
-                        position: 'bottom-center'
+                        position: 'bottom-center',
                     });
+                } else {
+                    toast.error('Failed to delete Time Table', {
+                        autoClose: 2000,
+                        position: 'bottom-center',
+                    });
+                }
+                onCloseDeleteModal();
+            } catch (error) {
+                toast.error(error, {
+                    autoClose: 2000,
+                    position: 'bottom-center',
                 });
+            }
         }
+
 
     };
 
@@ -175,37 +180,35 @@ function ManageTimeTable() {
                 formData.append('photo', photo);
             }
 
-            axios.put(`${urlBackend}/api/v1/update-TT/${selectedTT._id}`, formData)
-                .then((response) => {
+            try {
+                const response = await axios.put(`${urlBackend}/api/v1/update-TT/${selectedTT._id}`, formData);
 
-                    if (response.data.success) {
-                        getTTs()
-                        // Update facultyList with the updated faculty data
-                        setTTList((prevTTList) =>
-                            prevTTList.map((TT) =>
-                                TT._id === selectedTT ? response.data.updatedTT : TT
-                            )
-                        );
-                        toast.success('Time Table Updated Successfully', {
-                            autoClose: 2000,
-                            closeButton: true,
-                            position: "bottom-center"
-                        })
+                if (response.data.success) {
+                    getTTs();
+                    // Update time table list with the updated time table data
+                    setTTList((prevTTList) =>
+                        prevTTList.map((TT) =>
+                            TT._id === selectedTT._id ? response.data.updatedTT : TT
+                        )
+                    );
+                    toast.success('Time Table Updated Successfully', {
+                        autoClose: 2000,
+                        closeButton: true,
+                        position: 'bottom-center',
+                    });
 
-                        onCloseModal();
-                    } else {
-                        toast.error('TT or Name is already exist',
-                            {
-                                autoClose: 2000,
-                                position: 'bottom-center'
-                            }
-                        );
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+                    onCloseModal();
+                } else {
+                    toast.error('Time Table or Name is already exist', {
+                        autoClose: 2000,
+                        position: 'bottom-center',
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
+
 
     };
 

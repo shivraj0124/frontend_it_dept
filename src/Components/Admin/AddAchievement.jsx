@@ -49,6 +49,10 @@ function AddAchievement() {
                 }
             }
         })
+        if (photo === null) {
+            toast.error('Please Upload the Photo')
+            updateOrNot = 0
+        }
 
         if (updateOrNot === 1) {
             const formData = new FormData();
@@ -92,18 +96,18 @@ function AddAchievement() {
         }
     };
   return (
-      <div className='h-screen overflow-y-scroll pb-10 bg-blue-50'>
-          <div className="w-100 mt-5 flex justify-center max-xl:px-2 ">
-              <div className="w-[90%] flex md:flex-row-1 max-md:flex-col bg-white shadow-xl rounded-lg ">
+      <div className='overflow-y-scroll pb-10 bg-blue-50 flex justify-center'>
+          <div className="md:w-[60%] max-md:w-[100%] mt-8 flex justify-center max-xl:px-2 ">
+              <div className="w-[90%] pt-5 flex md:flex-row-1 max-md:flex-col bg-white shadow-xl rounded-lg ">
                   <div className='w-[100%] text-center  bg-white pb-10'>
                       <h1 className='text-center font-semibold text-2xl underline underline-offset-4 mt-2'>Add Achievement</h1>
-                      <form className='mt-10 text-black' onSubmit={handleOnSubmit}>
+                      <form className='mt-5 text-black' onSubmit={handleOnSubmit}>
                           <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Title' onChange={(e) => setTitle(e.target.value)} required/>
                           <br />
-                          <textarea className='placeholder:text-slate-400 border-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none rounded-md p-5 text-xl font-semibold mt-10 w-[80%]  ' rows={5} placeholder='Description..' onChange={(e) => setDescription(e.target.value)} required>
+                          <textarea className='placeholder:text-slate-400 border-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none rounded-md p-5 text-xl font-semibold mt-5 w-[80%]  ' rows={3} placeholder='Description..' onChange={(e) => setDescription(e.target.value)} required>
                           </textarea>
                           <br/>
-                          <label className=' border-blue-900 text-blue-900 font-semibold bg-blue-300 hover:bg-blue-600 hover:text-white py-[6px] px-[12px] inline-block cursor-pointer mt-5 max-md:w-[80%] rounded-md'>
+                          <label className=' border-blue-900 text-blue-900 font-semibold bg-blue-300 hover:bg-blue-600 hover:text-white py-[6px] px-[12px] inline-block cursor-pointer mt-5  rounded-md'>
                               <input type="file" name="photo" className='hidden' onChange={handleFileChange} required />
                               Upload Photo
                           </label>

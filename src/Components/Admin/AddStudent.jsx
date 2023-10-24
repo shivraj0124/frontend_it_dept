@@ -27,31 +27,33 @@ export default function AddStudent() {
     setSelectedShift(value);
   };
   const allSem = async () => {
-    await axios.get(`${urlBackend}/api/v1/get-semesters`)
-      .then((response) => {
-        if (response.data.success) {
-          setSemesterList(response.data.semesters);
-        } else {
-          console.error('Failed to Fetch Semesters');
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    try {
+      const response = await axios.get(`${urlBackend}/api/v1/get-semesters`);
+
+      if (response.data.success) {
+        setSemesterList(response.data.semesters);
+      } else {
+        console.error('Failed to Fetch Semesters');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
   };
 
-  const allShifts = (selectedSemesterId) => {
-    axios.get(`${urlBackend}/api/v1/get-shifts/${selectedSemesterId}`)
-      .then((response) => {
-        if (response.data.success) {
-          setShiftList(response.data.shifts);
-        } else {
-          console.error('Failed to Fetch Shifts');
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+  const allShifts =async (selectedSemesterId) => {
+    try {
+      const response = await axios.get(`${urlBackend}/api/v1/get-shifts/${selectedSemesterId}`);
+
+      if (response.data.success) {
+        setShiftList(response.data.shifts);
+      } else {
+        console.error('Failed to Fetch Shifts');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
   };
   const handleSubmit = async (e) => {
     e.preventDefault();

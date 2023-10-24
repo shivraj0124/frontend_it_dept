@@ -24,28 +24,34 @@ function AddNotes() {
         setSelectedSubject(value);
         console.log(value);
     }
-    const allSem = () => {
-        axios.get(`${urlBackend}/api/v1/get-semesters`).then((response) => {
+    const allSem = async () => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-semesters`);
+
             if (response.data.success) {
                 setSemesterList(response.data.semesters);
             } else {
                 console.error('Failed to Fetch Semesters');
             }
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
+
     };
 
-    const allSubjects = (selectedSemesterId) => {
-        axios.get(`${urlBackend}/api/v1/subjects/${selectedSemesterId}`).then((response) => {
+    const allSubjects =async (selectedSemesterId) => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/subjects/${selectedSemesterId}`);
+
             if (response.data.success) {
                 setSubjectList(response.data.subjects);
             } else {
                 console.error('Failed to Fetch Subjects');
             }
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
+
     }
 
     const handleOnSubmit = async (e) => {
@@ -54,15 +60,14 @@ function AddNotes() {
         const arr = [selectedSem, selectedSubject, nName, link];
         let countLoop = 0;
         arr.map((item, index) => {
-            if (typeof item === 'string') {
-                item = item.replace(/\s+/g, ''); // Assign the result back to item
+            if (typeof item === 'string'){
+                item = item.replace(/\s+/g, ''); 
             }
             if (typeof item === 'string') {
-                item = item.trim(); // Assign the result back to item
+                item = item.trim();
             }
             if (item === '') {
                 countLoop += 1
-                // setUpdateOrNot(0)
                 updateOrNot = 0
                 if (countLoop <= 1) {
 

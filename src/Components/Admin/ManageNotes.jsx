@@ -40,98 +40,102 @@ function ManageNotes() {
     const FilterBySubject = (value) => {
         getNotesBySubject(value)
     }
-    const allSubjects = (selectedSemesterId) => {
-        axios.get(`${urlBackend}/api/v1/subjects/${selectedSemesterId}`).then((response) => {
+    const allSubjects = async (selectedSemesterId) => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/subjects/${selectedSemesterId}`);
+
             if (response.data.success) {
                 setSubjectList(response.data.subjects);
             } else {
                 console.error('Failed to Fetch Subjects');
             }
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
+
     }
 
-    const allSem = () => {
-        axios.get(`${urlBackend}/api/v1/get-semesters`).then((response) => {
+    const allSem =async () => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-semesters`);
+
             if (response.data.success) {
                 setSemesterList(response.data.semesters);
             } else {
                 console.error('Failed to Fetch Semesters');
             }
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
+
     };
     useEffect(() => {
        getNotes()
        allSem()
     }, [])
-        const getNotes=()=>{
+        const getNotes=async ()=>{
         setLoader(true)
-        axios.get(`${urlBackend}/api/v1/get-notes`).then((response) => {
+            try {
+                const response = await axios.get(`${urlBackend}/api/v1/get-notes`);
+
+                if (response.data.success) {
+                    setNotesList(response.data.notes);
+                    console.log(response.data.notes);
+                } else {
+                    console.error('Failed to fetch Time Table details');
+                }
+                setLoader(false);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+
+        }
+    const getNotesBySemester = async (value) => {
+        setLoader(true)
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-notes-by-semester/${value}`);
+
             if (response.data.success) {
                 setNotesList(response.data.notes);
-                console.log(response.data.notes)
-
+                setLoader(false);
+                console.log(response.data.notes);
             } else {
-                console.error('Failed to fetch Time Table details');
+                console.log(response.data.message);
+                setInterval(() => {
+                    setLoader(false);
+                }, 2000);
             }
-            setLoader(false)
-        })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+        } catch (error) {
+            console.log(error);
+            setInterval(() => {
+                setLoader(false);
+            }, 2000);
         }
-    const getNotesBySemester = (value) => {
-        setLoader(true)
-        axios
-            .get(`${urlBackend}/api/v1/get-notes-by-semester/${value}`)
-            .then((response) => {
-                if (response.data.success) {
-                    setNotesList(response.data.notes);
-                    setLoader(false)
-                    console.log(response.data.notes);
-                } else {
-                    console.log(response.data.message);
-                    setInterval(() => {
-                        setLoader(false)
-                    }, 2000);
 
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                setInterval(() => {
-                    setLoader(false)
-                }, 2000);
-
-            });
     }
-    const getNotesBySubject = (value) => {
+    const getNotesBySubject = async (value) => {
         setLoader(true)
-        axios.get(`${urlBackend}/api/v1/get-notes-by-subject/${value}`)
-            .then((response) => {
-                if (response.data.success) {
-                    setNotesList(response.data.notes);
-                    setLoader(false)
-                    console.log(subjectId);
-                    console.log(response.data.notes);
-                } else {
-                    console.log(response.data.message);
-                    setInterval(() => {
-                        setLoader(false)
-                    }, 2000);
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-notes-by-subject/${value}`);
 
-                }
-            })
-            .catch((error) => {
-                console.log(error);
+            if (response.data.success) {
+                setNotesList(response.data.notes);
+                setLoader(false);
+                console.log(subjectId);
+                console.log(response.data.notes);
+            } else {
+                console.log(response.data.message);
                 setInterval(() => {
-                    setLoader(false)
+                    setLoader(false);
                 }, 2000);
+            }
+        } catch (error) {
+            console.log(error);
+            setInterval(() => {
+                setLoader(false);
+            }, 2000);
+        }
 
-            });
     }
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -183,38 +187,36 @@ function ManageNotes() {
         setOpenDelete(false)
         setSelectedNote(null)
     }
-    const handleDelete = (e) => {
+    const handleDelete =async (e) => {
         e.preventDefault();
-        if (selectedNote._id) {
-            axios.delete(`${urlBackend}/api/v1/delete-note/${selectedNote._id}`)
-                .then((response) => {
-                    if (response.data.success) {
-                        getNotes()
-                        setNotesList((prevNoteList) =>
-                            prevNoteList.filter(
-                                (note) => note._id !== selectedNote._id
-                            )
-                        );
-                        toast.success('Note deleted successfully !',
-                            {
-                                autoClose: 2000,
-                                position: 'bottom-center'
-                            })
-                    } else {
-                        toast.error('Failed to delete note', {
-                            autoClose: 2000,
-                            position: 'bottom-center'
-                        });
-                    }
-                    onCloseDeleteModal();
-                })
-                .catch((error) => {
-                    toast.error(error, {
+        try {
+            if (selectedNote._id) {
+                const response = await axios.delete(`${urlBackend}/api/v1/delete-note/${selectedNote._id}`);
+
+                if (response.data.success) {
+                    getNotes();
+                    setNotesList((prevNoteList) =>
+                        prevNoteList.filter((note) => note._id !== selectedNote._id)
+                    );
+                    toast.success('Note deleted successfully !', {
                         autoClose: 2000,
-                        position: 'bottom-center'
+                        position: 'bottom-center',
                     });
-                });
+                } else {
+                    toast.error('Failed to delete note', {
+                        autoClose: 2000,
+                        position: 'bottom-center',
+                    });
+                }
+                onCloseDeleteModal();
+            }
+        } catch (error) {
+            toast.error(error, {
+                autoClose: 2000,
+                position: 'bottom-center',
+            });
         }
+
 
     };
 
@@ -237,50 +239,46 @@ function ManageNotes() {
             }
         })
 
-        if (updateOrNot === 1) {
-            const formData = new FormData();
-            formData.append('name', nName);
-            formData.append('link', link);
-            formData.append('semester', selectedSem);
-            formData.append('subject', selectedSubject);
+        try {
+            if (updateOrNot === 1) {
+                const formData = new FormData();
+                formData.append('name', nName);
+                formData.append('link', link);
+                formData.append('semester', selectedSem);
+                formData.append('subject', selectedSubject);
 
+                const response = await axios.put(`${urlBackend}/api/v1/update-note/${selectedNote._id}`, formData);
 
-            axios.put(`${urlBackend}/api/v1/update-note/${selectedNote._id}`, formData)
-                .then((response) => {
+                if (response.data.success) {
+                    getNotes();
+                    setNotesList((prevNoteList) =>
+                        prevNoteList.map((note) =>
+                            note._id === selectedNote._id ? response.data.updatedNote : note
+                        )
+                    );
+                    toast.success('Note Updated Successfully', {
+                        autoClose: 2000,
+                        closeButton: true,
+                        position: 'bottom-center',
+                    });
 
-                    if (response.data.success) {
-                        getNotes()
-                        // Update facultyList with the updated faculty data
-                        setNotesList((prevNoteList) =>
-                            prevNoteList.map((note) =>
-                                note._id === selectedNote._id ? response.data.updatedNote : note
-                            )
-                        );
-                        toast.success('Note Updated Successfully', {
-                            autoClose: 2000,
-                            closeButton: true,
-                            position: "bottom-center"
-                        })
-                        
-                        onCloseModal();
-                    } else {
-                        toast.error('Note or Name is already exist',
-                            {
-                                autoClose: 2000,
-                                position: 'bottom-center'
-                            }
-                        );
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+                    onCloseModal();
+                } else {
+                    toast.error('Note or Name is already exist', {
+                        autoClose: 2000,
+                        position: 'bottom-center',
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
+
 
     };
     return (
         <div className='h-screen bg-blue-50'>
-            <div className="w-[100%] max-md:mt-2 md:flex flex-col justify-center items-center">
+            <div className="w-[100%] max-md:mt-2 md:flex flex-col justify-center items-center ">
                 <div className=" px-2 flex  w-[100%] flex-row justify-between sticky top-0 p-2" style={{ backgroundColor: 'rgb(0,0,0,0.1)' }}>
                     <div className='w-[60%]'>
                         <button className='py-2 w-[60%]  max-md:text-sm font-semibold bg-blue-700 text-white rounded-md shadow-md hover:bg-blue-700 hover:text-white' onClick={getNotes}>All Notes</button>

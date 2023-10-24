@@ -37,7 +37,7 @@ export default function Login() {
           toast.error('Invalid Credentials! Please Try Again');
         }
       } catch (error) {
-        toast.error(error.message);
+        toast.error('Something went wrong , Try again');
       }
 
     setEnrNo('');

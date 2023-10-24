@@ -28,18 +28,21 @@ function ManageAchievements() {
         setOpenDes(false);
     };
 
-    const getAllAchievements =()=>{
-        axios.get(`${urlBackend}/api/v1/get-achievements`).then((response) => {
+    const getAllAchievements =async ()=>{
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-achievements`);
+
             if (response.data.success) {
                 setAList(response.data.achievements);
             } else {
                 console.error('Failed to fetch Achievement details');
             }
+
             setLoader(false);
-        })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
     }
 
     const onOpenModal = (achievement) => {
@@ -57,7 +60,7 @@ function ManageAchievements() {
         setPhoto(null);
     };
 
-    const handleUpdate = (e) => {
+    const handleUpdate =async (e) => {
         e.preventDefault();
         let updateOrNot = 1;
         const arr = [title,description,photo];
@@ -94,44 +97,43 @@ function ManageAchievements() {
                 }
             }
         })
-        if (updateOrNot === 1) {
-            const formData = new FormData();
-            formData.append('title',title);
-            formData.append('description',description);
-            
-            if (photo) {
-                formData.append('photo', photo);
+        
+        try {
+            if (updateOrNot === 1) {
+                const formData = new FormData();
+                formData.append('title', title);
+                formData.append('description', description);
+
+                if (photo) {
+                    formData.append('photo', photo);
+                }
+
+                const response = await axios.put(`${urlBackend}/api/v1/update-achievement/${selectedAchievement._id}`, formData);
+
+                if (response.data.success) {
+                    getAllAchievements();
+                    setAList((prevAList) =>
+                        prevAList.map((achievement) =>
+                            achievement._id === selectedAchievement._id ? response.data.updatedAchievement : achievement
+                        )
+                    );
+                    toast.success('Achievement Details Updated Successfully', {
+                        autoClose: 2000,
+                        closeButton: true,
+                        position: 'bottom-center',
+                    });
+                    onCloseModal();
+                } else {
+                    toast.error('Achievement with This Title Already Exists', {
+                        autoClose: 2000,
+                        position: 'bottom-center',
+                    });
+                }
             }
-
-            axios.put(`${urlBackend}/api/v1/update-achievement/${selectedAchievement._id}`, formData)
-                .then((response) => {
-
-                    if (response.data.success) {
-                        getAllAchievements()
-                        setAList((prevAList) =>
-                            prevAList.map((achievement) =>
-                                achievement._id === selectedAchievement._id ? response.data.updatedAchievement : achievement
-                            )
-                        );
-                        toast.success('Achievement Details Updated Successfully', {
-                            autoClose: 2000,
-                            closeButton: true,
-                            position: "bottom-center"
-                        })
-                        onCloseModal();
-                    } else {
-                        toast.error('Achievement with This Title Already Exist',
-                            {
-                                autoClose: 2000,
-                                position: 'bottom-center'
-                            }
-                        );
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+        } catch (error) {
+            console.error('Error:', error);
         }
+
 
     };
     const [openDelete, setOpenDelete] = useState(false);
@@ -142,35 +144,36 @@ function ManageAchievements() {
     const onCloseDeleteModal = () => {
         setOpenDelete(false);
     };
-    const handleDelete=(e)=>{
+    const handleDelete=async (e)=>{
         e.preventDefault();
-        if (selectedAchievement && selectedAchievement._id) {
-            axios.delete(`${urlBackend}/api/v1/delete-achievement/${selectedAchievement._id}`)
-                .then((response) => {
-                    if (response.data.success) {
-                        getAllAchievements();
-                        setAList((prevAList) =>
-                            prevAList.filter((achievement) => achievement._id !== selectedAchievement._id)
-                        );
-                        toast.success('Achievement deleted successfully !', {
-                            autoClose: 2000,
-                            position: 'bottom-center',
-                        });
-                    } else {
-                        toast.error('Failed to delete Achievement', {
-                            autoClose: 2000,
-                            position: 'bottom-center',
-                        });
-                    }
-                    onCloseDeleteModal();
-                })
-                .catch((error) => {
-                    toast.error(error, {
+        try {
+            if (selectedAchievement && selectedAchievement._id) {
+                const response = await axios.delete(`${urlBackend}/api/v1/delete-achievement/${selectedAchievement._id}`);
+
+                if (response.data.success) {
+                    getAllAchievements();
+                    setAList((prevAList) =>
+                        prevAList.filter((achievement) => achievement._id !== selectedAchievement._id)
+                    );
+                    toast.success('Achievement deleted successfully !', {
                         autoClose: 2000,
                         position: 'bottom-center',
                     });
-                });
+                } else {
+                    toast.error('Failed to delete Achievement', {
+                        autoClose: 2000,
+                        position: 'bottom-center',
+                    });
+                }
+                onCloseDeleteModal();
+            }
+        } catch (error) {
+            toast.error(error, {
+                autoClose: 2000,
+                position: 'bottom-center',
+            });
         }
+
     };
     useEffect(()=>{
       getAllAchievements()
@@ -237,13 +240,13 @@ function ManageAchievements() {
                   <div className='w-[100%] text-center  bg-white pb-10'>
                       <h1 className='text-center font-semibold text-2xl underline underline-offset-4 mt-5'>Update Achievement</h1>
                       <form className='mt-10 text-black' onSubmit={handleUpdate}>
-                          <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Title' onChange={(e) => setTitle(e.target.value)} required/>
+                          <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Title' value={title} onChange={(e) => setTitle(e.target.value)} required/>
                           <br />
-                          <textarea className='placeholder:text-slate-400 border-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none rounded-md p-5 text-xl font-semibold mt-10 w-[80%]  ' rows={5} placeholder='Description..' onChange={(e) => setDescription(e.target.value)} required>
+                          <textarea className='placeholder:text-slate-400 border-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none rounded-md p-5 text-xl font-semibold mt-10 w-[80%]  ' rows={5} placeholder='Description..' value={description} onChange={(e) => setDescription(e.target.value)} required>
                           </textarea>
                           <br />
                           <label className=' border-blue-900 text-blue-900 font-semibold bg-blue-300 hover:bg-blue-600 hover:text-white py-[6px] px-[12px] inline-block cursor-pointer mt-5 max-md:w-[80%] rounded-md'>
-                              <input type="file" name="photo" className='hidden' onChange={handleFileChange} required />
+                              <input type="file" name="photo" className='hidden' onChange={handleFileChange} />
                               Upload Photo
                           </label>
                           <br />

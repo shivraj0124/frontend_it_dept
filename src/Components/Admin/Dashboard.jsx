@@ -8,28 +8,73 @@ import { LuFileQuestion } from 'react-icons/lu'
 import CountUp from 'react-countup'
 import axios from 'axios'
 function Dashboard() {
-    const [notes,setTotalNotes]=useState(0)
+    const [students,setTotalStudents]=useState(0)
     const [faculties,setTotalFaculties]=useState(0)
+    const [notes,setTotalNotes]=useState(0)
     const [qPS,setTotalQPS]=useState(0)
     const [tTS,setTotalTTS]=useState(0)
     const [notices,setTotalNotices]=useState(0)
     const urlBackend = import.meta.env.VITE_BACKEND_API
+    const getAllCounts=async ()=>{
+        try {
+            const response1 = await axios.get(`${urlBackend}/api/v1/students-count`);
+            setTotalStudents(response1.data.totalStudents);
+        } catch (error) {
+            console.error('Error fetching faculty count:', error);
+        }
+        try {
+            const response1 = await axios.get(`${urlBackend}/api/v1/faculties-count`);
+            setTotalFaculties(response1.data.totalFaculties);
+        } catch (error) {
+            console.error('Error fetching faculty count:', error);
+        }
+
+        try {
+            const response2 = await axios.get(`${urlBackend}/api/v1/notes-count`);
+            setTotalNotes(response2.data.totalNotes);
+        } catch (error) {
+            console.error('Error fetching notes count:', error);
+        }
+
+        try {
+            const response3 = await axios.get(`${urlBackend}/api/v1/qp-count`);
+            setTotalQPS(response3.data.totalQP);
+        } catch (error) {
+            console.error('Error fetching QP count:', error);
+        }
+
+        try {
+            const response4 = await axios.get(`${urlBackend}/api/v1/timeTable-count`);
+            setTotalTTS(response4.data.totalTimetables);
+        } catch (error) {
+            console.error('Error fetching timetable count:', error);
+        }
+
+        try {
+            const response5 = await axios.get(`${urlBackend}/api/v1/notice-count`);
+            setTotalNotices(response5.data.totalNotices);
+        } catch (error) {
+            console.error('Error fetching notice count:', error);
+        }
+
+    }
     useEffect(() => {
-        axios.get(`${urlBackend}/api/v1/faculties-count`).then((response) => {
-            setTotalFaculties(response.data.totalFaculties);
-        });
-        axios.get(`${urlBackend}/api/v1/notes-count`).then((response) => {
-            setTotalNotes(response.data.totalNotes);
-        });
-        axios.get(`${urlBackend}/api/v1/qp-count`).then((response) => {
-            setTotalQPS(response.data.totalQP);
-        });
-        axios.get(`${urlBackend}/api/v1/timeTable-count`).then((response) => {
-            setTotalTTS(response.data.totalTimetables);
-        });
-        axios.get(`${urlBackend}/api/v1/notice-count`).then((response) => {
-            setTotalNotices(response.data.totalNotices);
-        });
+        // axios.get(`${urlBackend}/api/v1/faculties-count`).then((response) => {
+        //     setTotalFaculties(response.data.totalFaculties);
+        // });
+        // axios.get(`${urlBackend}/api/v1/notes-count`).then((response) => {
+        //     setTotalNotes(response.data.totalNotes);
+        // });
+        // axios.get(`${urlBackend}/api/v1/qp-count`).then((response) => {
+        //     setTotalQPS(response.data.totalQP);
+        // });
+        // axios.get(`${urlBackend}/api/v1/timeTable-count`).then((response) => {
+        //     setTotalTTS(response.data.totalTimetables);
+        // });
+        // axios.get(`${urlBackend}/api/v1/notice-count`).then((response) => {
+        //     setTotalNotices(response.data.totalNotices);
+        // });
+        getAllCounts()
     }, []);
 
     return (
@@ -64,7 +109,7 @@ function Dashboard() {
                             <FaUserGraduate />
                     </div>
                     <div>
-                            <h1 className='text-blue-700 font-bold text-4xl'><CountUp delay={2} end={faculties} /></h1>
+                            <h1 className='text-blue-700 font-bold text-4xl'><CountUp delay={2} end={students} /></h1>
                         <h1 className='text-blue-900 text-2xl'>Students Registered</h1>
                     </div>
                 </div>

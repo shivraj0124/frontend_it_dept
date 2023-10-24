@@ -39,98 +39,102 @@ function ManageQP() {
     const FilterBySubject = (value) => {
         getQpBySubject(value)
     }
-    const allSubjects = (selectedSemesterId) => {
-        axios.get(`${urlBackend}/api/v1/subjects/${selectedSemesterId}`).then((response) => {
+    const allSubjects =async (selectedSemesterId) => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/subjects/${selectedSemesterId}`);
+
             if (response.data.success) {
                 setSubjectList(response.data.subjects);
             } else {
                 console.error('Failed to Fetch Subjects');
             }
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
+
     }
 
-    const allSem = () => {
-        axios.get(`${urlBackend}/api/v1/get-semesters`).then((response) => {
+    const allSem =async () => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/subjects/${selectedSemesterId}`);
+
             if (response.data.success) {
-                setSemesterList(response.data.semesters);
+                setSubjectList(response.data.subjects);
             } else {
-                console.error('Failed to Fetch Semesters');
+                console.error('Failed to Fetch Subjects');
             }
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
+
     };
     useEffect(() => {
         getQPs()
         allSem()
     }, [])
 
-    const getQPs = () => {
-        axios.get(`${urlBackend}/api/v1/get-qp`).then((response) => {
+    const getQPs =async () => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-qp`);
+
             if (response.data.success) {
                 setQPList(response.data.qP);
-                console.log(response.data.qP)
-
+                console.log(response.data.qP);
             } else {
                 console.error('Failed to fetch Question paper details');
             }
-            setLoader(false)
-        })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+            setLoader(false);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
     }
-    const getQpBySemester = (value) => {
+    const getQpBySemester =async (value) => {
         setLoader(true)
-        axios
-            .get(`${urlBackend}/api/v1/get-qp-by-semester/${value}`)
-            .then((response) => {
-                if (response.data.success) {
-                    setQPList(response.data.qp);
-                    setLoader(false)
-                    console.log(response.data.notes);
-                } else {
-                    console.log(response.data.message);
-                    setInterval(() => {
-                        setLoader(false)
-                    }, 2000);
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-qp-by-semester/${value}`);
 
-                }
-            })
-            .catch((error) => {
-                console.log(error);
+            if (response.data.success) {
+                setQPList(response.data.qp);
+                setLoader(false);
+                console.log(response.data.notes);
+            } else {
+                console.log(response.data.message);
                 setInterval(() => {
-                    setLoader(false)
+                    setLoader(false);
                 }, 2000);
+            }
+        } catch (error) {
+            console.log(error);
+            setInterval(() => {
+                setLoader(false);
+            }, 2000);
+        }
 
-            });
     }
-    const getQpBySubject = (value) => {
+    const getQpBySubject =async (value) => {
         setLoader(true)
-        axios.get(`${urlBackend}/api/v1/get-qp-by-subject/${value}`)
-            .then((response) => {
-                if (response.data.success) {
-                    setQPList(response.data.qp);
-                    setLoader(false)
-                    console.log(subjectId);
-                    console.log(response.data.qp);
-                } else {
-                    console.log(response.data.message);
-                    setInterval(() => {
-                        setLoader(false)
-                    }, 2000);
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-qp-by-subject/${value}`);
 
-                }
-            })
-            .catch((error) => {
-                console.log(error);
+            if (response.data.success) {
+                setQPList(response.data.qp);
+                setLoader(false);
+                console.log(subjectId);
+                console.log(response.data.qp);
+            } else {
+                console.log(response.data.message);
                 setInterval(() => {
-                    setLoader(false)
+                    setLoader(false);
                 }, 2000);
+            }
+        } catch (error) {
+            console.log(error);
+            setInterval(() => {
+                setLoader(false);
+            }, 2000);
+        }
 
-            });
     }
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -183,38 +187,36 @@ function ManageQP() {
         setOpenDelete(false)
         setSelectedQP(null)
     }
-    const handleDelete = (e) => {
+    const handleDelete =async (e) => {
         e.preventDefault();
-        if (selectedQP._id) {
-            axios.delete(`${urlBackend}/api/v1/delete-qp/${selectedQP._id}`)
-                .then((response) => {
-                    if (response.data.success) {
-                        getQPs()
-                        setQPList((prevQPList) =>
-                            prevQPList.filter(
-                                (QP) => QP._id !== selectedQP._id
-                            )
-                        );
-                        toast.success('QP deleted successfully !',
-                            {
-                                autoClose: 2000,
-                                position: 'bottom-center'
-                            })
-                    } else {
-                        toast.error('Failed to delete QP', {
-                            autoClose: 2000,
-                            position: 'bottom-center'
-                        });
-                    }
-                    onCloseDeleteModal();
-                })
-                .catch((error) => {
-                    toast.error(error, {
+        try {
+            if (selectedQP._id) {
+                const response = await axios.delete(`${urlBackend}/api/v1/delete-qp/${selectedQP._id}`);
+
+                if (response.data.success) {
+                    getQPs();
+                    setQPList((prevQPList) =>
+                        prevQPList.filter((QP) => QP._id !== selectedQP._id)
+                    );
+                    toast.success('QP deleted successfully !', {
                         autoClose: 2000,
-                        position: 'bottom-center'
+                        position: 'bottom-center',
                     });
-                });
+                } else {
+                    toast.error('Failed to delete QP', {
+                        autoClose: 2000,
+                        position: 'bottom-center',
+                    });
+                }
+                onCloseDeleteModal();
+            }
+        } catch (error) {
+            toast.error(error, {
+                autoClose: 2000,
+                position: 'bottom-center',
+            });
         }
+
 
     };
 
@@ -237,45 +239,39 @@ function ManageQP() {
             }
         })
 
-        if (updateOrNot === 1) {
-            const formData = new FormData();
-            formData.append('name', nName);
-            formData.append('link', link);
-            formData.append('semester', selectedSem);
-            formData.append('subject', selectedSubject);
+        try {
+            if (updateOrNot === 1) {
+                const formData = new FormData();
+                formData.append('name', nName);
+                formData.append('link', link);
+                formData.append('semester', selectedSem);
+                formData.append('subject', selectedSubject);
 
+                const response = await axios.put(`${urlBackend}/api/v1/update-qp/${selectedQP._id}`, formData);
 
-            axios.put(`${urlBackend}/api/v1/update-qp/${selectedQP._id}`, formData)
-                .then((response) => {
+                if (response.data.success) {
+                    getQPs();
+                    setQPList((prevQPList) =>
+                        prevQPList.map((QP) => (QP._id === selectedQP._id ? response.data.updatedQP : QP))
+                    );
+                    toast.success('QP Updated Successfully', {
+                        autoClose: 2000,
+                        closeButton: true,
+                        position: 'bottom-center',
+                    });
 
-                    if (response.data.success) {
-                        getQPs()
-                        // Update facultyList with the updated faculty data
-                        setQPList((prevQPList) =>
-                            prevQPList.map((QP) =>
-                                QP._id === selectedQP ? response.data.updatedQP : QP
-                            )
-                        );
-                        toast.success('QP Updated Successfully', {
-                            autoClose: 2000,
-                            closeButton: true,
-                            position: "bottom-center"
-                        })
-
-                        onCloseModal();
-                    } else {
-                        toast.error('QP or Name is already exist',
-                            {
-                                autoClose: 2000,
-                                position: 'bottom-center'
-                            }
-                        );
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+                    onCloseModal();
+                } else {
+                    toast.error('QP or Name is already exist', {
+                        autoClose: 2000,
+                        position: 'bottom-center',
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
+
     };
     return (
         <div className='h-screen bg-blue-50'>

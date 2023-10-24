@@ -30,20 +30,21 @@ function ManageFaculty() {
         // Fetch faculty details
         getAllFaculties()
     }, []);
-    const getAllFaculties = () => {
+    const getAllFaculties =async () => {
         setLoader(true)
-        axios.get(`${urlBackend}/api/v1/manage-faculty`)
-            .then((response) => {
-                if (response.data.success) {
-                    setFacultyList(response.data.faculties);
-                } else {
-                    console.error('Failed to fetch faculty details');
-                }
-                setLoader(false)
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/manage-faculty`);
+
+            if (response.data.success) {
+                setFacultyList(response.data.faculties);
+            } else {
+                console.error('Failed to fetch faculty details');
+            }
+
+            setLoader(false);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -91,7 +92,7 @@ function ManageFaculty() {
         setPhoto(null);
     };
     // const [updateOrNot, setUpdateOrNot] = useState(1)
-    const updateFaculty = (e) => {
+    const updateFaculty = async (e) => {
         e.preventDefault()
         let updateOrNot = 1;
         const arr = [name, email, phone, qualification, post, experience, photo];
@@ -151,48 +152,43 @@ function ManageFaculty() {
                 }
             }
         })
-        if (updateOrNot === 1) {
-            const formData = new FormData();
-            formData.append('name', name);
-            formData.append('email', email.replace(/\s+/g, ''));
-            formData.append('phone', phone);
-            formData.append('qualification', qualification);
-            formData.append('post', post);
-            formData.append('experience', experience);
-            if (photo) {
-                formData.append('photo', photo);
+        try {
+            if (updateOrNot === 1) {
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('email', email.replace(/\s+/g, ''));
+                formData.append('phone', phone);
+                formData.append('qualification', qualification);
+                formData.append('post', post);
+                formData.append('experience', experience);
+                if (photo) {
+                    formData.append('photo', photo);
+                }
+
+                const response = await axios.put(`${urlBackend}/api/v1/update-faculty/${selectedFaculty._id}`, formData);
+
+                if (response.data.success) {
+                    // Update facultyList with the updated faculty data
+                    setFacultyList((prevFacultyList) =>
+                        prevFacultyList.map((faculty) =>
+                            faculty._id === selectedFaculty._id ? response.data.updatedFaculty : faculty
+                        )
+                    );
+                    toast.success('Faculty Details Updated Successfully', {
+                        autoClose: 2000,
+                        closeButton: true,
+                        position: "bottom-center"
+                    });
+                    onCloseModal();
+                } else {
+                    toast.error('Email or phone Already Exist', {
+                        autoClose: 2000,
+                        position: 'bottom-center',
+                    });
+                }
             }
-
-            axios.put(`${urlBackend}/api/v1/update-faculty/${selectedFaculty._id}`, formData)
-                .then((response) => {
-
-                    if (response.data.success) {
-
-                        // Update facultyList with the updated faculty data
-                        setFacultyList((prevFacultyList) =>
-                            prevFacultyList.map((faculty) =>
-                                faculty._id === selectedFaculty._id ? response.data.updatedFaculty : faculty
-                            )
-                        );
-                        toast.success('Faculty Details Updated Successfully', {
-                            autoClose: 2000,
-                            closeButton: true,
-                            position: "bottom-center"
-                        })
-
-                        onCloseModal();
-                    } else {
-                        toast.error('Email or phone Already Exist',
-                            {
-                                autoClose: 2000,
-                                position: 'bottom-center'
-                            }
-                        );
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+        } catch (error) {
+            console.error('Error:', error);
         }
 
     };
@@ -207,37 +203,36 @@ function ManageFaculty() {
         setSelectedFaculty(null)
     }
 
-    const handleDelete = (e) => {
+    const handleDelete =async (e) => {
         e.preventDefault();
         console.log(selectedFaculty)
-        if (selectedFaculty._id) {
-            axios.delete(`${urlBackend}/api/v1/delete-faculty/${selectedFaculty._id}`)
-                .then((response) => {
-                    if (response.data.success) {
-                        setFacultyList((prevFacultyList) =>
-                            prevFacultyList.filter((faculty) => faculty._id !== selectedFaculty._id
-                            )
-                        );
-                        toast.success('Faculty deleted successfully !',
-                            {
-                                autoClose: 2000,
-                                position: 'bottom-center'
-                            })
-                    } else {
-                        toast.error('Failed to delete faculty', {
-                            autoClose: 2000,
-                            position: 'bottom-center'
-                        });
-                    }
-                    onCloseDeleteModal();
-                })
-                .catch((error) => {
-                    toast.error(error, {
+        try {
+            if (selectedFaculty._id) {
+                const response = await axios.delete(`${urlBackend}/api/v1/delete-faculty/${selectedFaculty._id}`);
+
+                if (response.data.success) {
+                    setFacultyList((prevFacultyList) =>
+                        prevFacultyList.filter((faculty) => faculty._id !== selectedFaculty._id)
+                    );
+                    toast.success('Faculty deleted successfully !', {
                         autoClose: 2000,
-                        position: 'bottom-center'
+                        position: 'bottom-center',
                     });
-                });
+                } else {
+                    toast.error('Failed to delete faculty', {
+                        autoClose: 2000,
+                        position: 'bottom-center',
+                    });
+                }
+                onCloseDeleteModal();
+            }
+        } catch (error) {
+            toast.error(error, {
+                autoClose: 2000,
+                position: 'bottom-center',
+            });
         }
+
 
     };
 

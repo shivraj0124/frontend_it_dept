@@ -43,6 +43,7 @@ import FAddNotice from "./Components/Faculty/FAddNotice";
 import FManageNotices from "./Components/Faculty/FManageNotices";
 import StudentNotices from "./Components/Students/StudentNotices";
 import MiniphotoG from "./Components/HomeComponents/MiniphotoG"
+import PhotoGallery from "./Components/Admin/PhotoGallery";
 function App() {
   
   return (
@@ -79,6 +80,7 @@ function App() {
             <Route exact path='/Admin/ManageNotice' element={<ManageNotice />}></Route>
             <Route exact path='/Admin/AddAchievement' element={<AddAchievement />}></Route>
             <Route exact path='/Admin/ManageAchievements' element={<ManageAchievements />}></Route>
+            <Route exact path='/Admin/PhotoGallery' element={<PhotoGallery />}></Route>
           </Route>
           <Route path='/Student' element={<StudentSidebar/>}>
               <Route exact path="/Student/Notes" element={<StudentNotes/>}></Route>

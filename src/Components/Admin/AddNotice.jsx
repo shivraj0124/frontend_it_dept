@@ -74,12 +74,12 @@ export default function AddNotice() {
     }
     }
     return (
-        <div className='h-screen overflow-y-scroll pb-10 bg-blue-50'>
-        <div className="w-[100%] mt-5 flex justify-center items-center">
-                <div className="w-[80%] max-[806px]:w-[96%] flex md:flex-row- max-md:flex-col-reverse p-3 bg-white shadow-xl rounded-md">
+        <div className=' overflow-y-scroll pb-10 bg-blue-50 flex justify-center'>
+        <div className="w-[80%] max-sm:w-[100%] mt-5  flex justify-center items-center">
+                <div className="w-[60%] max-[806px]:w-[96%] flex md:flex-row- max-md:flex-col-reverse pt-5  bg-white shadow-xl rounded-md">
                 <div className='w-[100%] text-center  bg-white max-md:pb-10 pb-6'>
                     <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Add Notice</h1>
-                    <form className='mt-5 text-black' onSubmit={handleOnSubmit}>
+                    <form className='mt-2 text-black' onSubmit={handleOnSubmit}>
                         <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Title' onChange={(e)=>setTitle(e.target.value)} required />
                         <br />
                         <input type="url" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Link (Optional)' onChange={(e)=>setLink(e.target.value)} />
