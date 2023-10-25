@@ -107,8 +107,9 @@ function PhotoGallery() {
             const response = await axios.get(`${urlBackend}/api/v1/get-imageSlider`);
             const data = response.data;
 
+            console.log(data)
             if (data.success) {
-                setImageList(data.images);
+                setImageList(data.imageUrls);
 
             } else {
                 console.log('Failed to fetch Images');
