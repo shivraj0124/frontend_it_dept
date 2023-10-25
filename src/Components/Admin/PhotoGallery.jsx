@@ -263,7 +263,7 @@ function PhotoGallery() {
                                                     <td className="p-2 px-2 max-md:text-sm">{index + 1}</td>
                                                     <td className="p-2 px-2 max-md:text-sm">{image.title}</td>
                                                     <td className='p-2 px-2' >
-                                                        <img className='w-[100px] h-[100px]' src={image.imageUrl} alt="img" onClick={() => navigate(image.photo)} />
+                                                        <img className='w-[100px] h-[100px]' src={`${urlBackend}+${image.imageUrl}`} alt="img" onClick={() => navigate(image.photo)} />
                                                     </td>
                                                     <td className="p-2 px-2  max-md:text-sm">
                                                         <div className="flex flex-row gap-6 justify-left min-[1150px]:w-[80px]">
