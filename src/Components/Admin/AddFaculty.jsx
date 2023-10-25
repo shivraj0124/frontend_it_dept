@@ -91,7 +91,7 @@ export default function AddFaculty() {
       formData.append('post', post);
       formData.append('experience', experience);
       formData.append('photo', photo);
-
+      console.log(photo)
       try {
         const response = await axios.post(`${urlBackend}/api/v1/add-faculty`, formData, {
           headers: {

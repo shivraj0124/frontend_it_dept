@@ -17,9 +17,10 @@ function PhotoGallery() {
     const [photo, setPhoto] = useState(null);
     const [search, setSearch] = useState('')
     const urlBackend = import.meta.env.VITE_BACKEND_API
+    const [image, setImage] = useState(null);
     const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        setPhoto(file);
+        const selectedFile = e.target.files[0];
+        setPhoto(selectedFile);
     };
     const onOpenAddModal = () => {
         setOpenAdd(true)
@@ -49,58 +50,38 @@ function PhotoGallery() {
     const onCloseDeleteModal = () => {
         setOpenDelete(false);
     };
-    const handleAddImage = async (e) => {
-        e.preventDefault()
-        let updateOrNot = 1;
-        const arr = [title];
-        let countLoop = 0;
-        arr.map((item, index) => {
-            if (typeof item === 'string') {
-                item = item.replace(/\s+/g, ''); // Assign the result back to item
-            }
-            if (typeof item === 'string') {
-                item = item.trim(); // Assign the result back to item
-            }
-            if (item === '') {
-                countLoop += 1
-                // setUpdateOrNot(0)
-                updateOrNot = 0
-                if (countLoop <= 1) {
+    const [success, setSuccess] = useState(null);
+    const [error, setError] = useState(null);
 
-                    if (index === 0) {
-                        toast.error('Name Field must filled', {
-                            autoClose: 1000,
-                            position: 'bottom-center'
-                        })
-                    } 
-                }
-            }
-        })
-        if(photo === null){
-            toast.error('Please Upload the Photo')
-            updateOrNot=0
-        }
+    const handleFileChangeN = (e) => {
+        const selectedFile = e.target.files[0];
+        setImage(selectedFile);
+    };
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('image', image);
+
         try {
-            if (updateOrNot === 1) {
-                const formData = new FormData();
-                formData.append('title', title);
-                formData.append('photo', photo);
-                const response = await axios.post(`${urlBackend}/api/v1/add-imageSlider`, formData);
-                if (response.data.success) {
-                    fetchImages()
-                    toast.success('Image added successfully:');
-                    console.log('Image added successfully:', response.data.newPhoto);
-                } else {
-                    console.error('Failed to add image:', response.data.message);
-                }
-                onCloseAddModal()
+            const response = await axios.post(`${urlBackend}/api/v1/add-image`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            if (response.data.success) {
+                setSuccess('Image uploaded successfully.');
+            } else {
+                setError('Image upload failed.');
             }
-        } catch (error) {
-            toast.error('Error:', error);
+        } catch (err) {
+            setError('Error occurred while uploading the image.');
         }
+    };
 
-
-    }
     const handleSearch = async (e) => {
         e.preventDefault();
         console.log(search)
@@ -301,20 +282,45 @@ function PhotoGallery() {
 
                 <Modal open={openAdd} onClose={onCloseAddModal} center classNames={{ modal: 'updateModal' }}>
                     <div className="w-[100%] flex md:flex-row- max-md:flex-col-reverse bg-white rounded-md">
-                        <div className='w-[100%] text-center  bg-white pb-10'>
+                        {/* <div className='w-[100%] text-center  bg-white pb-10'>
                             <h1 className='text-center font-semibold text-2xl underline underline-offset-4 mt-5'>Add image</h1>
-                            <form className='mt-10 text-black' onSubmit={handleAddImage}>
+                            {/* <form className='mt-10 text-black' onSubmit={handleFileUpload}> 
                                 <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Title' onChange={(e) => setTitle(e.target.value)} required />
                                 <br />
                                 <label className=' border-blue-900 text-blue-900 font-semibold bg-blue-300 hover:bg-blue-600 hover:text-white py-[6px] inline-block cursor-pointer mt-5 px-2 w-max rounded-md'>
-                                    <input type="file" name="photo" className='hidden' onChange={handleFileChange}  />
+                                    <input type="file" name="photo" className='hidden' onChange={(event) => setPhoto(event.target.files[0])}  />
                                     upload Photo
                                 </label>
                                 <br />
-                                <button className='mt-8 w-[80%] bg-blue-800 rounded-lg py-2 text-lg text-white cursor-pointer hover:bg-blue-500'>
+                            <button className='mt-8 w-[80%] bg-blue-800 rounded-lg py-2 text-lg text-white cursor-pointer hover:bg-blue-500' onClick={handleFileUpload}>
                                     Add image
                                 </button>
+                            {/* </form> 
+                        </div> */}
+                        
+                        <div>
+                            <h2>Upload an Image</h2>
+                            <form onSubmit={handleFormSubmit}>
+                                <div>
+                                    <label>Title:</label>
+                                    <input
+                                        type="text"
+                                        value={title}
+                                        onChange={(e) => setTitle(e.target.value)}
+                                    />
+                                </div>
+                                <div>
+                                    <label>Image:</label>
+                                    <input
+                                        type="file"
+                                        accept=".jpg, .jpeg, .png"
+                                        onChange={handleFileChangeN}
+                                    />
+                                </div>
+                                <button type="submit">Upload</button>
                             </form>
+                            {success && <p style={{ color: 'green' }}>{success}</p>}
+                            {error && <p style={{ color: 'red' }}>{error}</p>}
                         </div>
                     </div>
                 </Modal>
