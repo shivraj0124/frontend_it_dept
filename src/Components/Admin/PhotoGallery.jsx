@@ -293,7 +293,7 @@ function PhotoGallery() {
                                     upload Photo
                                 </label>
                                 <br />
-                            <button className='mt-8 w-[80%] bg-blue-800 rounded-lg py-2 text-lg text-white cursor-pointer hover:bg-blue-500' onClick={handleFileUpload}>
+                            <button className='mt-8 w-[80%] bg-blue-800 rounded-lg py-2 text-lg text-white cursor-pointer hover:bg-blue-500'>
                                     Add image
                                 </button>
                              </form> 
