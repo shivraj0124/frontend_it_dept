@@ -50,13 +50,13 @@ function PhotoGallery() {
     const onCloseDeleteModal = () => {
         setOpenDelete(false);
     };
-    const [success, setSuccess] = useState(null);
-    const [error, setError] = useState(null);
+    // const [success, setSuccess] = useState(null);
+    // const [error, setError] = useState(null);
 
-    const handleFileChangeN = (e) => {
-        const selectedFile = e.target.files[0];
-        setImage(selectedFile);
-    };
+    // const handleFileChangeN = (e) => {
+    //     const selectedFile = e.target.files[0];
+    //     setImage(selectedFile);
+    // };
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -69,8 +69,10 @@ function PhotoGallery() {
             const response = await axios.post(`${urlBackend}/api/v1/add-imageSlider`, formData);
 
             if (response.data.success) {
+                fetchImages()
                 // File uploaded successfully
-                console.log('File uploaded successfully');
+                toast.success('Image uploaded successfully');
+                onCloseAddModal()
             } else {
                 // Handle the error
                 console.error('File upload failed');
