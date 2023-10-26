@@ -63,24 +63,24 @@ function PhotoGallery() {
 
         const formData = new FormData();
         formData.append('title', title);
-        formData.append('image', image);
+        formData.append('photo', photo);
 
         try {
-            const response = await axios.post(`${urlBackend}/api/v1/add-image`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+            const response = await axios.post(`${urlBackend}/api/v1/add-imageSlider`, formData);
 
             if (response.data.success) {
-                setSuccess('Image uploaded successfully.');
+                // File uploaded successfully
+                console.log('File uploaded successfully');
             } else {
-                setError('Image upload failed.');
+                // Handle the error
+                console.error('File upload failed');
             }
-        } catch (err) {
-            setError('Error occurred while uploading the image.');
+        } catch (error) {
+            console.error('Error:', error);
         }
     };
+
+    
 
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -109,7 +109,7 @@ function PhotoGallery() {
 
             console.log(data)
             if (data.success) {
-                setImageList(data.imageUrls);
+                setImageList(data.images);
 
             } else {
                 console.log('Failed to fetch Images');
@@ -263,7 +263,7 @@ function PhotoGallery() {
                                                     <td className="p-2 px-2 max-md:text-sm">{index + 1}</td>
                                                     <td className="p-2 px-2 max-md:text-sm">{image.title}</td>
                                                     <td className='p-2 px-2' >
-                                                        <img className='w-[100px] h-[100px]' src={`${urlBackend}${image.imageUrl}`} alt="img" onClick={() => navigate(image.photo)} />
+                                                        <img className='w-[100px] h-[100px]' src={image.photo} alt="img" onClick={() => navigate(image.photo)} />
                                                     </td>
                                                     <td className="p-2 px-2  max-md:text-sm">
                                                         <div className="flex flex-row gap-6 justify-left min-[1150px]:w-[80px]">
@@ -283,22 +283,22 @@ function PhotoGallery() {
 
                 <Modal open={openAdd} onClose={onCloseAddModal} center classNames={{ modal: 'updateModal' }}>
                     <div className="w-[100%] flex md:flex-row- max-md:flex-col-reverse bg-white rounded-md">
-                        {/* <div className='w-[100%] text-center  bg-white pb-10'>
+                         <div className='w-[100%] text-center  bg-white pb-10'>
                             <h1 className='text-center font-semibold text-2xl underline underline-offset-4 mt-5'>Add image</h1>
-                            {/* <form className='mt-10 text-black' onSubmit={handleFileUpload}> 
+                            <form className='mt-10 text-black' onSubmit={handleFormSubmit}> 
                                 <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Title' onChange={(e) => setTitle(e.target.value)} required />
                                 <br />
                                 <label className=' border-blue-900 text-blue-900 font-semibold bg-blue-300 hover:bg-blue-600 hover:text-white py-[6px] inline-block cursor-pointer mt-5 px-2 w-max rounded-md'>
-                                    <input type="file" name="photo" className='hidden' onChange={(event) => setPhoto(event.target.files[0])}  />
+                                    <input type="file" name="photo" className='hidden' onChange={handleFileChange}  />
                                     upload Photo
                                 </label>
                                 <br />
                             <button className='mt-8 w-[80%] bg-blue-800 rounded-lg py-2 text-lg text-white cursor-pointer hover:bg-blue-500' onClick={handleFileUpload}>
                                     Add image
                                 </button>
-                            {/* </form> 
-                        </div> */}
-                        
+                             </form> 
+                        </div> 
+{/*                         
                         <div>
                             <h2>Upload an Image</h2>
                             <form onSubmit={handleFormSubmit}>
@@ -322,7 +322,7 @@ function PhotoGallery() {
                             </form>
                             {success && <p style={{ color: 'green' }}>{success}</p>}
                             {error && <p style={{ color: 'red' }}>{error}</p>}
-                        </div>
+                        </div> */}
                     </div>
                 </Modal>
                 <Modal open={open} onClose={onCloseModal} center classNames={{ modal: 'updateModal' }}>
