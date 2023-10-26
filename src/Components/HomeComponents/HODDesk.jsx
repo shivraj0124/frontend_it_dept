@@ -1,5 +1,7 @@
 import React from 'react'
 import img1 from '../../Images/hod.png'
+import {LazyLoadImage} from 'react-lazy-load-image-component'
+import 'react-lazy-load-image-component/src/effects/blur.css';
 const HODDesk = () => {
     return (
         <div className="  w-[100%] md:px-[10%] px-3 pb-12 items-center justify-center py-5 bg-gray-100">
@@ -8,7 +10,7 @@ const HODDesk = () => {
 
                 <div className=" md:w-[70%] w-[80%] mt-6 ">
                     <h1 className='text-black text-2xl   font-bold font-sans md:font-serif '>Message From HOD's Desk...</h1>
-                    <img className="rounded-md w-[100%] " src={img1} alt="" />
+                    <LazyLoadImage className="rounded-md w-[100%] " src={img1} alt="" />
                     <p className=' text-lg text-black mt-2 font-sans md:font-serif'>Dr Hemant Pradeshi,<br />Head of Department of IT</p>
                 </div>
                 <div className="w-[100%] mt-5 px-2">
