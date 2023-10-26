@@ -46,7 +46,7 @@ const Navbar = () => {
                                 <div className="flex flex-row">
                                     <Link className='p-4 pr-0 uppercase hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer font-bold' to='/Student/Dashboard' >{auth?.user?.EnrNo}</Link>
                                     <li className="mt-2 cursor-pointer" >
-                                        <BiUserCircle onClick={() => navigate('/Student/Dashboard')} size={40} />
+                                        <BiUserCircle onClick={() => navigate('/Student/Notes')} size={40} />
                                     </li>
 
 
