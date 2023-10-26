@@ -6,7 +6,7 @@ const HODDesk = () => {
     return (
         <div className="  w-[100%] md:px-[10%] px-3 pb-12 items-center justify-center py-5 bg-gray-100">
 
-            <div className="flex md:flex-row flex-col w-[100%] items-center justify-center md:gap-3 md:font-serif">
+            <div className="flex md:flex-row flex-col w-[100%] items-center justify-center md:gap-1 md:font-serif">
 
                 <div className=" md:w-[70%] w-[80%] mt-6 ">
                     <h1 className='text-black text-2xl   font-bold font-sans md:font-serif '>Message From HOD's Desk...</h1>
