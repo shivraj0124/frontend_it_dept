@@ -3,6 +3,7 @@ import ITLogo from '../../Images/logo_try.jpg'
 import GPMLogo from '../../Images/GPM-LOGO.png'
 import home_gif from '../../Images/home_4.gif'
 import rightImg from '../../Images/rightImgBg.png'
+// import rightImg from '../../Images/animationMyHome.gif'
 function Top() {
   return (
 

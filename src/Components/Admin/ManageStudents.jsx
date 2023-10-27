@@ -405,7 +405,7 @@ function ManageStudents() {
                         <Select
                             id="semesters"
                             className="max-md:text-sm max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none"
-                            placeholder='Notes By Semester'
+                            placeholder='Students By Semester'
                             onChange={FilterBySemester}
                         >
                             {semesterList?.map((semester) => (
@@ -423,7 +423,7 @@ function ManageStudents() {
                         <Select
                             id="semesters"
                             className="max-md:text-sm max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none placeholder-blue-500 "
-                            placeholder='Notes By Shift'
+                            placeholder='Students By Shift'
                             onChange={FilterByShift}
                         >
                             {
@@ -469,12 +469,11 @@ function ManageStudents() {
                                     </tr>
                                     :
                                     <tbody className='bg-slate-800 text-white '>
-
                                         {studentList?.map((student, index) => (
                                             <tr key={student._id} className=''>
                                                 <td className='py-2 px-4'>{index + 1}</td>
                                                 <td className='py-2 px-4'>{student.name}</td>
-                                                <td className='py-2 px-4' >{student.email}</td>
+                                                <td className='py-2 px-4 text-blue-400' target='_blank' ><a href={`mailto:${student.email}`} >{student.email}</a></td>
                                                 <td className='py-2 px-4' >{student.EnrNo}</td>
                                                 <td className='py-2 px-4' >{student.phone}</td>
                                                 <td className='py-2 px-4'>{student.semester.name}</td>

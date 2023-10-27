@@ -5,8 +5,7 @@ import toast from 'react-hot-toast';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 import BarLoader from 'react-spinners/BarLoader'
-import {Link} from 'react-router-dom'
-function PhotoGallery() {
+function AcademicAchievements() {
     const navigate = useNavigate()
     const [imageList, setImageList] = useState([])
     const [selectedImage, setSelectedImage] = useState('')
@@ -51,14 +50,6 @@ function PhotoGallery() {
     const onCloseDeleteModal = () => {
         setOpenDelete(false);
     };
-    // const [success, setSuccess] = useState(null);
-    // const [error, setError] = useState(null);
-
-    // const handleFileChangeN = (e) => {
-    //     const selectedFile = e.target.files[0];
-    //     setImage(selectedFile);
-    // };
-
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
@@ -67,11 +58,10 @@ function PhotoGallery() {
         formData.append('photo', photo);
 
         try {
-            const response = await axios.post(`${urlBackend}/api/v1/add-imageSlider`, formData);
+            const response = await axios.post(`${urlBackend}/api/v1/add-academicAch`, formData);
 
             if (response.data.success) {
                 fetchImages()
-                // File uploaded successfully
                 toast.success('Image uploaded successfully');
                 onCloseAddModal()
             } else {
@@ -83,14 +73,14 @@ function PhotoGallery() {
         }
     };
 
-    
+
 
     const handleSearch = async (e) => {
         e.preventDefault();
         console.log(search)
         setLoader(true);
         try {
-            const response = await axios.get(`${urlBackend}/api/v1/search-imagesSlider`, {
+            const response = await axios.get(`${urlBackend}/api/v1/search-academicAch`, {
                 params: { search },
             });
             setImageList(response.data.images);
@@ -107,7 +97,7 @@ function PhotoGallery() {
     };
     const fetchImages = async () => {
         try {
-            const response = await axios.get(`${urlBackend}/api/v1/get-imageSlider`);
+            const response = await axios.get(`${urlBackend}/api/v1/get-academicAch`);
             const data = response.data;
 
             console.log(data)
@@ -159,7 +149,7 @@ function PhotoGallery() {
                     formData.append('photo', photo);
                 }
 
-                const response = await axios.put(`${urlBackend}/api/v1/update-imageSlider/${selectedImage._id}`, formData);
+                const response = await axios.put(`${urlBackend}/api/v1/update-academicAch/${selectedImage._id}`, formData);
 
                 if (response.data.success) {
                     await fetchImages();
@@ -191,7 +181,7 @@ function PhotoGallery() {
         e.preventDefault();
         try {
             if (selectedImage && selectedImage._id) {
-                const response = await axios.delete(`${urlBackend}/api/v1/delete-imageSliderPhoto/${selectedImage._id}`);
+                const response = await axios.delete(`${urlBackend}/api/v1/delete-academicAch/${selectedImage._id}`);
 
                 if (response.data.success) {
                     setImageList((prevAList) =>
@@ -266,7 +256,7 @@ function PhotoGallery() {
                                                     <td className="p-2 px-2 max-md:text-sm">{index + 1}</td>
                                                     <td className="p-2 px-2 max-md:text-sm">{image.title}</td>
                                                     <td className='p-2 px-2' >
-                                                        <Link to={image.photo} target='_blank'><img className='w-[100px] h-[100px]' src={image.photo} alt="img" /></Link>
+                                                        <img className='w-[100px] h-[100px]' src={image.photo} alt="img" onClick={() => navigate(image.photo)} />
                                                     </td>
                                                     <td className="p-2 px-2  max-md:text-sm">
                                                         <div className="flex flex-row gap-6 justify-left min-[1150px]:w-[80px]">
@@ -286,22 +276,22 @@ function PhotoGallery() {
 
                 <Modal open={openAdd} onClose={onCloseAddModal} center classNames={{ modal: 'updateModal' }}>
                     <div className="w-[100%] flex md:flex-row- max-md:flex-col-reverse bg-white rounded-md">
-                         <div className='w-[100%] text-center  bg-white pb-10'>
+                        <div className='w-[100%] text-center  bg-white pb-10'>
                             <h1 className='text-center font-semibold text-2xl underline underline-offset-4 mt-5'>Add image</h1>
-                            <form className='mt-10 text-black' onSubmit={handleFormSubmit}> 
+                            <form className='mt-10 text-black' onSubmit={handleFormSubmit}>
                                 <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Title' onChange={(e) => setTitle(e.target.value)} required />
                                 <br />
                                 <label className=' border-blue-900 text-blue-900 font-semibold bg-blue-300 hover:bg-blue-600 hover:text-white py-[6px] inline-block cursor-pointer mt-5 px-2 w-max rounded-md'>
-                                    <input type="file" name="photo" className='hidden' onChange={handleFileChange}  />
+                                    <input type="file" name="photo" className='hidden' onChange={handleFileChange} />
                                     upload Photo
                                 </label>
                                 <br />
-                            <button className='mt-8 w-[80%] bg-blue-800 rounded-lg py-2 text-lg text-white cursor-pointer hover:bg-blue-500'>
+                                <button className='mt-8 w-[80%] bg-blue-800 rounded-lg py-2 text-lg text-white cursor-pointer hover:bg-blue-500'>
                                     Add image
                                 </button>
-                             </form> 
-                        </div> 
-{/*                         
+                            </form>
+                        </div>
+                        {/*                         
                         <div>
                             <h2>Upload an Image</h2>
                             <form onSubmit={handleFormSubmit}>
@@ -359,4 +349,4 @@ function PhotoGallery() {
     )
 }
 
-export default PhotoGallery
+export default AcademicAchievements

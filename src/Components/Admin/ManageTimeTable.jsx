@@ -251,7 +251,7 @@ function ManageTimeTable() {
                                             <td className='py-2 px-4'>{TT.semester.name}</td>
                                             <td className='py-2 px-4'>{TT.shift.name}</td>
                                             <td className='py-2 px-4' >
-                                                <Link to={TT.photo}><img className='w-[100px] h-[100px]' src={TT.photo} alt="" />
+                                                <Link to={TT.photo} target='_blank'><img className='w-[100px] h-[100px]' src={TT.photo} alt="" />
                                                 </Link>
                                             </td>
 

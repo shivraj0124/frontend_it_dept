@@ -287,13 +287,13 @@ function ManageFaculty() {
                                             <tr key={faculty._id} className='border-b-2 border-gray-500 rounded-md'>
                                                 <td className='  py-2 px-3'>{index + 1}</td>
                                                 <td className='  py-2 px-3'>{faculty.name}</td>
-                                                <td className='  py-2 px-3'>{faculty.email}</td>
+                                                <td className='  py-2 px-3 text-blue-400' target='_blank' ><a href={`mailto:${faculty.email}`}>{faculty.email}</a></td>
                                                 <td className='  py-2 px-3'>{faculty.phone}</td>
                                                 <td className='  py-2 px-3'>{faculty.post}</td>
                                                 <td className='  py-2 px-3'>{faculty.qualification}</td>
                                                 <td className='  py-2 px-3'>{faculty.experience}</td>
                                                 <td className=' '>
-                                                    <img className='w-[100px] h-[100px]' src={faculty.photo} alt="" />
+                                                    <Link to={faculty.photo} target='_blank'><img className='w-[100px] h-[100px]' src={faculty.photo} alt="" /></Link>
                                                 </td>
                                                 <td className='  py-2 px-2'>
                                                     <div className='flex flex-row gap-2 justify-center'>

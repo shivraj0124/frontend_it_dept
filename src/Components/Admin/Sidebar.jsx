@@ -269,6 +269,9 @@ const Sidebar = () => {
                                     <Link to="/Admin/PhotoGallery" className="block w-max px-4 py-1   border-none  hover:text-blue-600 hover:rounded-md">
                                             Photo Gallery
                                     </Link>
+                                        <Link to="/Admin/AcademicAchievements" className="block w-max px-4 py-1   border-none  hover:text-blue-600 hover:rounded-md">
+                                            Academic
+                                    </Link>
 
                                 </div>
                             )}

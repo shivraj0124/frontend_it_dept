@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 import BarLoader from 'react-spinners/BarLoader'
+import { Link } from 'react-router-dom'
 function ManageAchievements() {
     const [open, setOpen] = useState(false);
     const [openDes, setOpenDes] = useState(false);
@@ -213,7 +214,7 @@ function ManageAchievements() {
                                                   <td className="p-2 px-4 max-md:text-sm">{achievement.title}</td>
                                                   <td onClick={() => handleDescriptionModal(achievement)} className='cursor-pointer p-3 px-4  max-md:text-sm '>View</td>
                                           <td className='p-2 px-4'>
-                                                      <img className='w-[100px] h-[100px]' src={achievement.photo} alt="img" />
+                                                      <Link to={achievement.photo} target='_blank'> <img className='w-[100px] h-[100px]' src={achievement.photo} alt="img" /></Link>
                                           </td>
                                           <td className="p-2 px-4  max-md:text-sm">
                                                       <div className="flex flex-row gap-6 justify-left min-[1150px]:w-[80px]">

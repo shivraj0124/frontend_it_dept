@@ -1,18 +1,45 @@
 
-import React from "react";
+import React,{useEffect,useState} from "react";
 import img1 from '../../Images/firstSlider-1.png'
 import img2 from '../../Images/Img2.png'
 import img3 from '../../Images/stu.png'
 import img4 from '../../Images/mam.png'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-
+import axios from 'axios'
+import FadeIn from 'react-fade-in';
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import 'react-lazy-load-image-component/src/effects/blur.css';
 export default function ImageSlider() {
+    const urlBackend = import.meta.env.VITE_BACKEND_API
+    const [imageList, setImageList]=useState([])
+    const fetchImages = async () => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-imageSlider`);
+            const data = response.data;
+
+            console.log(data)
+            if (data.success) {
+                setImageList(data.images);
+
+            } else {
+                console.log('Failed to fetch Images');
+            }
+            setLoader(false)
+        } catch (error) {
+            console.error('Error:', error);
+            console.log('Failed to fetch Images')
+            
+        }
+    }
+   useEffect(()=>{
+       fetchImages()
+   },[])
 
     return (
-        <div className="flex md:flex-row max-md:flex-col md:px-[10%] px-2 gap-2 items-center justify-center bg-white">
-            <div className="max-md:w-[90%] w-[70%] px-2 h-[70vh] flex justify-center items-center">
-                <div className="rounded-md w-full h-max  py-2 shadow-lg ">
+        <div className="flex md:flex-row max-md:flex-col md:px-[10%] md:gap-2 items-center justify-center bg-white">
+            <div className="max-md:w-[90%] w-[70%]  h-[70vh] flex justify-center items-center">
+                <div className="rounded-md w-full h-max shadow-lg  ">
                     <Carousel
                         autoPlay
                         infiniteLoop
@@ -23,19 +50,13 @@ export default function ImageSlider() {
                         // stopOnHover={true}
                         className="rounded-md cursor-pointer"
                         style={{ width: '100%', height: '100%' }} // Set width and height to 100%
-                    >
-                        <div>
-                            <img src={img4} className="h-96 w-full" /> {/* Use w-full to make the image cover the entire width */}
-                        </div>
-                        <div>
-                            <img src={img3} className="h-96 w-full" />
-                        </div>
-                        <div>
-                            <img src={img2} className="h-96 w-full" />
-                        </div>
-                        <div>
-                            <img src={img1} className="h-96 w-full" />
-                        </div>
+                    >{imageList?.length === 0 ? 'No Data' :
+                        imageList?.map((image, index) => (
+                            <FadeIn>
+                             <LazyLoadImage src={image.photo} className="h-[400px] w-[100%] rounded-md p-0" effect="blur" /> {/* Use w-full to make the image cover the entire width */}
+                            </FadeIn>
+                        ))
+}
                     </Carousel>
                 </div>
             </div>

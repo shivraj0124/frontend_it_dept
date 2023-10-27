@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast';
 import {UserProvider } from './Components/Admin/ContextP'
 import Home from "./Components/HomeComponents/Home"
-import FacultyDetailes from "./Components/NavComponents/FacultyDetailes"
+import FacultyDetails from "./Components/NavComponents/FacultyDetails"
 import Curriculum from "./Components/NavComponents/Curriculum"
 import Contact from "./Components/NavComponents/Contact"
 import Layout from "./Components/Layout"
@@ -44,6 +44,7 @@ import FManageNotices from "./Components/Faculty/FManageNotices";
 import StudentNotices from "./Components/Students/StudentNotices";
 import MiniphotoG from "./Components/HomeComponents/MiniphotoG"
 import PhotoGallery from "./Components/Admin/PhotoGallery";
+import AcademicAchievements from "./Components/Admin/AcademicAchievements";
 function App() {
   
   return (
@@ -54,7 +55,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Layout />} >
             <Route exact path="/" element={<Home />} ></Route>
-            <Route exact path='/FacultyDetailes' element={<FacultyDetailes />}></Route>
+              <Route exact path='/FacultyDetails' element={<FacultyDetails />}></Route>
             <Route exact path='/Curriculum' element={<Curriculum />}></Route>
             <Route exact path='/Contact' element={<Contact />}></Route>
               <Route exact path='/MiniphotoG' element={<MiniphotoG />}></Route>
@@ -81,6 +82,7 @@ function App() {
             <Route exact path='/Admin/AddAchievement' element={<AddAchievement />}></Route>
             <Route exact path='/Admin/ManageAchievements' element={<ManageAchievements />}></Route>
             <Route exact path='/Admin/PhotoGallery' element={<PhotoGallery />}></Route>
+            <Route exact path='/Admin/AcademicAchievements' element={<AcademicAchievements />}></Route>
           </Route>
           <Route path='/Student' element={<StudentSidebar/>}>
               <Route exact path="/Student/Notes" element={<StudentNotes/>}></Route>

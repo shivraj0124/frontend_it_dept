@@ -57,7 +57,7 @@ const Navbar = () => {
                                     <div className="flex flex-row">
                                         <Link className='p-4 pr-0 font-bold uppercase hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' to='/Faculty' >Faculty</Link>
                                         <li className="mt-2 cursor-pointer" >
-                                            <BiUserCircle onClick={() => navigate('/Faculty')} size={40} />
+                                                    <BiUserCircle onClick={() => navigate('/FacultyDetailes')} size={40} />
                                         </li>
                                     </div>
                                 </>
@@ -84,7 +84,7 @@ const Navbar = () => {
                     <Link to='About' >
                         <li className='pt-1 pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>About</li>
                     </Link>
-                    <Link to='/Faculty'>
+                    <Link to='/FacultyDetailes'>
                         <li className='pt-1  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Faculty</li>
                     </Link>
                     <Link to='/Curriculum'>
