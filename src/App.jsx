@@ -46,6 +46,7 @@ import MiniphotoG from "./Components/HomeComponents/MiniphotoG"
 import PhotoGallery from "./Components/Admin/PhotoGallery";
 import AcademicAchievements from "./Components/Admin/AcademicAchievements";
 import AdminProfile from "./Components/Admin/AdminProfile";
+import FacultyProfile from "./Components/Faculty/FacultyProfile";
 function App() {
   
   return (
@@ -93,6 +94,7 @@ function App() {
               <Route exact path="/Student/Notices" element={<StudentNotices/>}></Route>
           </Route>
           <Route path='/Faculty' element={<FacultySidebar/>}>
+              <Route exact path='/Faculty/Profile' element={<FacultyProfile/>} ></Route>  
               <Route exact path='/Faculty/AddNote' element={<FAddNotes/>} ></Route>  
               <Route exact path='/Faculty/ManageNotes' element={<FManageNotes/>} ></Route>  
               <Route exact path='/Faculty/AddQuestionPaper' element={<FAddQP/>} ></Route>  

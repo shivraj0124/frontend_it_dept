@@ -14,7 +14,7 @@ export default function FAddNotice() {
     const [link, setLink] = useState('')
     const [description, setDescription] = useState('')
     const urlBackend = import.meta.env.VITE_BACKEND_API
-    const {auth} = themeHook()
+    const {auth,userId} = themeHook()
     
     const handleChangeSemester = (value) => {
         setSelectedSem(value);
@@ -93,7 +93,7 @@ export default function FAddNotice() {
             formData.append('description', description);
             formData.append('semester', selectedSem);
             formData.append('shift', selectedShift);
-            formData.append('role', auth?.user?.phone);
+            formData.append('role', userId);
 
             try {
                 const response = await axios.post(`${urlBackend}/api/v4/add-notice`, formData, {

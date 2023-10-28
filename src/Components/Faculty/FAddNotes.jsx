@@ -6,7 +6,7 @@ import axios from 'axios'
 import toast from 'react-hot-toast';
 import themeHook from '../Admin/ContextP'
 function FAddNotes() {
-    const {auth}=themeHook()
+    const {auth,userId}=themeHook()
     const [semesterList, setSemesterList] = useState([]);
     const [subjectList, setSubjectList] = useState([]);
     const [selectedSem, setSelectedSem] = useState('');
@@ -105,7 +105,7 @@ function FAddNotes() {
             formData.append('link', link);
             formData.append('subject', selectedSubject);
             formData.append('semester', selectedSem);
-            formData.append('role',auth?.user?.phone);
+            formData.append('role', userId);
 
             try {
                 const response = await axios.post(`${urlBackend}/api/v4/add-notes`, formData, {
@@ -120,13 +120,13 @@ function FAddNotes() {
                         position: 'bottom-center',
                     });
                 } else {
-                    toast.error('Note already Exist with this name', {
+                    toast.error(response.data.message, {
                         autoClose: 2000,
                         position: 'bottom-center',
                     });
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error:');
                 toast.error('Failed to Add Notes ', {
                     autoClose: 2000,
                     position: 'bottom-center',

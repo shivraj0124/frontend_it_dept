@@ -24,7 +24,7 @@ function FManageQP() {
     const [subjectPlaceholder, setSubjectPlaceholder] = useState('')
     const [semesterPlaceholder, setSemesterPlaceholder] = useState('')
     const urlBackend = import.meta.env.VITE_BACKEND_API
-    const { auth } = themeHook()
+    const { auth, userId } = themeHook()
     const handleChangeSemester = (value) => {
         setSelectedSem(value);
         setSelectedSubject('');
@@ -62,7 +62,7 @@ function FManageQP() {
     }, [])
 
     const getQPs = () => {
-        axios.get(`${urlBackend}/api/v4/get-qp/${auth?.user?.phone}`).then((response) => {
+        axios.get(`${urlBackend}/api/v4/get-qp/${userId}`).then((response) => {
             if (response.data.success) {
                 setQPList(response.data.qP);
                 console.log(response.data.qP)

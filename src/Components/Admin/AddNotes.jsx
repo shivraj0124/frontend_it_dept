@@ -103,7 +103,7 @@ function AddNotes() {
             formData.append('link', link);
             formData.append('subject', selectedSubject);
             formData.append('semester', selectedSem);
-            formData.append('role', role);
+            formData.append('role', 'Admin');
 
             try {
                 const response = await axios.post(`${urlBackend}/api/v1/add-notes`, formData, {

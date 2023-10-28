@@ -25,7 +25,7 @@ export default function FManageNotices() {
     const [selectedShift, setSelectedShift] = useState('')
     const [shiftPlaceholder, setShiftPlaceholder] = useState('')
     const [semesterPlaceholder, setSemesterPlaceholder] = useState('')
-    const {auth}=themeHook();
+    const { auth, userId }=themeHook();
     const urlBackend = import.meta.env.VITE_BACKEND_API
     const handleDescriptionModal = (notice) => {
         setOpenDes(true);
@@ -205,7 +205,7 @@ export default function FManageNotices() {
 
     const getNotices =async () => {
         try {
-            const response = await axios.get(`${urlBackend}/api/v4/get-notices/${auth?.user?.phone}`);
+            const response = await axios.get(`${urlBackend}/api/v4/get-notices/${userId}`);
 
             if (response.data.success) {
                 setNoticeList(response.data.fNotice);

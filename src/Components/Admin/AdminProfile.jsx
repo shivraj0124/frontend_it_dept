@@ -40,7 +40,7 @@ function AdminProfile() {
                 toast.error('error')
             }
         }
-     
+    
     }
     return (
         <div className='min-h-screen overflow-y-scroll pb-10 bg-blue-50'>
@@ -51,7 +51,7 @@ function AdminProfile() {
                     </div>
                     <div className=''>
                         <hr />
-                        <h1 className='mt-5'>Name:admin123</h1>
+                        <h1 className='mt-5'>Name: admin123</h1>
                         <h1 className='text-blue-500 mt-5 cursor-pointer' onClick={openModal} >Change Password</h1>
 
                     </div>

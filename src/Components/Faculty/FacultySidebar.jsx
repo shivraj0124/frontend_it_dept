@@ -5,7 +5,7 @@ import { Link, useNavigate, Outlet, useLocation } from "react-router-dom";
 // import { TailSpin } from 'react-loader-spinner'
 import { ClipLoader } from 'react-spinners'
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
-import { BiSolidDashboard, BiMenuAltRight, BiUpArrow, BiDownArrow } from 'react-icons/bi'
+import { BiSolidDashboard, BiMenuAltRight, BiUpArrow, BiDownArrow, BiUserCircle } from 'react-icons/bi'
 import { FiLogOut } from 'react-icons/fi'
 import { CgNotes, CgCloseR } from 'react-icons/cg'
 import themeHook from '../Admin/ContextP';
@@ -158,6 +158,16 @@ const FacultySidebar = () => {
                                 {/* LogOut */}
                                 <div className='mt-5'>
                                     <hr />
+                                    <Link to='/Faculty/Profile' className="flex flex-row py-2 gap-2 items-center">
+
+                                        <BiUserCircle size={28} />
+                                        <h1>
+                                            Faculty
+                                        </h1>
+                                    </Link>
+                                </div>
+                                <div className='mt-5'>
+                                
                                     <Link to='/' className="flex flex-row py-2 gap-2 items-center" onClick={clearLocalStorage}>
 
                                         <FiLogOut size={22} />

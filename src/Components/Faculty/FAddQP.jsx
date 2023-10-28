@@ -13,7 +13,7 @@ function FAddQP() {
     const [nName, setNName] = useState('')
     const [link, setLink] = useState('')
     const urlBackend = import.meta.env.VITE_BACKEND_API
-    const {auth}=themeHook()
+    const {auth,userId}=themeHook()
     const handleChangeSemester = (value) => {
         setSelectedSem(value);
         setSelectedSubject('');
@@ -103,7 +103,7 @@ function FAddQP() {
             formData.append('link', link);
             formData.append('subject', selectedSubject);
             formData.append('semester', selectedSem);
-            formData.append('role', auth?.user?.phone);
+            formData.append('role', userId);
 
             try {
                 const response = await axios.post(`${urlBackend}/api/v4/add-qp`, formData, {
