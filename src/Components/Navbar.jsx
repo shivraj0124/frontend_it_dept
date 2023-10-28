@@ -44,7 +44,7 @@ const Navbar = () => {
                             ) : auth?.user?.role === 1 ?(
                             <>
                                 <div className="flex flex-row">
-                                    <Link className='p-4 pr-0 uppercase hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer font-bold' to='/Student/Dashboard' >{auth?.user?.EnrNo}</Link>
+                                    <Link className='p-4 pr-0 uppercase hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer font-bold' to='/Student/Notes' >{auth?.user?.EnrNo}</Link>
                                     <li className="mt-2 cursor-pointer" >
                                         <BiUserCircle onClick={() => navigate('/Student/Notes')} size={40} />
                                     </li>
@@ -103,25 +103,25 @@ const Navbar = () => {
                                     <li className='mt-2 ml-6' >
                                         <BiUserCircle size={40} />
                                     </li>
-                                    <li className='pt-4  text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={() => navigate('/Admin')} >Admin</li>
+                                    <li className='pt-4  text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer'>Admin</li>
                                 </div>
                                     
                                 </>
                             ) : auth?.user?.role === 1 ? (
-                                <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Student/')} >
+                                <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Student/Notes')} >
                                     <li className='mt-2 ml-6' >
                                         <BiUserCircle size={40} />
                                     </li>
-                                        <li className='pt-4 font-bold uppercase text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={() => navigate('/Student')} >{username}</li>
+                                        <li className='pt-4 font-bold uppercase text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer'  >{username}</li>
                                 </div>
                                    
                                 </>
                                 ) : (
-                                    <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Faculty/Dashboard')} >
+                                    <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Faculty')} >
                                         <li className='mt-2 ml-6' >
                                             <BiUserCircle size={40} />
                                         </li>
-                                        <li className='pt-4 font-bold uppercase text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={() => navigate('/Faculty')} >{username}</li>
+                                        <li className='pt-4 font-bold uppercase text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer'>{username}</li>
                                     </div>
                                        
                                     </>
