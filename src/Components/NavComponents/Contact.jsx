@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import img1 from '../../Images/Contact.jpg'
+import img1 from '../../Images/contact.jpg'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 function Contact() {
