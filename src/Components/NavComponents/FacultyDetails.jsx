@@ -26,14 +26,15 @@ function FacultyDetails() {
     getAllFaculties();
   }, [])
   return (
-    <div className="w-[100%] h-max flex flex-col justify-center items-center bg-blue-50" >
+    <div className="w-[100%] min-h-screen flex flex-col justify-center items-center bg-blue-50" >
       <h1 className='text-2xl font-bold'>Faculties</h1>
+      {loader ? (
+        <div className="flex flex-col items-center mt-32">
+          <BarLoader color="blue" />
+        </div>
+      ) : (
       <div className='w-[80%] py-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-4 justify-items-center md:px-[5%]  mt-2 '>
-        {loader ? (
-          <div className="flex justify-center items-center mt-32">
-            <BarLoader color="blue" />
-          </div>
-        ) : (
+       {
           facultyList?.map((faculty, index) => (
           <div className='bg-white flex flex-col shadow-xl w-[90%] max-md:w-[100%] justify-between items-center rounded-md p-3'>
             <div className=''><img src={faculty.photo} alt="" className='w-[280px] h-[200px] rounded-md' /></div>
@@ -45,8 +46,9 @@ function FacultyDetails() {
             </div>
           </div>
             ))
-        )}
+          }
       </div>
+        )}
     </div>
   )
 
