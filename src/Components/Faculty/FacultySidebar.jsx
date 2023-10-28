@@ -16,7 +16,7 @@ import { toast } from 'react-hot-toast'
 import { PiNotePencil } from 'react-icons/pi'
 // import { GiAchievement } from 'react-icons/gi'
 const FacultySidebar = () => {
-    const { auth, setFindForm } = themeHook()
+    const { auth,setAuth, setFindForm } = themeHook()
     const navigate = useNavigate()
     const [isOpen, setIsOpen] = useState(false);
     const [nav, setNav] = useState(false)
@@ -38,6 +38,7 @@ const FacultySidebar = () => {
     }
     const clearLocalStorage = () => {
         localStorage.clear();
+        setAuth({})
         handleNav()
     };
 

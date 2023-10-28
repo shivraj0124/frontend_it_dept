@@ -6,7 +6,7 @@ import { Link, useNavigate, Outlet, useLocation } from "react-router-dom";
 // import { TailSpin } from 'react-loader-spinner'
 import { ClipLoader } from 'react-spinners'
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
-import { BiSolidDashboard, BiMenuAltRight, BiUpArrow,BiDownArrow } from 'react-icons/bi'
+import { BiSolidDashboard, BiMenuAltRight, BiUpArrow, BiDownArrow, BiUserCircle } from 'react-icons/bi'
 import { FaUserTie, FaUserGraduate } from 'react-icons/fa'
 import { FiLogOut } from 'react-icons/fi'
 import { AiOutlineClose } from 'react-icons/ai'
@@ -17,7 +17,7 @@ import { GiAchievement } from 'react-icons/gi'
 import themeHook from './ContextP';
 import {toast} from 'react-hot-toast'
 const Sidebar = () => {
-    const { auth, setFindForm }=themeHook()
+    const { auth,setAuth, setFindForm }=themeHook()
     const navigate = useNavigate()
     const [isOpen, setIsOpen] = useState(false);
     const [nav, setNav] = useState(false)
@@ -42,6 +42,7 @@ const Sidebar = () => {
     }
     const clearLocalStorage = () => {
         localStorage.clear();
+        setAuth({})
         handleNav()
     };
   
@@ -279,6 +280,15 @@ const Sidebar = () => {
                             {/* LogOut */}
                             <div className='mt-5'>
                                 <hr />
+                                    <Link to='/Admin/Profile' className="flex flex-row py-2 gap-2 items-center">
+
+                                        <BiUserCircle size={28} />
+                                    <h1>
+                                        Admin
+                                    </h1>
+                                </Link>
+                            </div>
+                            <div className='mt-10'>
                                     <Link to='/' className="flex flex-row py-2 gap-2 items-center" onClick={clearLocalStorage}>
 
                                     <FiLogOut size={22} />

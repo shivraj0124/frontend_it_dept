@@ -45,6 +45,7 @@ import StudentNotices from "./Components/Students/StudentNotices";
 import MiniphotoG from "./Components/HomeComponents/MiniphotoG"
 import PhotoGallery from "./Components/Admin/PhotoGallery";
 import AcademicAchievements from "./Components/Admin/AcademicAchievements";
+import AdminProfile from "./Components/Admin/AdminProfile";
 function App() {
   
   return (
@@ -66,6 +67,7 @@ function App() {
           </Route>
 
           <Route path='/Admin' element={<Sidebar />}>
+            <Route exact path='/Admin/Profile' element={<AdminProfile/>}></Route>
             <Route exact path='/Admin/Dashboard' element={<Dashboard/>}></Route>
             <Route exact path='/Admin/AddStudent' element={<AddStudent />}></Route>
             <Route exact path='/Admin/ManageStudent' element={<ManageStudents />}></Route>

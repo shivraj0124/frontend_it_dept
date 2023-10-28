@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import './AdminComponents.css';
 import BarLoader from 'react-spinners/BarLoader'
 import no_data_found from '../../Images/no_data_found.png'
+import {Link} from 'react-router-dom'
 function ManageFaculty() {
     const [facultyList, setFacultyList] = useState([]);
     const [search, setSearch] = useState('');

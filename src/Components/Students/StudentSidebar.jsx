@@ -13,7 +13,7 @@ import { BsTable } from 'react-icons/bs'
 import { PiNotePencil } from 'react-icons/pi'
 import {toast} from 'react-hot-toast'
 const StudentSidebar = () => {
-    const {auth,setFindForm}=themeHook()
+    const {auth,setAuth,setFindForm}=themeHook()
     const navigate = useNavigate()
     const [isOpen, setIsOpen] = useState(false);
     const [nav, setNav] = useState(false)
@@ -37,6 +37,7 @@ const StudentSidebar = () => {
     }
     const clearLocalStorage = () => {
         localStorage.clear();
+        setAuth({})
         handleNav()
     };
     useEffect(() => {

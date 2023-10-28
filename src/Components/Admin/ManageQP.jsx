@@ -293,7 +293,7 @@ function ManageQP() {
                         <Select
                             id="semesters"
                             className="max-md:text-sm max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none"
-                            placeholder='Question Papers By Semester'
+                            placeholder='QP By Semester'
                             onChange={FilterBySemester}
                         >
                             {semesterList?.map((semester) => (
@@ -311,7 +311,7 @@ function ManageQP() {
                         <Select
                             id="semesters"
                             className="max-md:text-sm max-md:w-[80%] md:w-[57%] font-semibold md:ml-3 focus:outline-none placeholder-blue-500 "
-                            placeholder='Question Papers By Subject'
+                            placeholder='QP By Subject'
                             onChange={FilterBySubject}
                         >
                             {
