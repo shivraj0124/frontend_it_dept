@@ -255,7 +255,7 @@ function ManageFaculty() {
                     </div>
                 ) : (
                         <div className='md:w-[100%] px-2'>
-                        <div className='text-left overflow-y-auto max-xl:max-h-[400px] max-h-[500px] rounded-md  md:w-[100%]  overflow-x-auto mt-10'>
+                        <div className='text-left overflow-y-auto max-xl:max-h-[400px] max-h-[500px] rounded-md  md:w-[100%]  overflow-x-auto mt-10 '>
                             <table className='w-[100%] border-collapse rounded-md'>
                                 <thead className='sticky top-0  '>
                                     <tr className='bg-slate-950 text-white border-slate-950 rounded-md'>

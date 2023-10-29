@@ -441,8 +441,8 @@ function ManageStudents() {
                 </div>
                     :
                     <div className='md:w-[100%] px-2'>
-                        <div className='text-left overflow-y-auto max-h-[500px] max-xl:max-h-[460px] rounded-md w-[100%]'>
-                            <table className='w-[100%]  rounded-md'>
+                        <div className='text-left overflow-y-auto max-h-[480px] max-xl:max-h-[460px] rounded-md w-[100%]'>
+                            <table className='w-[100%]  rounded-md '>
                                 <thead className='sticky top-0 '>
                                     <tr className='bg-slate-950 text-white text-lg font-semibold'>
                                         <th className='py-2 px-4'>SR.No</th>

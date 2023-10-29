@@ -1,5 +1,5 @@
 
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import img1 from '../../Images/firstSlider-1.png'
 import img2 from '../../Images/Img2.png'
 import img3 from '../../Images/stu.png'
@@ -12,7 +12,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css';
 export default function ImageSlider() {
     const urlBackend = import.meta.env.VITE_BACKEND_API
-    const [imageList, setImageList]=useState([])
+    const [imageList, setImageList] = useState([])
+    const [noticeList, setNoticeList] = useState([])
     const fetchImages = async () => {
         try {
             const response = await axios.get(`${urlBackend}/api/v1/get-imageSlider`);
@@ -25,16 +26,39 @@ export default function ImageSlider() {
             } else {
                 console.log('Failed to fetch Images');
             }
-            setLoader(false)
+            // setLoader(false)
         } catch (error) {
             console.error('Error:', error);
             console.log('Failed to fetch Images')
-            
+
         }
     }
-   useEffect(()=>{
-       fetchImages()
-   },[])
+    const fetchNotices = async () => {
+        try {
+            const response = await axios.get(`${urlBackend}/api/v1/get-notices`);
+            const data = response.data;
+
+            console.log(data)
+            if (data.success) {
+                setNoticeList(data.notice);
+
+            } else {
+                console.log('Failed to fetch Images');
+            }
+            // setLoader(false)
+        } catch (error) {
+            console.error('Error:', error);
+            console.log('Failed to fetch Images')
+
+        }
+    }
+    
+    // Ensure the DOM is fully loaded before running JavaScript
+  
+    useEffect(() => {
+        fetchImages()
+        fetchNotices()
+    }, [])
 
     return (
         <div className="flex md:flex-row max-md:flex-col md:px-[10%] md:gap-2 items-center justify-center bg-white">
@@ -53,16 +77,16 @@ export default function ImageSlider() {
                     >{imageList?.length === 0 ? 'No Data' :
                         imageList?.map((image, index) => (
                             <FadeIn>
-                             <LazyLoadImage src={image.photo} className="h-[400px] w-[100%] rounded-md p-0" effect="blur" /> {/* Use w-full to make the image cover the entire width */}
+                                <LazyLoadImage src={image.photo} className="h-[400px] w-[100%] rounded-md p-0" effect="blur" /> {/* Use w-full to make the image cover the entire width */}
                             </FadeIn>
                         ))
-}
+                        }
                     </Carousel>
                 </div>
             </div>
             <div className='md:w-[40%] p-6 h-max'>
 
-                <div className="w-[100%]  h-70  relative border-8 border-gray-400 bg-black rounded-lg p-3">
+                <div className="w-[300px] max-[320px]:w-[100%]  h-70  relative border-8 border-gray-400 bg-black rounded-lg p-3">
                     <div className="absolute  w-3 h-3 bg-black right-[99%] bottom-[99%] rounded-tl-lg"></div>
                     <div className="absolute w-2 h-2 bg-black top-0 right-0"></div>
                     <div className="absolute w-2 h-2 bg-black bottom-0 left-0"></div>
@@ -71,17 +95,27 @@ export default function ImageSlider() {
                     <h2 className="text-white text-lg font-semibold mb-1">Notice Board</h2>
                     <hr className="border-white border" />
 
-                    <div className="mt-2 h-[250px] overflow-hidden">
-                        <Marquee style={{ height: 'auto', overflowY: 'scroll' }}><p className="text-white ">Important announcement</p>
-                            <marquee vspace="30px" direction="up" scrollamount="5"  > <br />
-                                <p className='text-gray-200'>1. Lorem ipsum dolor sit amet.</p><br />
+                    <div className="mt-2 h-[250px] overflow-hidden w-[90%] " >
+                        <div ><p className="text-white ">Important announcement</p>
+                         <marquee behavior="scroll" onmouseover="this.stop()" onmouseout="this.start()" vspace="30px" direction="up" scrollamount="4"  className="marquee"
+                                > <br />
+                                {/* <p className='text-gray-200'>1. Lorem ipsum dolor sit amet.</p><br />
                                 <p className="text-gray-200">2. Consectetur adipiscing elit.</p><br />
                                 <p className="text-gray-200">3. Sed do eiusmod tempor incididunt.</p><br />
                                 <p className="text-gray-200">4. Sed do eiusmod tempor incididunt.</p><br />
-                                <p className="text-gray-200">5. New announcement here.</p><br />
-                            </marquee>
+                        <p className="text-gray-200">5. New announcement here.</p><br /> */}
+                                {
+                                    noticeList.length === 0 ? 'No data' :
+                                        noticeList?.map((notice, index) => (
+                                            <><p className="text-gray-200">{notice.title}</p><br />
+                                                </>
+                                        ))
+                                }
+                            </marquee> 
+                            {/* <marquee behavior="scroll" direction="up" onmouseover="this.stop()" onmouseout="this.start()">HelloHelloHello</marquee> */}
 
-                        </Marquee>
+
+                        </div>
                     </div>
                 </div>
 
@@ -91,12 +125,12 @@ export default function ImageSlider() {
 
     )
 }
-const Marquee = ({ children }) => {
-    return (
-        <div className="marquee">
-            <div className="marquee-content">
-                {children}
-            </div>
-        </div>
-    );
-};
+// const Marquee = ({ children }) => {
+//     return (
+//         <div className="marquee">
+//             <div className="marquee-content">
+//                 {children}
+//             </div>
+//         </div>
+//     );
+// };
