@@ -55,7 +55,7 @@ function StudentProfile() {
         setPhone('');
        
     };
-    const updateFaculty = async (e) => {
+    const updateStudent = async (e) => {
         e.preventDefault()
         let updateOrNot = 1;
         const arr = [name, email, phone];
@@ -211,8 +211,8 @@ function StudentProfile() {
             </Modal>
             <Modal open={openF} onClose={onCloseModal} center classNames={{ modal: 'updateModal' }}>
                 <div className='w-[100%] text-center mt-5  bg-white md:p-10'>
-                    <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Update Faculty</h1>
-                    <form className='mt-10 text-black' onSubmit={updateFaculty}>
+                    <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Edit Details</h1>
+                    <form className='mt-10 text-black' onSubmit={updateStudent}>
                         <input
                             type="text"
                             className='text-xl max-md:text-sm font-semibold placeholder:text-slate-500 border-b-2 border-blue-300 hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2'
@@ -237,7 +237,7 @@ function StudentProfile() {
                       
                         <br />
                         <button className='mt-10 w-[80%] bg-blue-800 rounded-lg py-2 text-xl max-md:text-sm text-white cursor-pointer hover:bg-blue-500' >
-                            Update Student
+                            Submit
                         </button>
                     </form>
                 </div>

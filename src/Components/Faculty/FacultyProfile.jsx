@@ -221,7 +221,7 @@ function FacultyProfile() {
           </Modal>
           <Modal open={openF} onClose={onCloseModal} center classNames={{ modal: 'updateModal' }}>
               <div className='w-[100%] text-center mt-5  bg-white md:p-10'>
-                  <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Update Faculty</h1>
+                  <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Edit Details</h1>
                   <form className='mt-10 text-black' onSubmit={updateFaculty}>
                       <input
                           type="text"
@@ -272,7 +272,7 @@ function FacultyProfile() {
                       </label>
                       <br />
                       <button className='mt-10 w-[80%] bg-blue-800 rounded-lg py-2 text-xl max-md:text-sm text-white cursor-pointer hover:bg-blue-500' >
-                          Update Faculty
+                          Submit
                       </button>
                   </form>
               </div>

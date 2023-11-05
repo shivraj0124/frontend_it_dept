@@ -2,7 +2,7 @@ import React,{useEffect,useState,} from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import BarLoader from 'react-spinners/BarLoader';
-import img from '../../Images/logo_try.jpg'
+import img from '../../Images/notice1.png'
 import no_data_found from '../../Images/no_data_found.png'
 import themeHook from '../Admin/ContextP'
 import '../Admin/AdminComponents.css'
@@ -81,18 +81,18 @@ function StudentNotices() {
                   {noticeList.map((notice, index) => {
                       return <>
                           <div key={index} className='p-4 shadow-xl rounded-md bg-white'>
-                              <div className='flex justify-center bg-blue-50 p-2 rounded-md'>
+                              <div className='flex justify-center bg-blue-50 p-2 rounded-[50%]'>
                                   <img src={img} alt="" className='h-[100px] w-[100px] ' />
                               </div>
-                              <div className='flex flex-col justify-center items-center mt-2 bg-blue-50 rounded-md'>
+                              <div className='flex flex-col justify-center items-center mt-2 rounded-md'>
                                   <h2 className='font-semibold text-xl '>{notice.title}</h2>
 
-                                          <div className="mt-4 max-md:text-sm flex flex-row justify-between items-center max-lg:gap-x-2 lg:gap-x-4 w-[100%]">
-                                              {notice.link.length === 0 ? '' : <Link target="_blank" to={notice.link} className='text-center py-1 w-[100%]  bg-blue-700 text-white'>
+                                          <div className="mt-4 max-md:text-sm flex flex-row justify-center items-center max-lg:gap-x-2 lg:gap-x-4 w-[100%]">
+                                      {notice.link.length === 0 ? '' : <Link target="_blank" to={notice.link} className='text-center py-1 px-4 rounded-md w-[80%] bg-blue-700 text-white'>
                                                   Link
                                               </Link>
                                               }
-                                              <button className='w-[100%] py-1  bg-blue-700 text-white text-center' onClick={() => onOpenModal(notice)}>
+                                              <button className=' w-[80%] px-4 rounded-md py-1  bg-blue-700 text-white text-center' onClick={() => onOpenModal(notice)}>
                                                 Full Notice
                                               </button>
                                             </div>                                                                             

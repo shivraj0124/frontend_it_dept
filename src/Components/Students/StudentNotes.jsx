@@ -4,7 +4,7 @@ import themeHook from '../Admin/ContextP'
 import { Select } from 'antd'
 import { Option } from 'antd/es/mentions';
 import { Link } from 'react-router-dom'
-import img from '../../Images/logo_try.jpg'
+import img from '../../Images/notes1.png'
 import no_data_found from '../../Images/no_data_found.png'
 import BarLoader from 'react-spinners/BarLoader'
 function StudentNotes() {
@@ -150,12 +150,12 @@ function StudentNotes() {
          {notesList.map((note, index) => {
             return <>
               <div key={index} className='p-4 shadow-xl rounded-md bg-white text-center'>
-                <div className='flex justify-center bg-blue-50 p-2 rounded-md'>
+                <div className='flex justify-center bg-blue-50 rounded-[50%] p-2 '>
                   <img src={img} alt="" className='h-[100px] w-[100px] ' />
                 </div>
-                <div className='flex flex-col justify-between items-center  mt-2  rounded-md p-2'>
+                <div className='flex flex-col justify-between items-center  rounded-md p-2 min-h-[120px] h-max'>
                   <h2 className='font-semibold text-xl '>{note.name}</h2>
-                  <Link target='_blank' to={note.link} className='p-2 px-5 bg-blue-200 hover:bg-blue-700 hover:text-white text-black w-max rounded-md mt-4'>click here</Link>
+                  <Link target='_blank' to={note.link} className='p-2 px-5 bg-blue-700 hover:bg-blue-600 text-white  w-max rounded-md mt-4'>click here</Link>
                 </div>
               </div>
             </>

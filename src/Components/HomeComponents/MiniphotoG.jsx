@@ -42,7 +42,7 @@ const MiniphotoG = () => {
     return (
         <div className='flex flex-col items-center justify-center text-center pb-10 '>
             <h3 className='text-3xl font-semibold mt-10 underline underline-offset-4 decoration-sky-600  '> Academic Achievements</h3>
-            <div className='h-max w-[80%] mt-10 grid  grid-cols-1 justify-items-center'>
+            <div className='h-max w-[80%] mt-10 grid  max-lg:grid-cols-1 lg:grid-cols-2 justify-items-center'>
                 {academicAchievements?.map((academicAchievement,index) => {
                    return <div key={index} className='flex flex-col justify-center items-center'>
                         <h2 className='font-semibold text-2xl'>{academicAchievement.title}</h2>
@@ -60,8 +60,8 @@ const MiniphotoG = () => {
                     />
                 </div> :
                     (achievements?.map((achievement, index) => {
-                        return <div className='p-5 w-[100%] md:w-[300px]  bg-white shadow-xl rounded-md' >
-                            <img src={achievement.photo} alt="" className='w-[100%] rounded-md' />
+                        return <div className='p-5 w-[100%]  md:w-[350px]   bg-white shadow-xl rounded-md' >
+                            <img src={achievement.photo} alt="" className='w-[100%]  h-[300px] rounded-md' />
                             <h1 className='text-2xl mt-2 font-semibold'>{achievement.title}</h1>
                             <p className='mt-4'>{achievement.description}</p>
                         </div>

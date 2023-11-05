@@ -11,8 +11,8 @@ function Home() {
     <div>
       <Top />
       <ImageSlider />
-      <HODDesk />
       <About />
+      <HODDesk />
       <Forum />
       <PhotoGallery />
       <Footer />

@@ -1,12 +1,12 @@
 
 import React from 'react'
-import img1 from '../../Images/FORUM.png'
+import img1 from '../../Images/don.png'
 import { useNavigate } from 'react-router-dom'
 import { TypeAnimation } from 'react-type-animation';
 function About() {
     const navigate = useNavigate()
     return (
-        <div className="w-[100%] flex flex-col h-full md:px-[10%] px-4 pb-12 bg-white ">
+        <div className="w-[100%] flex flex-col h-full md:px-[12%] py-12 bg-gray-100 ">
             <div className="mt-10">
                 <div className="flex flex-col md:flex-row">
 
@@ -34,8 +34,8 @@ function About() {
                         </button>
                     </div>
 
-                    <div className="mt-12 ">
-                        <img className="rounded-md w-[110%] h-auto" src={img1} alt="" />
+                    <div className="mt-12 w-[60%] ">
+                        <img className="rounded-md w-[100%] h-auto" src={img1} alt="" />
                     </div>
                 </div>
             </div>

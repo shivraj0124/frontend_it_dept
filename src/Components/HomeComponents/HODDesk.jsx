@@ -4,7 +4,7 @@ import {LazyLoadImage} from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css';
 const HODDesk = () => {
     return (
-        <div className="  w-[100%] md:px-[10%] px-3 items-center justify-center py-10 bg-gray-100">
+        <div className="  w-[100%] md:px-[12%]  items-center justify-center py-12 bg-white">
 
             <div className="flex md:flex-row flex-col w-[100%] items-center justify-center md:gap-1 md:font-serif">
 

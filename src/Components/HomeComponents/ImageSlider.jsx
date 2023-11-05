@@ -1,9 +1,5 @@
 
 import React, { useEffect, useState } from "react";
-import img1 from '../../Images/firstSlider-1.png'
-import img2 from '../../Images/Img2.png'
-import img3 from '../../Images/stu.png'
-import img4 from '../../Images/mam.png'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import axios from 'axios'
@@ -14,6 +10,7 @@ export default function ImageSlider() {
     const urlBackend = import.meta.env.VITE_BACKEND_API
     const [imageList, setImageList] = useState([])
     const [noticeList, setNoticeList] = useState([])
+    const [marqueeStopped, setMarqueeStopped] = useState(false);
     const fetchImages = async () => {
         try {
             const response = await axios.get(`${urlBackend}/api/v1/get-imageSlider`);
@@ -52,7 +49,13 @@ export default function ImageSlider() {
 
         }
     }
-    
+    const handleMarqueeMouseEnter = () => {
+        setMarqueeStopped(true); // Pause marquee on mouse enter
+    };
+
+    const handleMarqueeMouseLeave = () => {
+        setMarqueeStopped(false); // Resume marquee on mouse leave
+    };
     // Ensure the DOM is fully loaded before running JavaScript
   
     useEffect(() => {
@@ -61,7 +64,7 @@ export default function ImageSlider() {
     }, [])
 
     return (
-        <div className="flex md:flex-row max-md:flex-col md:px-[10%] md:gap-2 items-center justify-center bg-white">
+        <div className="flex md:flex-row max-md:flex-col md:px-[15%] md:gap-2 items-center justify-center bg-white">
             <div className="max-md:w-[90%] w-[70%]  h-[70vh] flex justify-center items-center">
                 <div className="rounded-md w-full h-max shadow-lg  ">
                     <Carousel
@@ -96,14 +99,13 @@ export default function ImageSlider() {
                     <hr className="border-white border" />
 
                     <div className="mt-2 h-[250px] overflow-hidden w-[90%] " >
-                        <div ><p className="text-white ">Important announcement</p>
-                         <marquee behavior="scroll" onmouseover="this.stop()" onmouseout="this.start()" vspace="30px" direction="up" scrollamount="4"  className="marquee"
-                                > <br />
-                                {/* <p className='text-gray-200'>1. Lorem ipsum dolor sit amet.</p><br />
-                                <p className="text-gray-200">2. Consectetur adipiscing elit.</p><br />
-                                <p className="text-gray-200">3. Sed do eiusmod tempor incididunt.</p><br />
-                                <p className="text-gray-200">4. Sed do eiusmod tempor incididunt.</p><br />
-                        <p className="text-gray-200">5. New announcement here.</p><br /> */}
+                        <div ><p className="text-white " >Important announcement</p>
+                            <marquee direction="up"
+                                id="marquee_running"
+                                onMouseEnter={handleMarqueeMouseEnter}
+                                onMouseLeave={handleMarqueeMouseLeave}
+                                scrollamount={marqueeStopped ? "0" : "2"}>
+                                
                                 {
                                     noticeList.length === 0 ? 'No data' :
                                         noticeList?.map((notice, index) => (
@@ -112,7 +114,7 @@ export default function ImageSlider() {
                                         ))
                                 }
                             </marquee> 
-                            {/* <marquee behavior="scroll" direction="up" onmouseover="this.stop()" onmouseout="this.start()">HelloHelloHello</marquee> */}
+                        
 
 
                         </div>
@@ -125,12 +127,3 @@ export default function ImageSlider() {
 
     )
 }
-// const Marquee = ({ children }) => {
-//     return (
-//         <div className="marquee">
-//             <div className="marquee-content">
-//                 {children}
-//             </div>
-//         </div>
-//     );
-// };
