@@ -28,15 +28,14 @@ function PhotoGallery() {
         <div className="w-[100%] h-max  bg-white flex flex-col" >
             <h1 className='text-4xl mt-10 font-semibold text-center  '>Achievements</h1>
 
-            <div className='flex flex-col justify-center items-center'>
+            <div className='flex flex-col justify-center items-center md:w-[80%]'>
 
-
-                <div className='h-max w-[90%] mt-10 grid lg:grid-cols-3 xl:grid-cols-3 max-lg:grid-cols-2 max-md:gap-y-5 md:gap-10 max-md:grid-cols-1'>
+                <div className='h-max w-[90%]  mt-10 grid lg:grid-cols-3 xl:grid-cols-3 max-lg:grid-cols-2 max-md:gap-y-5  max-md:grid-cols-1'>
                     {loader ? <div className='flex justify-center items-center mt-32'>
                         < BarLoader color="blue"
 
                         />
-                    </div> :
+                    </div> : 
                         (achievements?.map((achievement, index) => {
                             return <div className='p-5 w-[100%] md:w-[300px]  bg-white shadow-xl rounded-md' >
                                 <img src={achievement.photo} alt="" className='w-[100%] rounded-md' />
@@ -44,11 +43,8 @@ function PhotoGallery() {
                                 <p className='mt-4'>{achievement.description}</p>
                             </div>
                         }))}
-              </div>
+               </div>
                 <Link className='py-2 px-10 mt-10 bg-blue-700 w-max rounded-md text-white font-semibold hover:bg-blue-900' to='/MiniphotoG' >Show More...</Link>
-
-
-
             </div>
         </div>
     )
