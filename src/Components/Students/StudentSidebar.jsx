@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, Outlet, useLocation } from "react-router-dom";
 import themeHook from '../Admin/ContextP'
 import { ClipLoader } from 'react-spinners'
-import { BiSolidDashboard, BiMenuAltRight, BiUpArrow, BiDownArrow } from 'react-icons/bi'
+import { BiSolidDashboard, BiMenuAltRight, BiUpArrow, BiDownArrow, BiUserCircle } from 'react-icons/bi'
 import { LuFileQuestion } from 'react-icons/lu'
 import { FiLogOut } from 'react-icons/fi'
 import { CgNotes, CgCloseR } from 'react-icons/cg'
@@ -138,10 +138,19 @@ const StudentSidebar = () => {
                             </div>
 
 
-
-                            {/* LogOut */}
                             <div className='mt-5'>
                                 <hr />
+                                <Link to='/Student/Profile' className="flex flex-row py-2 gap-2 items-center" onClick={handleNav}>
+
+                                    <BiUserCircle size={28} />
+                                    <h1>
+                                        Profile
+                                    </h1>
+                                </Link>
+                            </div>
+                            {/* LogOut */}
+                            <div className='mt-5'>
+                                
                                 <Link to='/' className="flex flex-row py-2 gap-2 items-center" onClick={clearLocalStorage}>
 
                                     <FiLogOut size={22} />

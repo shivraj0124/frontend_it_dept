@@ -190,6 +190,7 @@ function FacultyProfile() {
     // console.log(auth)
   return (
       <div className='min-h-screen overflow-y-scroll pb-10 bg-blue-50'>
+        
           <div className="w-[100%] mt-5 max-md:mt-2 flex justify-center  items-center ">
               <div className='flex flex-col justify-center items-center bg-white shadow-xl p-4 text-xl rounded-md'>
                   <div className=''>

@@ -278,12 +278,12 @@ const Sidebar = () => {
                             )}
 
                             {/* LogOut */}
-                            <div className='mt-5'>
+                                <div className='mt-5' onClick={handleNav}>
                                 <hr />
-                                    <Link to='/Admin/Profile' className="flex flex-row py-2 gap-2 items-center">
+                                    <Link to='/Admin/Profile' className="flex flex-row py-2 gap-2 items-center" onClick={handleNav}>
 
                                         <BiUserCircle size={28} />
-                                    <h1>
+                                        <h1 onClick={handleNav}>
                                         Admin
                                     </h1>
                                 </Link>

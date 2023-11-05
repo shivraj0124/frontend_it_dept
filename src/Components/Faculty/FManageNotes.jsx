@@ -14,7 +14,6 @@ function FManageNotes() {
     const [notesList, setNotesList] = useState('')
     const [loader, setLoader] = useState(true)
     const [selectedNote, setSelectedNote] = useState(null)
-
     const [semesterList, setSemesterList] = useState([]);
     const [subjectList, setSubjectList] = useState([]);
     const [selectedSem, setSelectedSem] = useState('');

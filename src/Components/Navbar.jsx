@@ -44,9 +44,9 @@ const Navbar = () => {
                             ) : auth?.user?.role === 1 ?(
                             <>
                                 <div className="flex flex-row">
-                                    <Link className='p-4 pr-0 uppercase hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer font-bold' to='/Student/Notes' >{auth?.user?.EnrNo}</Link>
+                                    <Link className='p-4 pr-0 uppercase hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer font-bold' to='/Student/Profile' >{auth?.user?.EnrNo}</Link>
                                     <li className="mt-2 cursor-pointer" >
-                                        <BiUserCircle onClick={() => navigate('/Student/Notes')} size={40} />
+                                        <BiUserCircle onClick={() => navigate('/Student/Profile')} size={40} />
                                     </li>
 
 
@@ -55,9 +55,9 @@ const Navbar = () => {
                             ) : (
                                 <>
                                     <div className="flex flex-row">
-                                        <Link className='p-4 pr-0 font-bold uppercase hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' to='/Faculty' >Faculty</Link>
+                                        <Link className='p-4 pr-0 font-bold uppercase hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' to='/Faculty/Profile' >Faculty</Link>
                                         <li className="mt-2 cursor-pointer" >
-                                                    <BiUserCircle onClick={() => navigate('/Faculty')} size={40} />
+                                                    <BiUserCircle onClick={() => navigate('/Faculty/Profile')} size={40} />
                                         </li>
                                     </div>
                                 </>
@@ -95,7 +95,7 @@ const Navbar = () => {
                     </Link>
                     
                     { !auth?.user ? 
-                    <Link to='/Login' className='pt-1  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' >Login</Link>
+                    <Link to='/Login' className='pt-1  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Login</Link>
                       :             
                         <>
                             {auth?.user?.role === 2 ? (
@@ -108,7 +108,7 @@ const Navbar = () => {
                                     
                                 </>
                             ) : auth?.user?.role === 1 ? (
-                                <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Student/Notes')} >
+                                    <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Student/Profile')} >
                                     <li className='mt-2 ml-6' >
                                         <BiUserCircle size={40} />
                                     </li>
@@ -117,11 +117,11 @@ const Navbar = () => {
                                    
                                 </>
                                 ) : (
-                                    <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Faculty')} >
+                                    <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Faculty/Profile')} >
                                         <li className='mt-2 ml-6' >
                                             <BiUserCircle size={40} />
                                         </li>
-                                        <li className='pt-4 font-bold uppercase text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer'>{username}</li>
+                                        <li className='pt-4 font-bold uppercase text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer'>Faculty</li>
                                     </div>
                                        
                                     </>

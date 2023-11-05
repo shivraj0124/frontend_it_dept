@@ -148,11 +148,11 @@ function StudentQuesPaper() {
                     <div className='grid md:grid-cols-3 max-sm:grid-cols-1 max-md:grid-cols-2 gap-4 md:mt-5 px-2 pb-10'>
                         {quesList.map((note, index) => {
                             return <>
-                                <div key={index} className='p-4 shadow-xl rounded-md bg-white'>
+                                <div key={index} className='p-4 shadow-xl rounded-md bg-white text-center'>
                                     <div className='flex justify-center bg-blue-50 p-2 rounded-md'>
                                         <img src={img} alt="" className='h-[100px] w-[100px] ' />
                                     </div>
-                                    <div className='flex flex-col justify-center items-center mt-2 bg-blue-50 rounded-md p-2'>
+                                    <div className='flex flex-col justify-between items-center mt-2 bg-blue-50 rounded-md p-2 h-max'>
                                         <h2 className='font-semibold text-xl '>{note.name}</h2>
                                         <Link target='_blank' to={note.link} className='p-2 px-5 bg-blue-200 hover:bg-blue-700 hover:text-white text-black w-max rounded-md mt-4'>click here</Link>
                                     </div>

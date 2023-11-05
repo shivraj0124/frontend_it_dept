@@ -158,11 +158,11 @@ const FacultySidebar = () => {
                                 {/* LogOut */}
                                 <div className='mt-5'>
                                     <hr />
-                                    <Link to='/Faculty/Profile' className="flex flex-row py-2 gap-2 items-center">
+                                    <Link to='/Faculty/Profile' className="flex flex-row py-2 gap-2 items-center" onClick={handleNav}>
 
                                         <BiUserCircle size={28} />
                                         <h1>
-                                            Faculty
+                                            Profile
                                         </h1>
                                     </Link>
                                 </div>

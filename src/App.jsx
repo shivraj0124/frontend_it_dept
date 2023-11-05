@@ -47,6 +47,7 @@ import PhotoGallery from "./Components/Admin/PhotoGallery";
 import AcademicAchievements from "./Components/Admin/AcademicAchievements";
 import AdminProfile from "./Components/Admin/AdminProfile";
 import FacultyProfile from "./Components/Faculty/FacultyProfile";
+import StudentProfile from "./Components/Students/StudentProfile";
 function App() {
   
   return (
@@ -89,6 +90,7 @@ function App() {
           </Route>
           <Route path='/Student' element={<StudentSidebar/>}>
               <Route exact path="/Student/Notes" element={<StudentNotes/>}></Route>
+              <Route exact path="/Student/Profile" element={<StudentProfile/>}></Route>
               <Route exact path="/Student/QuestionP" element={<StudentQuesPaper/>}></Route>
               <Route exact path="/Student/TimeTable" element={<TimeTable/>}></Route>
               <Route exact path="/Student/Notices" element={<StudentNotices/>}></Route>
