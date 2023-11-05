@@ -25,10 +25,10 @@ function PhotoGallery() {
         getAchievements()
     }, [])
     return (
-        <div className="w-[100%] h-max  bg-white flex flex-col" >
+        <div className="w-[100%] h-max  bg-white flex flex-col  md:px-[10%]" >
             <h1 className='text-4xl mt-10 font-semibold text-center  '>Achievements</h1>
 
-            <div className='flex flex-col justify-center items-center md:w-[80%]'>
+            <div className='flex flex-col justify-center items-center '>
 
                 <div className='h-max w-[90%]  mt-10 grid lg:grid-cols-3 xl:grid-cols-3 max-lg:grid-cols-2 max-md:gap-y-5  max-md:grid-cols-1'>
                     {loader ? <div className='flex justify-center items-center mt-32'>
