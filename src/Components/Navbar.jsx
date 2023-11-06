@@ -73,7 +73,7 @@ const Navbar = () => {
                 {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
             </div>
             <ul className={nav ? 'fixed left-0 top-0 w-[80%] h-full border-r ease-in-out duration-300 z-40 bg-gray-200 md:hidden' : 'ease-in-out duration-800 fixed left-[-100%] md:hidden'}>
-                <div className="flex items-center gap-2 p-2">
+                <div className="flex items-center gap-2 p-2" onClick={handleNav}>
                     <img src={img1} onClick={() => navigate('/')} className='h-[60px] md:h-[40px] p-0 md:w-[60px] rounded-[50%] cursor-pointer ' />
                     <h1 className='text-2xl font-mono text-blue-500' onClick={() => navigate('/')}>IT-DEPT</h1>
                 </div>
