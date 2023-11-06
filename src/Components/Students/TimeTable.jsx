@@ -11,7 +11,7 @@ function TimeTable() {
     const [timeTable, setTimeTable] = useState([])
     const [dateOnly,setDateOnly]=useState('')
     const urlBackend = import.meta.env.VITE_BACKEND_API
-    const getTimeTable = async () => {
+    const getTimeTable = async (semesterId, shiftId) => {
         setLoader(true);
         try {
             const response = await axios.get(`${urlBackend}/api/v2/get-timeTable`, { params:{ semesterId: semesterId, shiftId: shiftId 
@@ -32,8 +32,8 @@ function TimeTable() {
     
     useEffect(() => {
         setSemesterId(studentDetails[0].semester?._id)
-        setShiftId(studentDetails[0].semester?._id)
-        getTimeTable(studentDetails[0].semester?._id)
+        setShiftId(studentDetails[0].shift?._id)
+        getTimeTable(studentDetails[0].semester?._id, studentDetails[0].shift?._id)
     }, [])
     return (
         <div className="h-max bg-blue-50 overflow-x-auto">
