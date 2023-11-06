@@ -6,7 +6,19 @@ import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 import toast from 'react-hot-toast';
 import '../Admin/AdminComponents.css';
+import lottie from 'lottie-web';
+import animationData2 from '../../lottie/654L0pmYVj (1).json'
 function FacultyProfile() {
+    useEffect(() => {
+        const anim = lottie.loadAnimation({
+            container: document.getElementById('lottie-container2'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            animationData: animationData2, // Your animation data
+        });
+        return () => anim.destroy(); // Clean up animation on component unmount
+    }, []);
     const {auth,setAuth,userId}=themeHook()
     const [open, setOpen] = useState(false);
     const [openF,setOpenF]=useState(false)
@@ -192,21 +204,22 @@ function FacultyProfile() {
       <div className='min-h-screen overflow-y-scroll pb-10 bg-blue-50'>
         
           <div className="w-[100%] mt-5 max-md:mt-2 flex justify-center  items-center ">
-              <div className='flex flex-col justify-center items-center bg-white shadow-xl p-4 text-xl rounded-md'>
-                  <div className=''>
-                      <BiUserCircle size={100} />
+              <div className='  flex flex-col justify-center items-center bg-white shadow-2xl p-4 text-xl rounded-2xl'>
+                  <div className='flex items-center justify-center'>
+                      {/* <BiUserCircle size={100} /> */}
+                      <div className=' w-[100px] h-[100px]' id="lottie-container2" />
                   </div>
                   <div className=''>
                       <hr />
-                      <h1 className='mt-5'>Name: {auth?.user?.name}</h1>
-                      <h1 className='mt-5'>Post: {auth?.user?.post}</h1>
-                      <h1 className='mt-5'>Email: {auth?.user?.email}</h1>
-                      <h1 className='mt-5'>phone: {auth?.user?.phone}</h1>
-                      <h1 className='mt-5'>Qualification: {auth?.user?.qualification}</h1>
-                      <h1 className='mt-5'>Experience: {auth?.user?.experience}</h1>
+                      <p className='mt-5 text-gray-800'>Name: {auth?.user?.name}</p>
+                      <p className='mt-5 text-gray-800'>Post: {auth?.user?.post}</p>
+                      <p className='mt-5 text-gray-800'>Email: {auth?.user?.email}</p>
+                      <p className='mt-5 text-gray-800'>phone: {auth?.user?.phone}</p>
+                      <p className='mt-5 text-gray-800'>Qualification: {auth?.user?.qualification}</p>
+                      <p className='mt-5 text-gray-800'>Experience: {auth?.user?.experience}</p>
                       <div className='flex flex-row justify-between pr-4'>
-                      <h1 className='text-blue-500 mt-5 cursor-pointer' onClick={openModal} >Change Password</h1>
-                      <h1 className='text-green-500 mt-5 cursor-pointer' onClick={onOpenModal} >Edit</h1>
+                      <p className='text-blue-500 mt-5 cursor-pointer' onClick={openModal} >Change Password</p>
+                      <p className='text-green-500 mt-5 cursor-pointer' onClick={onOpenModal} >Edit</p>
                       </div>
                   </div>
               </div>

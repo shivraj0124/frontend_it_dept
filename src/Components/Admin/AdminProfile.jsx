@@ -57,9 +57,9 @@ function AdminProfile() {
     return (
         <div className='min-h-screen overflow-y-scroll pb-10 bg-blue-50'>
             <div className="w-[100%] mt-5 max-md:mt-2 flex justify-center  items-center ">
-                <div className='w-[80%] h-[70%] flex flex-col justify-center items-center bg-white shadow-2xl rounded-2xl p-10 text-2xl'>
+                <div className='h-[70%] flex flex-col justify-center items-center bg-white shadow-2xl rounded-2xl p-10 text-2xl'>
                     <div className='flex items-center justify-center'>
-                        <div className=' w-[15%]' id="lottie-container2" />
+                        <div className=' w-[100px] h-[100px]' id="lottie-container2" />
                     </div>
                     <div className=''>
                         <hr />

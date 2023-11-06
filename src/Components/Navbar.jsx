@@ -32,8 +32,9 @@ const Navbar = () => {
     return (
         <div className='flex justify-between md:px-[10%] px-2  items-center h-max py-1 sticky top-0 z-40 text-black bg-blue-50 w-[100%]' >
             <div className="flex items-center gap-2 ">
-                <img src={img1} onClick={() => navigate('/')} className='h-[60px] md:h-[60px] p-0 md:w-[60px] rounded-[50%] cursor-pointer ' />
-                <h1 className='text-2xl font-mono text-blue-500'>IT-DEPT</h1>
+ <img src={img1} onClick={() => navigate('/')} className='h-[60px] md:h-[60px] p-0 md:w-[60px] rounded-[50%] cursor-pointer ' />
+                <h1 className='text-2xl font-mono text-blue-500' onClick={() => navigate('/')}>IT-DEPT</h1>
+
             </div>
             <ul className='hidden md:flex   font-semibold'>
                 <Link className='ml-10 p-4 hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' to='/' >Home</Link>
@@ -89,16 +90,13 @@ const Navbar = () => {
                 {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
             </div>
             <ul className={nav ? 'fixed left-0 top-0 w-[80%] h-full border-r ease-in-out duration-300 z-40 bg-gray-200 md:hidden' : 'ease-in-out duration-800 fixed left-[-100%] md:hidden'}>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 p-2" onClick={handleNav}>
                     <img src={img1} onClick={() => navigate('/')} className='h-[60px] md:h-[40px] p-0 md:w-[60px] rounded-[50%] cursor-pointer ' />
-                    <h1 className='text-2xl font-mono'>IT-DEPT</h1>
+                    <h1 className='text-2xl font-mono text-blue-500' onClick={() => navigate('/')}>IT-DEPT</h1>
                 </div>
                 <div className={nav ? 'absolute ease-in-out top-20 font-semibold' : 'left-[-100%]'} >
                     <Link to='/'>
                         <li className='pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Home</li>
-                    </Link>
-                    <Link to='About' >
-                        <li className='pt-1 pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>About</li>
                     </Link>
                     <Link to='/FacultyDetails'>
                         <li className='pt-1  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Faculty</li>
