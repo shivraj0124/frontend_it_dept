@@ -15,7 +15,7 @@ const HODDesk = () => {
                 </div>
                 <div className="w-[100%] mt-5 px-2">
                     <p className='font-bold text-black text-2xl'>Dear<span className='text-blue-700'> Colleagues and Students,</span></p>
-                    <p className='text-md mt-5 font-sans text-gray-500 flex justify-between'>The Department aims at addressing essential challenges faced by IT Industry, society and the academia. Every IT Industry is working on upcoming technologies like Artificial Intelligence, Machine Learning, Deep Learning, Blockchain, Internet of Things, Cloud computing, etc. Being an autonomous institute, we offer Outcome based Education to students in which curriculum is designed as per the present demand of the industry. Six months inplant training is part of our curriculum wherein students are placed in industry for training.
+                    <p className='text-lg mt-5 font-sans text-gray-500 flex justify-between'>The Department aims at addressing essential challenges faced by IT Industry, society and the academia. Every IT Industry is working on upcoming technologies like Artificial Intelligence, Machine Learning, Deep Learning, Blockchain, Internet of Things, Cloud computing, etc. Being an autonomous institute, we offer Outcome based Education to students in which curriculum is designed as per the present demand of the industry. Six months inplant training is part of our curriculum wherein students are placed in industry for training.
 
                         We believe in upholding our unceasing commitment to our students, helping them to learn, grow, develop, and achieve their goals in their pursuit to excel in their professional career.
 
