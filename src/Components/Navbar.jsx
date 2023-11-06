@@ -81,9 +81,6 @@ const Navbar = () => {
                     <Link to='/'>
                         <li className='pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Home</li>
                     </Link>
-                    <Link to='About' >
-                        <li className='pt-1 pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>About</li>
-                    </Link>
                     <Link to='/FacultyDetails'>
                         <li className='pt-1  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Faculty</li>
                     </Link>
