@@ -15,8 +15,8 @@ export default function Login() {
     
       try {
         const formData = new FormData();
-        formData.append('EnrNo', EnrNo);
-        formData.append('password', password);
+        formData.append('EnrollmentNo', EnrNo);
+        formData.append('Password', password);
 
         const response = await axios.post(`${urlBackend}/api/v3/student-login`, formData);
 
@@ -26,8 +26,8 @@ export default function Login() {
             ...auth,
             user: response.data.user,
           });
-          localStorage.setItem("username", response.data?.user.EnrNo);
-          setUsername(response.data.user.EnrNo);
+          localStorage.setItem("username", response.data?.user.EnrollmentNo);
+          setUsername(response.data.user.EnrollmentNo);
           localStorage.setItem("userId", response.data?.user._id);
           localStorage.setItem("auth", JSON.stringify(response.data.user));
           toast.success(`Student Logged In Successfully`);

@@ -59,7 +59,7 @@ const Navbar = () => {
                         ) : auth?.user?.role === 1 ? (
                             <>
                                 <div className="flex flex-row">
-                                    <Link className='p-4 pr-0 uppercase hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer font-bold' to='/Student/Profile' >{auth?.user?.EnrNo}</Link>
+                                    <Link className='p-4 pr-0 uppercase hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer font-bold' to='/Student/Profile' >{username}</Link>
                                     <li className="mt-2 cursor-pointer" >
                                         {/* <BiUserCircle onClick={() => navigate('/Student/Notes')} size={40} /> */}
                                                 <div className='  w-[50px] h-[50px]' id="lottie-container1" />

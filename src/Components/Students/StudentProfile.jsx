@@ -34,10 +34,7 @@ function StudentProfile() {
     const [user,setUser]=useState({})
 
     const urlBackend = import.meta.env.VITE_BACKEND_API
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        setPhoto(file);
-    };
+    
 
     const openModal = () => {
         setOpen(true)
@@ -52,9 +49,9 @@ function StudentProfile() {
         setOpenF(true);
 
         // Set initial values for form fields based on the selected faculty
-        setName(user?.name);
-        setEmail(user?.email);
-        setPhone(user?.phone);
+        setName(user?.Name);
+        setEmail(user?.Email);
+        setPhone(user?.Phone);
         // Clear the photo field
 
     };
@@ -107,9 +104,10 @@ function StudentProfile() {
         try {
             if (updateOrNot === 1) {
                 const formData = new FormData();
-                formData.append('name', name);
-                formData.append('email', email.replace(/\s+/g, ''));
-                formData.append('phone', phone);
+                formData.append('Name', name);
+                formData.append('Email', email.replace(/\s+/g, ''));
+                formData.append('Phone', phone);
+                formData.append('EnrollmentNo',user?.EnrollmentNo);
              
                
                 console.log("hello", auth)
@@ -125,9 +123,10 @@ function StudentProfile() {
                         closeButton: true,
                         position: "bottom-center"
                     });
+                    getStudent()
                     onCloseModal();
                 } else {
-                    toast.error('Email or phone Already Exist', {
+                    toast.error(response.data.message, {
                         autoClose: 2000,
                         position: 'bottom-center',
                     });
@@ -197,13 +196,16 @@ function StudentProfile() {
                 
                 <div className='flex flex-col  justify-center items-center bg-white shadow-2xl p-4 text-xl rounded-3xl'>
                             <div className='flex items-center justify-center'>
-                                <div className=' w-[100px] h-[100px]' id="lottie-container2" />
+                                <div className=' w-[100px] h-[110px]' id="lottie-container2" />
                             </div>
                     <div className=''>
                         <hr />
-                        <p className='mt-5 text-gray-800'>Name: {user?.name}</p>
-                                <p className='mt-5 text-gray-800'>Email: {user?.email}</p>
-                                <p className='mt-5 text-gray-800'>phone: {user?.phone}</p>
+                        <p className='mt-5 text-gray-800'>Name: {user?.Name}</p>
+                                <p className='mt-5 text-gray-800'>Enrollment No: {user?.EnrollmentNo}</p>
+                                <p className='mt-5 text-gray-800'>Email: {user?.Email}</p>
+                                <p className='mt-5 text-gray-800'>phone: {user?.Phone}</p>
+                                <p className='mt-5 text-gray-800'>Semester: {user?.Semester?.name}</p>
+                                <p className='mt-5 text-gray-800'>Shift: {user?.Shift?.name}</p>
                        
                         <div className='flex flex-row justify-between pr-4'>
                             <h1 className='text-blue-500 mt-5 cursor-pointer' onClick={openModal} >Change Password</h1>

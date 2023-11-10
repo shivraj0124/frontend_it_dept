@@ -31,9 +31,9 @@ function TimeTable() {
     }
     
     useEffect(() => {
-        setSemesterId(studentDetails[0].semester?._id)
-        setShiftId(studentDetails[0].shift?._id)
-        getTimeTable(studentDetails[0].semester?._id, studentDetails[0].shift?._id)
+        setSemesterId(studentDetails[0].Semester?._id)
+        setShiftId(studentDetails[0].Shift?._id)
+        getTimeTable(studentDetails[0].Semester?._id, studentDetails[0].Shift?._id)
     }, [])
     return (
         <div className="h-max bg-blue-50 overflow-x-auto">

@@ -48,6 +48,7 @@ import AcademicAchievements from "./Components/Admin/AcademicAchievements";
 import AdminProfile from "./Components/Admin/AdminProfile";
 import FacultyProfile from "./Components/Faculty/FacultyProfile";
 import StudentProfile from "./Components/Students/StudentProfile";
+import TestUpload from "../src/Components/TestUpload"
 function App() {
   
   return (
@@ -66,6 +67,7 @@ function App() {
             <Route exact path='/Student-Login' element={<Login />}></Route>
             <Route exact path='/Faculty-Login' element={<FacultyLogin />}></Route>
             <Route exact path='/Admin-Login' element={<AdminLogin />}></Route>
+            <Route exact path='/Excel-upload' element={<TestUpload/>}></Route>
           </Route>
 
           <Route path='/Admin' element={<Sidebar />}>
