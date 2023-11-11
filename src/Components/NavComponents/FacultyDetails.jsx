@@ -33,7 +33,7 @@ function FacultyDetails() {
           <BarLoader color="blue" />
         </div>
       ) : (
-        <div className='w-[85%] py-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-4 justify-items-center md:px-[5%] bg-gray-100  mt-2 '>
+        <div className='w-[85%] py-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-4 justify-items-center md:px-[5%]  mt-2 '>
           {
             facultyList?.map((faculty, index) => (
               <div className='bg-blue-50 flex flex-col shadow-2xl md:w-[90%]  max-md:max justify-between items-center rounded-3xl p-3 pt-auto'>
