@@ -30,11 +30,9 @@ function PhotoGallery() {
 
             <div className='flex flex-col justify-center items-center '>
 
-                <div className='h-max w-[90%]  mt-10 grid lg:grid-cols-3 xl:grid-cols-3 max-lg:grid-cols-2 max-md:gap-y-5  max-md:grid-cols-1'>
-                    {loader ? <div className='flex justify-center items-center mt-32'>
-                        < BarLoader color="blue"
-
-                        />
+                <div className={loader ? 'py-20':'h-max w-[90%]  mt-10 grid lg:grid-cols-3 xl:grid-cols-3 max-lg:grid-cols-2 max-md:gap-y-5  max-md:grid-cols-1  '}>
+                    {loader ? <div className=''>
+                        < BarLoader color="blue"/>
                     </div> : 
                         (achievements?.map((achievement, index) => {
                             return <div className='p-5 w-[100%] md:w-[350px]  bg-white shadow-xl rounded-md' >

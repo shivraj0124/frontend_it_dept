@@ -109,7 +109,7 @@ const Navbar = () => {
                     </Link>
 
                     {!auth?.user ?
-                        <Link to='/Login' className='pt-1  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' >Login</Link>
+                        <Link to='/Login' className='pt-1  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav} >Login</Link>
                         :
                         <>
                             {auth?.user?.role === 2 ? (

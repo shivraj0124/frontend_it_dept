@@ -16,7 +16,7 @@ function LoginForm() {
           <button className={findForm === 'F' ? 'p-2 px-4 drop-shadow-lg bg-blue-600 text-white basis-1/4 rounded-md max-md:w-[100%]':'p-2 px-4 bg-white text-blue-500 drop-shadow-lg hover:bg-blue-600 hover:text-white basis-1/4 rounded-md max-md:w-[100%]'} onClick={() => setFindForm('F')}>Faculty</button>
           <button className={findForm === 'A' ? 'p-2 px-4 drop-shadow-lg bg-blue-600 text-white basis-1/4 rounded-md max-md:w-[100%]':'p-2 px-4 bg-white text-blue-500 drop-shadow-lg hover:bg-blue-600 hover:text-white basis-1/4 rounded-md max-md:w-[100%]'} onClick={() => setFindForm('A')}>Admin</button>
         </div>
-        <hr className='text-gray-300 h-[1px] mt-12 max-md:mt-2 w-[100%] bg-gray-200' />
+        <hr className='text-gray-300 h-[1px] mt-12 max-md:mt-5 w-[100%] bg-gray-200' />
         {/* style={{ boxShadow:' 0px 0px 16px -1px rgba(199,199,199,1)'}} */}
         <div className='w-[96%] rounded-md mt-8 max-md:mt-2 ' >
           {findForm === 'A' ? <AdminLogin /> :
