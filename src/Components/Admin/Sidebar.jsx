@@ -78,7 +78,7 @@ const Sidebar = () => {
             <>
 
                 <div className='flex flex-rows-1 w-[100%] top-0 left-0 fixed '>
-                    <div className={nav ? "bg-slate-900 text-white shadow-2xl h-screen w-[300px] max-md:w-[100%] flex flex-col overflow-hidden  max-md:top-0 max-md:absolute ease-in-out duration-700 z-20 list_direction top-0 left-0 overflow-y-scroll  " : "w-[300px] max-md:hidden ease-in-out duration-700 bg-slate-900 text-white shadow-2xl h-screen  flex flex-col overflow-hidden  z-20 list_direction top-0  left-0 overflow-y-scroll  "} >
+                    <div className={nav ? "bg-slate-900 text-white shadow-2xl h-screen w-[300px] max-md:w-[100%] flex flex-col overflow-hidden  max-md:top-0 max-md:absolute ease-in-out duration-700 z-20 list_direction top-0 left-0 overflow-y-scroll  " : "w-[300px] max-lg:hidden ease-in-out duration-700 bg-slate-900 text-white shadow-2xl h-screen  flex flex-col overflow-hidden  z-20 list_direction top-0  left-0 overflow-y-scroll  "} >
                         <div className="flex flex-row  items-center justify-between gap-2 p-2 item_direction">
                             <div className='flex flex-row items-center gap-2'>
                             <img src={img1} onClick={() => navigate('/')} className='h-[50px] md:h-[50px] p-0 md:w-[50px] rounded-[50%] cursor-pointer ' />

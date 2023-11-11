@@ -7,6 +7,8 @@ import './AdminComponents.css';
 import BarLoader from 'react-spinners/BarLoader'
 import { Select } from 'antd'
 import { Option } from 'antd/es/mentions';
+import * as XLSX from 'xlsx'
+import {saveAs} from'file-saver'
 function ManageStudents() {
     const [open, setOpen] = useState(false);
     const [studentList, setStudentList] = useState([])
@@ -26,7 +28,22 @@ function ManageStudents() {
     const [semesterPlaceholder, setSemesterPlaceholder] = useState('')
     const urlBackend = import.meta.env.VITE_BACKEND_API
     const [count,setCount]=useState(false)
-   
+    
+    const fileType="xlsx"
+    const exportToExcel=()=>{
+        const sanitizedData = studentList.map(({ _id,Password,__v,role,Semester,Shift,createdAt, ...rest }) => ({
+            ...rest,
+            Semester: Semester.name, 
+            Shift:Shift.name
+        }));
+
+        const ws = XLSX.utils.json_to_sheet(sanitizedData);
+        const wb = { Sheets: { studentData: ws }, SheetNames:["studentData"]}
+        const excelBuffer=XLSX.write(wb,{bookType:"xlsx",type:"array"})
+        const data=new Blob([excelBuffer],{type:fileType});
+        saveAs(data, "StudentData"+".xlsx")
+    }
+
     const handleChangeSemester = (value) => {
         setSelectedSem(value);
         setSelectedShift('');
@@ -394,15 +411,18 @@ function ManageStudents() {
     };
 
     return (
-        <div className='h-screen bg-blue-50'>
+        <div className='h-screen bg-blue-50 '>
             <div className="w-[100%] md:flex flex-col justify-center  items-center">
-                <div className=" flex  w-[100%] min-[600px]:flex-row max-sm:flex-col justify-between sticky top-0 p-2 gap-4" style={{ backgroundColor: 'rgb(0,0,0,0.1)' }}>
+                <div className=" flex  w-[100%] min-[600px]:flex-row max-md:flex-col justify-between sticky top-0 p-2 gap-4" style={{ backgroundColor: 'rgb(0,0,0,0.1)' }}>
                     <div className='flex flex-row justify-between gap-x-1'>
-                        <div className='w-max'>
-                            <button className='py-2 w-max px-4 max-md:text-sm font-semibold bg-blue-700 text-white rounded-md shadow-md hover:bg-blue-700 hover:text-white' onClick={getStudents}>All Students</button>
+                        <div className='w-max max-sm:w-[100%]'>
+                            <button className='py-2 w-max max-sm:w-[100%]  px-4 max-md:px-2 max-md:text-sm font-semibold bg-blue-700 text-white rounded-md shadow-md hover:bg-blue-700 hover:text-white' onClick={getStudents}>All Students</button>
                         </div>
-                        <div className='w-max'>
-                            <button className='py-2 w-max px-4  max-md:text-sm font-semibold bg-blue-700 text-white rounded-md shadow-md hover:bg-blue-700 hover:text-white' onClick={openUpdateSemModal}>Update Students Semester</button>
+                        <div className='w-max max-sm:w-[100%]'>
+                            <button className='py-2 w-max max-sm:w-[100%] px-4 max-md:px-2  max-md:text-sm font-semibold bg-blue-700 text-white rounded-md shadow-md hover:bg-blue-700 hover:text-white' onClick={openUpdateSemModal}>Update Students Semester</button>
+                        </div>
+                        <div className='w-max max-md:hidden'>
+                            <button className='py-2 w-max px-4  max-md:text-sm font-semibold bg-blue-700 text-white rounded-md shadow-md hover:bg-blue-700 hover:text-white' onClick={exportToExcel}>Download Excel</button>
                         </div>
                        
                     </div>
@@ -667,7 +687,9 @@ function ManageStudents() {
                     </form>
                 </div>
             </Modal>
-
+            <div className='w-max mt-5 px-2 md:hidden'>
+                <button className='py-2 w-max px-4  max-md:text-sm font-semibold bg-blue-700 text-white rounded-md shadow-md hover:bg-blue-700 hover:text-white' onClick={exportToExcel}>Download Excel</button>
+            </div>
         </div>
     )
 }
