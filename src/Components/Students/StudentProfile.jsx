@@ -195,8 +195,9 @@ function StudentProfile() {
             <div className="w-[100%] mt-5 max-md:mt-2 flex justify-center  items-center ">
                 
                 <div className='flex flex-col  justify-center items-center bg-white shadow-2xl p-4 text-xl rounded-3xl'>
-                            <div className='flex items-center justify-center'>
-                                <div className=' w-[100px] h-[110px]' id="lottie-container2" />
+                            <div className='flex items-center justify-center w-[100%]'>
+                                {/* <div className=' w-[100px] h-[110px]' id="lottie-container2" /> */}
+                                <BiUserCircle size={90}/>
                             </div>
                     <div className=''>
                         <hr />
