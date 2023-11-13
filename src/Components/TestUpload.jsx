@@ -1,16 +1,13 @@
 import { useState, useEffect } from 'react'
-// import { Data } from './Components/Data'
 import * as XLSX from 'xlsx'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import { Select } from 'antd';
-import { Option } from 'antd/es/mentions';
+import { Select } from 'antd'
+import { Option } from 'antd/es/mentions'
 import '../Components/Admin/AdminComponents.css'
-import 'react-responsive-modal/styles.css';
-import { Modal } from 'react-responsive-modal';
+import 'react-responsive-modal/styles.css'
+import { Modal } from 'react-responsive-modal'
 function TestUpload() {
-    
-    // on change states
     const [openAdd, setOpenAdd] = useState(false);
     const [excelFile, setExcelFile] = useState(null);
     const [excelFileError, setExcelFileError] = useState(null);
@@ -28,7 +25,6 @@ function TestUpload() {
     const allSem = async () => {
         try {
             const response = await axios.get(`${urlBackend}/api/v1/get-semesters`);
-
             if (response.data.success) {
                 setSemesterList(response.data.semesters);
             } else {
@@ -37,13 +33,11 @@ function TestUpload() {
         } catch (error) {
             console.error('Error:', error);
         }
-
     };
 
     const allShifts = async (selectedSemesterId) => {
         try {
             const response = await axios.get(`${urlBackend}/api/v1/get-shifts/${selectedSemesterId}`);
-
             if (response.data.success) {
                 setShiftList(response.data.shifts);
             } else {
@@ -52,8 +46,8 @@ function TestUpload() {
         } catch (error) {
             console.error('Error:', error);
         }
-
     };
+    
     const handleChangeSemester = (value) => {
         setSelectedSem(value);
         setSelectedShift('');
@@ -63,14 +57,11 @@ function TestUpload() {
     const handleChangeShift = (value) => {
         setSelectedShift(value);
     };
-    // submit
     const [excelData, setExcelData] = useState(null);
-    // handle File
     const fileType = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel', 'text/csv'];
     const handleFile = async (e) => {
         let selectedFile = e.target.files[0];
         if (selectedFile) {
-            // console.log(selectedFile.type);
             if (selectedFile && fileType.includes(selectedFile.type)) {
                 let reader = new FileReader();
                 reader.readAsArrayBuffer(selectedFile);
@@ -88,8 +79,6 @@ function TestUpload() {
             console.log('plz select your file');
         }
     }
-    
-    // submit function
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -176,7 +165,6 @@ function TestUpload() {
                             </div>
                         </div>
                         <form className=' text-black flex flex-col justify-center items-center w-[100%]' onSubmit={handleSubmit}>
-                            {/* <input type="text" className='text-xl font-semibold placeholder:text-slate-500 border-b-2 border-blue-300  hover:border-blue-900 focus:border-blue-900 focus:outline-none w-[80%] my-2' placeholder='Title' onChange={(e) => setTitle(e.target.value)} required /> */}
                             <br />
                             <label className='w-[80%] border-blue-900 text-blue-900 font-semibold bg-blue-300 hover:bg-blue-600 hover:text-white py-[6px] inline-block cursor-pointer px-2  rounded-md'> 
                                 <input type="file" className='w-[80%] hidden  bg-red-100 ' onChange={handleFile} />
@@ -190,7 +178,6 @@ function TestUpload() {
                     </div> 
                 </div>
             </Modal>
-
         </div>
     );
 }

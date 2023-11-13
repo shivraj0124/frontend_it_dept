@@ -6,9 +6,6 @@ import rightImg from '../../Images/rightImgBg.png'
 import lottie from 'lottie-web';
 import animationData from '../../lottie/rtFDpCYtFc (1).json'
 
-
-
-// import rightImg from '../../Images/animationMyHome.gif'
 function Top() {
   useEffect(() => {
     const anim = lottie.loadAnimation({
@@ -16,9 +13,9 @@ function Top() {
       renderer: 'svg',
       loop: true,
       autoplay: true,
-      animationData: animationData, // Your animation data
+      animationData: animationData,
     });
-    return () => anim.destroy(); // Clean up animation on component unmount
+    return () => anim.destroy();
   }, []);
 
 
@@ -29,18 +26,15 @@ function Top() {
     <>
       <div className='w-[100%]   bg-blue-50  flex flex-col justify-between ' >
         <div className='px-[10%] h-[70%] sm:h-[100%] '>
-          {/* <div className='absolute top-0 left-0 w-[100%] h-screen z-0' style={{ background: 'rgba(0,0,0,0.7)' }}></div> */}
+        
           <div className='flex md:flex-row-reverse flex-col-reverse justify-center items-center z-10 max-md:gap-y-16 max-md:pt-5' >
             <div className='h-[100%] w-[100%] '>
-
-              {/* <img src={rightImg} alt="" className='h-[100%] w-[100%] ' /> */}
               <div className='md:mt-10' id="lottie-container" />
 
             </div>
             <div className='flex flex-col text-center justify-center items-center w-[100%] h-[100%]'>
               <div className='flex flex-row gap-2 '>
                 <img src={GPMLogo} alt="logo-GPM" className='h-[80px] w-[80px] rounded-[50%]' />
-                {/* <img src={ITLogo} alt="logo-IT" className='md:hidden rounded-[50%] w-[65px] h-[65px] mt-0 object-cover ' /> */}
               </div>
               <div>
                 <h1 className='text-2xl font-semibold text-[#0099ff] '>Government Polytechnic Mumbai</h1>

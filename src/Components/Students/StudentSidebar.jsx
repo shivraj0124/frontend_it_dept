@@ -1,4 +1,3 @@
-// src/components/Sidebar.js
 import logo from '../../Images/GPM-LOGO.png'
 import img1 from '../../Images/logo_try.jpg'
 import React, { useState, useEffect } from "react";
@@ -17,11 +16,6 @@ const StudentSidebar = () => {
     const navigate = useNavigate()
     const [isOpen, setIsOpen] = useState(false);
     const [nav, setNav] = useState(false)
-    // const [stDrop, setStDrop] = useState(false)
-    // const [notesQP, setNotesQP] = useState(false)
-    // const [TT, setTT] = useState(false)
-    // const [notice, setNotice] = useState(false)
-    // const [achievement, setAchievement] = useState(false)
     const [loader, setLoader] = useState(true)
     const [showTop, setShowTop] = useState(false)
     const handleNav = () => {
@@ -84,16 +78,6 @@ const StudentSidebar = () => {
                         </div>
                         <nav className="flex-grow p-4 text-lg item_direction ">
 
-                            {/* <Link to="/Admin/Dashboard" className="flex flex-row py-2 gap-2 items-center" onClick={handleNav}>
-
-                                <BiSolidDashboard size={22} />
-                                <h1>
-                                    Dashboard
-                                </h1>
-                            </Link> */}
-
-                            {/* <hr /> */}
-                            {/* Student */}
                             <div
 
                                 className=" w-full pt-5 flex flex-row cursor-pointer gap-x-2 pl-2 items-center justify-between pr-5"
@@ -159,13 +143,9 @@ const StudentSidebar = () => {
                                     </h1>
                                 </Link>
                             </div>
-
-
                         </nav>
                     </div>
-                    {/* <div className='flex flex-col  w-[100%] bg-blue-50 '> */}
                         
-
                     <div className='flex flex-col w-[100%]  min-h-screen h-max overflow-x-auto bg-blue-50'>
                         <div className={showTop ? 'w-full  flex flex-col max-md:justify-between justify-center max-md:pl-4 items-center text-2xl  md:sticky md:top-0 bg-blue-50 z-10  border-b-2 border-t-4 h-max' : 'max-md:hidden'}>
                             <div className='flex flex-row max-md:flex-col gap-x-4 justify-center items-center cursor-pointer p-2' >

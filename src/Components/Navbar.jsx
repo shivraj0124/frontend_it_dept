@@ -1,10 +1,8 @@
-// style={{background:'rgba(0,0,0,0.2)'}} backgroundImage:`url(${home_2})`,
 import React, { useState, useEffect } from "react";
 import img1 from '../Images/logo_try.jpg'
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { BiUserCircle } from 'react-icons/bi';
 import { Link } from 'react-router-dom'
-// import home_2 from '../Images/home_2.jpg'
 import { useNavigate } from 'react-router-dom';
 import themeHook from "./Admin/ContextP";
 import lottie from 'lottie-web';
@@ -17,9 +15,9 @@ const Navbar = () => {
             renderer: 'svg',
             loop: true,
             autoplay: true,
-            animationData: animationData1, // Your animation data
+            animationData: animationData1,
         });
-        return () => anim.destroy(); // Clean up animation on component unmount
+        return () => anim.destroy(); 
     }, []);
     const [nav, setNav] = useState(false);
     const { auth, username } = themeHook()
@@ -107,7 +105,6 @@ const Navbar = () => {
                     <Link to='/Contact'>
                         <li className='pt-1  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav}>Contact</li>
                     </Link>
-
                     {!auth?.user ?
                         <Link to='/Login' className='pt-1  pl-8 text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer' onClick={handleNav} >Login</Link>
                         :
@@ -116,16 +113,16 @@ const Navbar = () => {
                                 <>
                                     <div className='flex flex-row cursor-pointer' onClick={() => navigate('/Admin/Dashboard')} >
                                         <li className='mt-2 ml-6' >
-
+                                            <BiUserCircle size={40}/>
                                         </li>
-                                        <li className='pt-4  text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer'>Admin</li>
+                                        <li className='pt-4  text-black hover:underline hover:underline-offset-4 decoration-blue-500 font-bold cursor-pointer'>Admin</li>
                                     </div>
 
                                 </>
                             ) : auth?.user?.role === 1 ? (
                                 <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Student/Profile')} >
                                     <li className='mt-2 ml-6' >
-
+                                            <BiUserCircle size={40} />
                                     </li>
                                     <li className='pt-4 font-bold uppercase text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer'  >{username}</li>
                                 </div>
@@ -134,9 +131,9 @@ const Navbar = () => {
                             ) : (
                                 <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Faculty/Profile')} >
                                     <li className='mt-2 ml-6' >
-
+                                            <BiUserCircle size={40} />   
                                     </li>
-                                    <li className='pt-4 font-bold uppercase text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer'>{username}</li>
+                                    <li className='pt-4 font-bold uppercase text-black hover:underline hover:underline-offset-4 decoration-blue-500 cursor-pointer'>FACULTY</li>
                                 </div>
 
                                 </>

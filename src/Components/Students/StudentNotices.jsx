@@ -103,7 +103,6 @@ function StudentNotices() {
                   }
               </div>
           )}
-          {/*  min-[300px]:w-[220px] min-[350px]:w-[300px] */}
           <Modal open={open} onClose={onCloseModal}  classNames={{ modal: 'updateModal' }}>
               <div className='p-5 bg-white  w-[100%] max-sm:p-0'>
                   <h1 className='text-center text-2xl underline underline-offset-4 mt-4 font-bold'>Notice</h1>

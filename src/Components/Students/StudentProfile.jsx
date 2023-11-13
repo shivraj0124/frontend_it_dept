@@ -18,9 +18,9 @@ function StudentProfile() {
             renderer: 'svg',
             loop: true,
             autoplay: true,
-            animationData: animationData2, // Your animation data
+            animationData: animationData2,
         });
-        return () => anim.destroy(); // Clean up animation on component unmount
+        return () => anim.destroy(); 
     }, []);
     const [loader, setLoader] = useState(true);
     const { auth, setAuth, userId } = themeHook()
@@ -47,18 +47,13 @@ function StudentProfile() {
 
     const onOpenModal = () => {
         setOpenF(true);
-
-        // Set initial values for form fields based on the selected faculty
         setName(user?.Name);
         setEmail(user?.Email);
         setPhone(user?.Phone);
-        // Clear the photo field
 
     };
     const onCloseModal = () => {
         setOpenF(false);
-
-        // Clear form fields
         setName('');
         setEmail('');
         setPhone('');
@@ -71,14 +66,14 @@ function StudentProfile() {
         let countLoop = 0;
         arr.map((item, index) => {
             if (typeof item === 'string') {
-                item = item.replace(/\s+/g, ''); // Assign the result back to item
+                item = item.replace(/\s+/g, '');
             }
             if (typeof item === 'string') {
-                item = item.trim(); // Assign the result back to item
+                item = item.trim();
             }
             if (item === '') {
                 countLoop += 1
-                // setUpdateOrNot(0)
+                
                 updateOrNot = 0
                 if (countLoop <= 1) {
 
@@ -114,7 +109,7 @@ function StudentProfile() {
                 const response = await axios.put(`${urlBackend}/api/v2/update-profile/${userId}`, formData);
 
                 if (response.data.success) {
-                    // Update facultyList with the updated faculty data
+                   
                     setAuth({ user: response.data.student })
                     setUser(response.data.student)
                     console.log(response.data.student)
@@ -196,7 +191,7 @@ function StudentProfile() {
                 
                 <div className='flex flex-col  justify-center items-center bg-white shadow-2xl p-4 text-xl rounded-3xl'>
                             <div className='flex items-center justify-center w-[100%]'>
-                                {/* <div className=' w-[100px] h-[110px]' id="lottie-container2" /> */}
+                               
                                 <BiUserCircle size={90}/>
                             </div>
                     <div className=''>
@@ -257,7 +252,6 @@ function StudentProfile() {
                     </form>
                 </div>
             </Modal>
-
         </div>
     )
 }

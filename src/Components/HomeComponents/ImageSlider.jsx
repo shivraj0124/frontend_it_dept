@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
@@ -23,7 +22,6 @@ export default function ImageSlider() {
             } else {
                 console.log('Failed to fetch Images');
             }
-            // setLoader(false)
         } catch (error) {
             console.error('Error:', error);
             console.log('Failed to fetch Images')
@@ -42,7 +40,6 @@ export default function ImageSlider() {
             } else {
                 console.log('Failed to fetch Images');
             }
-            // setLoader(false)
         } catch (error) {
             console.error('Error:', error);
             console.log('Failed to fetch Images')
@@ -50,13 +47,13 @@ export default function ImageSlider() {
         }
     }
     const handleMarqueeMouseEnter = () => {
-        setMarqueeStopped(true); // Pause marquee on mouse enter
+        setMarqueeStopped(true);
     };
 
     const handleMarqueeMouseLeave = () => {
-        setMarqueeStopped(false); // Resume marquee on mouse leave
+        setMarqueeStopped(false); 
     };
-    // Ensure the DOM is fully loaded before running JavaScript
+
   
     useEffect(() => {
         fetchImages()
@@ -74,7 +71,6 @@ export default function ImageSlider() {
                         showStatus={false} // 1 of 3
                         showThumbs={false}
                         showArrows={true}
-                        // stopOnHover={true}
                         className="rounded-md cursor-pointer"
                         style={{ width: '100%', height: '100%' }} // Set width and height to 100%
                     >{imageList?.length === 0 ? 'No Data' :
@@ -114,9 +110,6 @@ export default function ImageSlider() {
                                         ))
                                 }
                             </marquee> 
-                        
-
-
                         </div>
                     </div>
                 </div>

@@ -9,9 +9,7 @@ function About() {
         <div className="w-[100%] flex flex-col h-full md:px-[12%] max-md:px-[5%] py-12 bg-gray-100 ">
             <div className="mt-10">
                 <div className="flex flex-col md:flex-row">
-
                     <div className="ml-0 md:w-[100%] max-w-[100%]">
-
                         <p className="text-lg font-sans md:font-serif max-md:text-md text-gray-500 md:mr-[20%]">
                             <h1 className="text-black mb-4 font-bold">
                                 <TypeAnimation
@@ -40,8 +38,6 @@ function About() {
                 </div>
             </div>
         </div>
-
-
     )
 }
 
