@@ -30,7 +30,7 @@ function PhotoGallery() {
 
             <div className='flex flex-col justify-center items-center '>
 
-                <div className={loader ? 'py-20':'h-max w-[90%]  mt-10 grid lg:grid-cols-3 xl:grid-cols-3 max-lg:grid-cols-2 max-md:gap-y-5  max-md:grid-cols-1  '}>
+                <div className={loader ? 'py-20':'h-max w-[90%]  mt-10 grid lg:grid-cols-2 xl:grid-cols-3 max-lg:grid-cols-2 max-md:gap-5  max-md:grid-cols-1  '}>
                     {loader ? <div className=''>
                         < BarLoader color="blue"/>
                     </div> : 
