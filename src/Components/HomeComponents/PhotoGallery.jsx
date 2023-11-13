@@ -35,7 +35,7 @@ function PhotoGallery() {
                         < BarLoader color="blue"/>
                     </div> : 
                         (achievements?.map((achievement, index) => {
-                            return <div className='p-5 w-[100%] md:w-[350px]  bg-white shadow-xl rounded-md' >
+                            return <div className='p-5 w-[100%]  bg-white shadow-xl rounded-md' >
                                 <img src={achievement.photo} alt="" className='w-[100%] h-[300px] rounded-md' />
                                 <h1 className='text-2xl mt-2 font-semibold'>{achievement.title}</h1>
                                 <p className='mt-4 text-[16px]'>{achievement.description}</p>
