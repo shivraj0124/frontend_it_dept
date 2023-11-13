@@ -123,7 +123,7 @@ const Navbar = () => {
 
                                 </>
                             ) : auth?.user?.role === 1 ? (
-                                <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Student/Notes')} >
+                                <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Student/Profile')} >
                                     <li className='mt-2 ml-6' >
 
                                     </li>
@@ -132,7 +132,7 @@ const Navbar = () => {
 
                                 </>
                             ) : (
-                                <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Faculty')} >
+                                <><div className='flex flex-row cursor-pointer' onClick={() => navigate('/Faculty/Profile')} >
                                     <li className='mt-2 ml-6' >
 
                                     </li>
