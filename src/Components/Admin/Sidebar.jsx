@@ -330,7 +330,7 @@ const Sidebar = () => {
                                         changeLocation(location.pathname)
                                     }
                                 </h1>
-                                <div  className='md:hidden cursor-pointer flex flex-row gap-x-2'>
+                                <div  className='lg:hidden cursor-pointer flex flex-row gap-x-2'>
                                     <div onClick={handleShowTop} className='text-blue-700'>
                                     {
                                         showTop ? <BiDownArrow size={24} /> : <BiUpArrow size={24}/>
