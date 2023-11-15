@@ -1,9 +1,7 @@
-// src/components/Sidebar.js
 import logo from '../../Images/GPM-LOGO.png'
 import img1 from '../../Images/logo_try.jpg'
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, Outlet, useLocation } from "react-router-dom";
-// import { TailSpin } from 'react-loader-spinner'
 import { ClipLoader } from 'react-spinners'
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
 import { BiSolidDashboard, BiMenuAltRight, BiUpArrow, BiDownArrow, BiUserCircle } from 'react-icons/bi'
