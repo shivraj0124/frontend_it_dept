@@ -276,6 +276,15 @@ const Sidebar = () => {
 
                                 </div>
                             )}
+                                <div
+                                    className=" w-full mt-10 flex flex-row cursor-pointer gap-x-2 pl-2 items-center justify-between "
+                                >
+                                    <div className='flex flex-row items-center gap-x-2' >
+                                        <Link to='https://forumgpm.netlify.app' target='_blank' className='bg-blue-800 hover:bg-slate-900 border hover:border-blue-600 font-semibold py-1 px-8 rounded-md'>
+                                            Discuss
+                                        </Link>
+                                    </div>
+                                </div>
 
                             {/* LogOut */}
                                 <div className='mt-5' onClick={handleNav}>
