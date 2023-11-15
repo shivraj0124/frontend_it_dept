@@ -78,13 +78,13 @@ const Sidebar = () => {
             <>
 
                 <div className='flex flex-rows-1 w-[100%] top-0 left-0 fixed '>
-                    <div className={nav ? "bg-slate-900 text-white shadow-2xl h-screen w-[300px] max-md:w-[100%] flex flex-col overflow-hidden  max-md:top-0 max-md:absolute ease-in-out duration-700 z-20 list_direction top-0 left-0 overflow-y-scroll  " : "w-[300px] max-lg:hidden ease-in-out duration-700 bg-slate-900 text-white shadow-2xl h-screen  flex flex-col overflow-hidden  z-20 list_direction top-0  left-0 overflow-y-scroll  "} >
+                    <div className={nav ? "bg-slate-900 text-white shadow-2xl h-screen w-[300px] max-lg:w-[100%] flex flex-col overflow-hidden  max-lg:top-0 max-lg:absolute ease-in-out duration-700 z-20 list_direction top-0 left-0 overflow-y-scroll  " : "w-[300px] max-lg:hidden ease-in-out duration-700 bg-slate-900 text-white shadow-2xl h-screen  flex flex-col overflow-hidden  z-20 list_direction top-0  left-0 overflow-y-scroll  "} >
                         <div className="flex flex-row  items-center justify-between gap-2 p-2 item_direction">
                             <div className='flex flex-row items-center gap-2'>
                             <img src={img1} onClick={() => navigate('/')} className='h-[50px] md:h-[50px] p-0 md:w-[50px] rounded-[50%] cursor-pointer ' />
                             <h1 className='text-2xl font-mono'>IT-DEPT</h1>
                             </div>
-                            <div onClick={handleNav} className='cursor-pointer md:hidden'>{
+                            <div onClick={handleNav} className='cursor-pointer lg:hidden'>{
                                 nav ?
                                     <CgCloseR size={26} />:''}
 
@@ -324,13 +324,13 @@ const Sidebar = () => {
                            
                         </div>
                         <div className='overflow-x-auto pb-24'>
-                            <div className='flex flex-row justify-between bg-white px-2 max-md:py-2 max-md:sticky  top-0'>
+                            <div className='flex flex-row justify-between bg-white px-2 max-lg:py-2 max-lg:sticky  top-0'>
                                 <h1 className='font-mono text-xl max-md:text-[16px] text-blue-500  '>
                                     {
                                         changeLocation(location.pathname)
                                     }
                                 </h1>
-                                <div  className='md:hidden cursor-pointer flex flex-row gap-x-2'>
+                                <div  className='lg:hidden cursor-pointer flex flex-row gap-x-2'>
                                     <div onClick={handleShowTop} className='text-blue-700'>
                                     {
                                         showTop ? <BiDownArrow size={24} /> : <BiUpArrow size={24}/>
