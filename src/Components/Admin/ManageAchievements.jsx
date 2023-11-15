@@ -191,10 +191,10 @@ function ManageAchievements() {
                       <table className="w-[100%] border-2 border-collapse rounded-md">
                           <thead className="sticky top-0">
                               <tr className="bg-slate-950 text-white border-2 border-slate-950 text-lg">
-                                  <th className="p-2 px-4 max-md:text-sm">SR.No</th>
-                                  <th className="p-2 px-4 max-md:text-sm">Title</th>
-                                  <th className="p-2 px-4 max-md:text-sm">Description</th>
-                                  <th className="p-2 px-4 max-md:text-sm">Photo</th> 
+                                  <th className="p-2 max-md:text-sm">SR.No</th>
+                                  <th className="p-2 max-md:text-sm">Title</th>
+                                  <th className="p-2 max-md:text-sm">Description</th>
+                                  <th className="p-2 max-md:text-sm">Photo</th> 
                                   <th className="p-2 max-md:text-sm">Edit</th>
                               </tr>
                           </thead>
