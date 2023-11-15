@@ -217,7 +217,7 @@ function ManageAchievements() {
                                                       <Link to={achievement.photo} target='_blank'> <img className='w-[100px] h-[100px]' src={achievement.photo} alt="img" /></Link>
                                           </td>
                                           <td className="p-2 px-2 max-md:text-sm">
-                                                      <div className="flex flex-row gap-6 justify-left min-[1150px]:w-[80px]">
+                                                      <div className="flex flex-row gap-2 justify-left min-[1150px]:w-[80px]">
                                                           <button className="text-white font-semibold bg-green-700 py-1 px-2 rounded-md" onClick={()=>onOpenModal(achievement)}>Update</button>
                                                           <button className="text-white font-left bg-red-700 py-1 px-2 rounded-md" onClick={() => openDeleteModal(achievement)}>Delete</button>
                                               </div>
