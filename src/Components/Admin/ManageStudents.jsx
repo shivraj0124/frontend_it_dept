@@ -31,7 +31,8 @@ function ManageStudents() {
     
     const fileType="xlsx"
     const exportToExcel=()=>{
-        const sanitizedData = studentList.map(({ _id,Password,__v,role,Semester,Shift,createdAt, ...rest }) => ({
+        console.log(studentList)
+        const sanitizedData = studentList.map(({ _id,email,Password,__v,role,Semester,Shift,createdAt, ...rest }) => ({
             ...rest,
             Semester: Semester.name, 
             Shift:Shift.name
@@ -94,6 +95,7 @@ function ManageStudents() {
                 ? a.EnrollmentNo.localeCompare(b.EnrollmentNo)
                 : b.EnrollmentNo.localeCompare(a.EnrollmentNo);
         });
+        console.log('Hello',newSortedStudents)
         setStudentList(newSortedStudents);
     }
     useEffect(() => {

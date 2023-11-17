@@ -173,10 +173,10 @@ export default function ManageNotice() {
                         <table className="w-[100%]  border-2 border-collapse rounded-md">
                             <thead className="sticky top-0">
                                 <tr className="bg-slate-950 text-white border-2 border-slate-950">
-                                    <th className="p-3 px-4   max-md:text-sm">SR.No</th>
-                                    <th className="p-3 px-4  max-md:text-sm">Title</th>
-                                    <th className="p-3 px-4  max-md:text-sm">Description</th>
-                                    <th className="p-3  px-4 max-md:text-sm">Link</th>
+                                    <th className="p-3 max-md:text-sm">SR.No</th>
+                                    <th className="p-3 max-md:text-sm">Title</th>
+                                    <th className="p-3  max-md:text-sm">Description</th>
+                                    <th className="p-3  max-md:text-sm">Link</th>
                                     <th className="p-3 max-md:text-sm ">Edit</th>
                                 </tr>
                             </thead>
@@ -195,7 +195,7 @@ export default function ManageNotice() {
                                             <td className="p-3 px-5   max-md:text-sm">{index + 1}</td>
                                             <td className="p-3 px-5    max-md:text-sm">{notice.title}</td>
                                             <td onClick={() => handleDescriptionModal(notice)} className='cursor-pointer p-3 px-4  max-md:text-sm '>View</td>
-                                            <td className="p-3 px-5 max-md:text-sm">
+                                            <td className="p-3 max-md:text-sm">
                                                 <Link target="_blank" to={notice.link}>
                                                     View
                                                 </Link>

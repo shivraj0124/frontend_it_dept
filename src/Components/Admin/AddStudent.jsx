@@ -238,7 +238,7 @@ export default function AddStudent() {
         <button className='md:hidden mt-1 w-max bg-blue-800 rounded-lg px-5 py-2 text-lg text-white cursor-pointer hover:bg-blue-500 flex justify-end' onClick={onOpenAddModal}>
           Upload Excel
         </button>
-        <div className="mt-2 w-[80%] sm:w-[90%] max-[806px]:w-[96%] flex md:flex-row py-2 pb-5 md:h-[500px] bg-white max-md:flex-col shadow-xl rounded-md  ">
+        <div className="px-2 mt-2 w-[80%] sm:w-[90%] max-[806px]:w-[96%] flex md:flex-row py-2 pb-5 md:h-[500px] bg-white max-md:flex-col shadow-xl rounded-md  ">
         
           <div className='w-[100%] text-center mt-2  '>
             <h1 className='text-center font-semibold text-2xl underline underline-offset-4'>Add Student</h1>
@@ -290,7 +290,7 @@ export default function AddStudent() {
               </button>
             </form>
           </div>
-          <div className='w-[100%] max-md:hidden flex flex-col justify-center gap-y-5 items-center'>
+          <div className='w-[100%] max-md:hidden flex flex-col justify-center gap-y-5 items-center bg-blue-50'>
             <div>
               <p className='text-xl'>
                 Upload Excel File

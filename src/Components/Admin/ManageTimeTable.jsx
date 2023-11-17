@@ -214,7 +214,7 @@ function ManageTimeTable() {
 
     return (
         <div className='h-screen bg-blue-50'>
-            <div className="w-[100%]  mt-10 max-md:mt-2 md:flex justify-center max-xl:px-2 items-center">
+            <div className="w-[100%]  mt-10 max-md:mt-2 md:flex justify-center px-2  items-center">
                 {loader ? <div className='flex justify-center items-center mt-32'>
                     <BarLoader color="blue"
                     />

@@ -146,6 +146,7 @@ function FacultyProfile() {
                     formData.append('photo', photo);
                 }
                 console.log("hello", auth)
+                console.log(userId)
                 const response = await axios.put(`${urlBackend}/api/v4/update-profile/${userId}`, formData);
 
                 if (response.data.success) {
